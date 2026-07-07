@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMBoostly — Verify Your Account</title>
+
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind + config -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        glow: '0 20px 80px rgba(99,102,241,0.25)',
+                        'card': '0 25px 80px rgba(15,23,42,0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ---------- Base ---------- */
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(99, 102, 241, .18), transparent 30%),
+                radial-gradient(circle at top right, rgba(236, 72, 153, .14), transparent 26%),
+                linear-gradient(180deg, #eef2ff 0%, #f8fafc 48%, #eef2ff 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ---------- Verify Wrapper (flex container for image + card) ---------- */
+        .verify-wrapper {
+            display: flex;
+            position: relative;
+            width: 100%;
+            max-width: 940px;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            min-height: 560px;
+        }
+        .verify-wrapper:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        }
+
+        /* Glow orbs behind wrapper */
+        .verify-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 30%;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .verify-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: 20%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217, 70, 239, 0.10), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .verify-wrapper>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- Image Panel (left) ---------- */
+        .image-panel {
+            flex: 1;
+            min-width: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+            transform: translateX(-100%);
+            transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2.5rem 0 0 2.5rem;
+        }
+        .image-panel.open {
+            transform: translateX(0);
+        }
+
+        .image-panel .image-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(241, 245, 249, 0.4));
+        }
+
+        .image-panel .image-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s ease;
+        }
+
+        .image-panel.open .image-inner img {
+            transform: scale(1);
+        }
+
+        .image-panel .image-inner .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(217, 70, 239, 0.05));
+            pointer-events: none;
+        }
+
+        /* Decorative handle (on the right side of the image panel) */
+        .image-panel .door-handle {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.4));
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.4s;
+        }
+        .image-panel.open .door-handle {
+            opacity: 1;
+        }
+
+        /* Shadow on the right edge */
+        .image-panel::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15), rgba(217, 70, 239, 0.10));
+            z-index: 3;
+            border-radius: 2px 0 0 2px;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+        }
+        .image-panel.open::before {
+            opacity: 1;
+        }
+
+        /* ---------- Verify Card (right) ---------- */
+        .verify-card {
+            width: 100%;
+            max-width: 440px;
+            flex-shrink: 0;
+            padding: 1.75rem 1.5rem 1.25rem;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            overflow-y: auto;
+            max-height: 700px;
+        }
+
+        /* ---------- Logo ---------- */
+        .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            display: flex;
+            height: 44px;
+            width: 44px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+            transition: transform 0.3s ease;
+        }
+        .logo-icon:hover {
+            transform: scale(1.05);
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+        .logo-text span {
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ---------- OTP Input ---------- */
+        .otp-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 8px 0 4px;
+        }
+        .otp-input {
+            width: 48px;
+            height: 54px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.25s ease;
+            caret-color: #4f46e5;
+            text-transform: uppercase;
+        }
+        .otp-input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.10);
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-2px);
+        }
+        .otp-input:hover {
+            border-color: #cbd5e1;
+        }
+        .otp-input.error {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.06);
+            animation: shake 0.5s ease forwards;
+        }
+        .otp-input.error:focus {
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.12);
+        }
+        .otp-input.success {
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.06);
+        }
+        .otp-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 480px) {
+            .otp-input {
+                width: 40px;
+                height: 48px;
+                font-size: 1.1rem;
+                border-radius: 10px;
+            }
+            .otp-container {
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .otp-input {
+                width: 34px;
+                height: 42px;
+                font-size: 1rem;
+                border-radius: 8px;
+            }
+            .otp-container {
+                gap: 4px;
+            }
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 16px 48px rgba(99, 102, 241, 0.35);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-primary:disabled {
+            opacity: 0.7;
+            pointer-events: none;
+            transform: scale(0.98);
+        }
+        .btn-primary .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-primary.loading .spinner {
+            display: inline-block;
+        }
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+        .btn-primary.loading .btn-icon {
+            display: none;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1.5px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.5);
+            color: #475569;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .btn-secondary:hover {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        /* ---------- iOS Notification ---------- */
+        .ios-notification {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(30, 30, 40, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 18px;
+            padding: 14px 20px 14px 18px;
+            min-width: 300px;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ios-notification.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0px);
+        }
+        .ios-notification .notif-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #fff;
+            overflow: hidden;
+        }
+        .ios-notification .notif-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .ios-notification .notif-icon.success {
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .ios-notification .notif-icon.error {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
+        .ios-notification .notif-icon.warning {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+        .ios-notification .notif-icon.info {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+        .ios-notification .notif-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .ios-notification .notif-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+        }
+        .ios-notification .notif-message {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1px;
+            line-height: 1.3;
+        }
+        .ios-notification .notif-time {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            transition: color 0.2s;
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 480px) {
+            .ios-notification {
+                min-width: 0;
+                width: calc(100% - 32px);
+                padding: 12px 16px;
+                top: 16px;
+                border-radius: 14px;
+            }
+            .ios-notification .notif-icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+            .ios-notification .notif-title {
+                font-size: 0.78rem;
+            }
+            .ios-notification .notif-message {
+                font-size: 0.68rem;
+            }
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 480px) {
+            .verify-card {
+                padding: 1.25rem 1rem 1rem;
+            }
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            .logo-icon {
+                height: 38px;
+                width: 38px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ---------- Background decoration ---------- */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .bg-blob-1 {
+            top: -10%;
+            right: -8%;
+            width: 500px;
+            height: 500px;
+            background: rgba(99, 102, 241, 0.12);
+        }
+        .bg-blob-2 {
+            bottom: -12%;
+            left: -6%;
+            width: 450px;
+            height: 450px;
+            background: rgba(217, 70, 239, 0.08);
+        }
+        @media (max-width: 640px) {
+            .bg-blob-1 {
+                width: 300px;
+                height: 300px;
+                top: -5%;
+            }
+            .bg-blob-2 {
+                width: 280px;
+                height: 280px;
+                bottom: -5%;
+            }
+        }
+
+        /* ---------- Heading ---------- */
+        .page-heading {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #0f172a;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .page-subheading {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-align: center;
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        /* ---------- Bottom auth text ---------- */
+        .bottom-auth-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        .bottom-auth-text a {
+            color: #4f46e5;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .bottom-auth-text a:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+
+        /* ---------- Success state ---------- */
+        .success-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            text-align: center;
+            margin: 4px 0 2px;
+        }
+        .success-text {
+            color: #0f172a;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .success-sub {
+            color: #94a3b8;
+            text-align: center;
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        /* ---------- Timer ---------- */
+        .timer-text {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .resend-btn {
+            color: #4f46e5;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 0.7rem;
+            padding: 0 4px;
+        }
+        .resend-btn:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+        .resend-btn:disabled {
+            color: #94a3b8;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+        .resend-btn:disabled:hover {
+            text-decoration: none;
+        }
+
+        /* ---------- Verified badge ---------- */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(52, 211, 153, 0.12);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            border-radius: 9999px;
+            padding: 3px 12px 3px 8px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #10b981;
+            margin-top: 6px;
+        }
+
+        /* ---------- Shake for OTP inputs ---------- */
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            10% {
+                transform: translateX(-8px);
+            }
+            30% {
+                transform: translateX(8px);
+            }
+            50% {
+                transform: translateX(-6px);
+            }
+            70% {
+                transform: translateX(6px);
+            }
+            90% {
+                transform: translateX(-3px);
+            }
+        }
+        .otp-container.shake {
+            animation: shake 0.5s ease forwards;
+        }
+
+        /* ---------- Code display ---------- */
+        .code-display {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin: 4px 0 2px;
+        }
+        .code-display .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            transition: background 0.3s ease;
+        }
+        .code-display .dot.filled {
+            background: #4f46e5;
+        }
+        .code-display .dot.active {
+            background: #4f46e5;
+            transform: scale(1.3);
+        }
+
+        /* ---------- Trust Badges ---------- */
+        .trust-badge {
+            text-align: center;
+        }
+        .trust-badge .icon {
+            font-size: 1.2rem;
+            color: #4f46e5;
+            margin-bottom: 2px;
+            display: block;
+        }
+        .trust-badge .title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .trust-badge .desc {
+            font-size: 0.6rem;
+            color: #94a3b8;
+            line-height: 1.2;
+        }
+
+        /* ---------- Desktop: both panels visible ---------- */
+        @media (min-width: 769px) {
+            .verify-wrapper {
+                min-height: 480px;
+            }
+            .image-panel {
+                flex: 1;
+                min-width: 0;
+                display: block;
+            }
+            .verify-card {
+                max-width: 440px;
+            }
+        }
+
+        /* ---------- Mobile: image panel hidden ---------- */
+        @media (max-width: 768px) {
+            .verify-wrapper {
+                max-width: 440px;
+                min-height: auto;
+                border-radius: 2.5rem;
+                overflow: hidden;
+            }
+            .image-panel {
+                display: none !important;
+            }
+            .verify-card {
+                max-width: 100%;
+                padding: 1.5rem 1.25rem 1.25rem;
+                max-height: none;
+                overflow-y: visible;
+            }
+            .verify-wrapper::before,
+            .verify-wrapper::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- iOS NOTIFICATION CONTAINER -->
+    <!-- ============================================================ -->
+    <div id="iosNotif" class="ios-notification" role="alert">
+        <div class="notif-icon" id="notifIcon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notif-content">
+            <div class="notif-title" id="notifTitle">Success</div>
+            <div class="notif-message" id="notifMessage">Action completed successfully.</div>
+            <div id="notifActionWrap" style="display:none; margin-top: 4px;"></div>
+        </div>
+        <span class="notif-time" id="notifTime">now</span>
+        <button class="notif-close" id="notifClose" aria-label="Dismiss notification">
+            <i class="fas fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- BACKGROUND BLOBS -->
+    <!-- ============================================================ -->
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
+    <!-- ============================================================ -->
+    <!-- VERIFY WRAPPER (image panel + verify card) -->
+    <!-- ============================================================ -->
+    <div class="verify-wrapper" id="verifyWrapper">
+
+        <!-- ============================================================ -->
+        <!-- IMAGE PANEL (left) - slides in like a door -->
+        <!-- ============================================================ -->
+        <div class="image-panel" id="imagePanel">
+            <div class="door-handle"></div>
+            <div class="image-inner">
+                <img
+                src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783284078/blog/SMBoostly_Verification_img_1783284077.jpg"
+                alt="SMBoostly Verification Illustration"
+                loading="lazy"
+                />
+                <div class="img-overlay"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VERIFICATION CARD (right) -->
+        <!-- ============================================================ -->
+        <div class="verify-card" id="verifyCard">
+
+            <!-- Logo & Tagline -->
+            <div class="text-center">
+                <a href="#" class="logo-link justify-center">
+                    <div class="logo-icon">S</div>
+                    <div class="logo-text">SM<span>Boostly</span></div>
+                </a>
+                <div class="text-xs font-semibold text-indigo-500 uppercase tracking-wider mt-1">
+                    Boost. Engage. Earn.
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- VERIFICATION FORM -->
+            <!-- ============================================================ -->
+            <div id="verifyFormContainer">
+                <div class="mt-3">
+                    <h1 class="page-heading">Verify Your Account!</h1>
+                </div>
+
+                <!-- Email display -->
+                <div class="text-center text-sm text-slate-600 mt-2">
+                    We’ve sent a verification code to <span class="font-semibold text-slate-800" id="userEmailDisplay">j***@example.com</span>
+                </div>
+
+                <!-- OTP Label -->
+                <p class="text-xs font-semibold text-slate-500 text-center mt-2 uppercase tracking-wider">Verification Code</p>
+
+                <!-- OTP Inputs -->
+                <div class="otp-container" id="otpContainer">
+                    <input type="text" class="otp-input" id="otp0" maxlength="1" inputmode="text" autocomplete="one-time-code" />
+                    <input type="text" class="otp-input" id="otp1" maxlength="1" inputmode="text" autocomplete="one-time-code" />
+                    <input type="text" class="otp-input" id="otp2" maxlength="1" inputmode="text" autocomplete="one-time-code" />
+                    <input type="text" class="otp-input" id="otp3" maxlength="1" inputmode="text" autocomplete="one-time-code" />
+                    <input type="text" class="otp-input" id="otp4" maxlength="1" inputmode="text" autocomplete="one-time-code" />
+                    <input type="text" class="otp-input" id="otp5" maxlength="1" inputmode="text" autocomplete="one-time-code" />
+                </div>
+
+                <!-- Code dots indicator (visual only) -->
+                <div class="code-display" id="codeDots">
+                    <span class="dot" data-idx="0"></span>
+                    <span class="dot" data-idx="1"></span>
+                    <span class="dot" data-idx="2"></span>
+                    <span class="dot" data-idx="3"></span>
+                    <span class="dot" data-idx="4"></span>
+                    <span class="dot" data-idx="5"></span>
+                </div>
+
+                <!-- Spam Hint -->
+                <p class="text-xs text-center text-slate-400 mt-1">If you don’t see the email, check your spam or junk folder.</p>
+
+                <!-- Verify Button -->
+                <button class="btn-primary mt-3" id="verifyBtn">
+                    <span class="btn-icon"><i class="fas fa-check-circle"></i></span>
+                    <span class="btn-text">Verify &amp; Activate</span>
+                    <span class="spinner"></span>
+                </button>
+
+                <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-2 mt-4 py-3 border-t border-slate-200/60">
+                    <div class="trust-badge">
+                        <i class="fas fa-shield-alt icon"></i>
+                        <p class="title">Secure</p>
+                        <p class="desc">Your data is always protected.</p>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-bolt icon"></i>
+                        <p class="title">Fast</p>
+                        <p class="desc">Quick and easy verification.</p>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-check-circle icon"></i>
+                        <p class="title">Reliable</p>
+                        <p class="desc">We’ve got your back.</p>
+                    </div>
+                </div>
+
+                <!-- Resend -->
+                <div class="text-center text-xs text-slate-500 mt-1" id="timerContainer">
+                    <span>Didn't receive the code? </span>
+                    <button class="resend-btn" id="resendBtn" disabled>
+                        Resend Code (<span id="timerCountdown" class="font-bold text-indigo-600">60</span>s)
+                    </button>
+                </div>
+
+                <!-- Back to Login -->
+                <div class="bottom-auth-text">
+                    <i class="fas fa-arrow-left text-indigo-300 mr-1"></i>
+                    <a href="../../auth/login/">Back to login</a>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- SUCCESS STATE (hidden by default) -->
+            <!-- ============================================================ -->
+            <div id="successContainer" style="display:none;">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="success-text">Account Activated!</div>
+                <div class="success-sub">Your account has been verified successfully.</div>
+
+                <div class="flex justify-center mt-2">
+                    <span class="verified-badge">
+                        <i class="fas fa-shield-check"></i> Verified
+                    </span>
+                </div>
+
+                <!-- Auto-redirect countdown -->
+                <p class="text-xs text-slate-400 mt-2 text-center">
+                    Redirecting to login page in <span id="redirectCountdown" class="font-bold text-indigo-600">5</span> seconds...
+                </p>
+
+                <button class="btn-primary mt-3" onclick="window.location.href='../../auth/login/'">
+                    <i class="fas fa-sign-in-alt"></i> Go to Login
+                </button>
+            </div>
+
+        </div>
+        <!-- End Verify Card -->
+
+    </div>
+    <!-- End Verify Wrapper -->
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // IMAGE PANEL SLIDE-IN (on desktop)
+            // ============================================================
+            const imagePanel = document.getElementById('imagePanel');
+
+            function openPanel() {
+                if (window.innerWidth > 768 && imagePanel) {
+                    setTimeout(function() {
+                        imagePanel.classList.add('open');
+                    }, 400);
+                }
+            }
+
+            window.addEventListener('load', openPanel);
+
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (window.innerWidth > 768 && imagePanel && !imagePanel.classList.contains('open')) {
+                        imagePanel.classList.add('open');
+                    }
+                }, 300);
+            });
+
+            // ============================================================
+            // iOS NOTIFICATION SYSTEM
+            // ============================================================
+            const notifEl = document.getElementById('iosNotif');
+            const notifIcon = document.getElementById('notifIcon');
+            const notifTitle = document.getElementById('notifTitle');
+            const notifMessage = document.getElementById('notifMessage');
+            const notifTime = document.getElementById('notifTime');
+            const notifClose = document.getElementById('notifClose');
+            const notifActionWrap = document.getElementById('notifActionWrap');
+
+            let notifTimeout = null;
+
+            function showNotification(type, title, message, actionHtml) {
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+
+                const iconMap = {
+                    success: { icon: 'fa-check-circle', cls: 'success' },
+                    error: { icon: 'fa-exclamation-circle', cls: 'error' },
+                    warning: { icon: 'fa-triangle-exclamation', cls: 'warning' },
+                    info: { icon: 'fa-info-circle', cls: 'info' },
+                };
+                const config = iconMap[type] || iconMap.info;
+
+                notifIcon.className = 'notif-icon ' + config.cls;
+                notifIcon.innerHTML = '<i class="fas ' + config.icon + '"></i>';
+
+                notifTitle.textContent = title || 'Notification';
+                notifMessage.textContent = message || '';
+
+                if (actionHtml) {
+                    notifActionWrap.style.display = 'block';
+                    notifActionWrap.innerHTML = actionHtml;
+                } else {
+                    notifActionWrap.style.display = 'none';
+                    notifActionWrap.innerHTML = '';
+                }
+
+                const now = new Date();
+                const timeStr = now.getHours().toString().padStart(2, '0') + ':' +
+                    now.getMinutes().toString().padStart(2, '0');
+                notifTime.textContent = timeStr;
+
+                notifEl.classList.add('show');
+
+                notifTimeout = setTimeout(function() {
+                    notifEl.classList.remove('show');
+                    notifTimeout = null;
+                }, 5000);
+            }
+
+            notifClose.addEventListener('click', function() {
+                notifEl.classList.remove('show');
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (notifEl.classList.contains('show') && !notifEl.contains(e.target)) {
+                    notifEl.classList.remove('show');
+                    if (notifTimeout) {
+                        clearTimeout(notifTimeout);
+                        notifTimeout = null;
+                    }
+                }
+            });
+
+            // ============================================================
+            // OTP INPUT HANDLING (Alphanumeric)
+            // ============================================================
+            const otpInputs = [
+                document.getElementById('otp0'),
+                document.getElementById('otp1'),
+                document.getElementById('otp2'),
+                document.getElementById('otp3'),
+                document.getElementById('otp4'),
+                document.getElementById('otp5'),
+            ];
+
+            const otpContainer = document.getElementById('otpContainer');
+            const verifyBtn = document.getElementById('verifyBtn');
+            const formContainer = document.getElementById('verifyFormContainer');
+            const successContainer = document.getElementById('successContainer');
+            const dotElements = document.querySelectorAll('.code-display .dot');
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
+
+            // Set a demo email (masked)
+            userEmailDisplay.textContent = 'j***@example.com';
+
+            // Auto-focus first input on load
+            setTimeout(() => {
+                otpInputs[0].focus();
+            }, 300);
+
+            // Handle input: auto-advance and restrict to alphanumeric
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', function(e) {
+                    // Remove any non-alphanumeric characters (allow A-Z, a-z, 0-9)
+                    this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+
+                    // Limit to 1 character
+                    if (this.value.length > 1) {
+                        this.value = this.value.slice(0, 1);
+                    }
+
+                    // Update dots
+                    updateDots();
+
+                    // Auto-advance to next input
+                    if (this.value.length === 1 && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+
+                    // Clear error state
+                    this.classList.remove('error');
+                    otpContainer.classList.remove('shake');
+                });
+
+                // Handle backspace: go to previous input
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+
+                    // Arrow left / right navigation
+                    if (e.key === 'ArrowLeft' && index > 0) {
+                        otpInputs[index - 1].focus();
+                        e.preventDefault();
+                    }
+                    if (e.key === 'ArrowRight' && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                        e.preventDefault();
+                    }
+
+                    // Enter key: submit if all filled
+                    if (e.key === 'Enter') {
+                        const code = getOtpCode();
+                        if (code.length === 6) {
+                            verifyBtn.click();
+                        }
+                    }
+                });
+
+                // Focus event: highlight the corresponding dot
+                input.addEventListener('focus', function() {
+                    updateDots();
+                });
+
+                // Paste support for full OTP (alphanumeric)
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pasteData = (e.clipboardData || window.clipboardData).getData('text');
+                    // Extract only alphanumeric characters
+                    const chars = pasteData.replace(/[^a-zA-Z0-9]/g, '').slice(0, 6).toUpperCase();
+                    if (chars.length > 0) {
+                        // Fill the inputs with the pasted characters
+                        for (let i = 0; i < Math.min(chars.length, otpInputs.length); i++) {
+                            otpInputs[i].value = chars[i] || '';
+                        }
+                        // Focus the last filled or next empty
+                        const lastFilled = Math.min(chars.length, otpInputs.length) - 1;
+                        if (lastFilled < otpInputs.length - 1) {
+                            otpInputs[lastFilled + 1].focus();
+                        } else {
+                            otpInputs[lastFilled].focus();
+                        }
+                        updateDots();
+                        // Clear any error states
+                        otpInputs.forEach(inp => inp.classList.remove('error'));
+                        otpContainer.classList.remove('shake');
+                    }
+                });
+            });
+
+            // Update the dot indicators
+            function updateDots() {
+                const values = otpInputs.map(inp => inp.value);
+                dotElements.forEach((dot, idx) => {
+                    dot.classList.remove('filled', 'active');
+                    if (values[idx]) {
+                        dot.classList.add('filled');
+                    }
+                });
+                // Highlight the current active input
+                const activeIdx = otpInputs.findIndex(inp => document.activeElement === inp);
+                if (activeIdx !== -1) {
+                    dotElements[activeIdx].classList.add('active');
+                }
+            }
+
+            // Get the full OTP code
+            function getOtpCode() {
+                return otpInputs.map(inp => inp.value).join('');
+            }
+
+            // Clear all OTP inputs
+            function clearOtp() {
+                otpInputs.forEach(inp => {
+                    inp.value = '';
+                    inp.classList.remove('error', 'success');
+                });
+                updateDots();
+                otpInputs[0].focus();
+            }
+
+            // ============================================================
+            // TIMER & RESEND
+            // ============================================================
+            let timerSeconds = 60;
+            let timerInterval = null;
+            const timerDisplay = document.getElementById('timerCountdown');
+            const resendBtn = document.getElementById('resendBtn');
+
+            function startTimer(seconds) {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                }
+                timerSeconds = seconds;
+                updateTimerDisplay();
+                if (resendBtn) resendBtn.disabled = true;
+
+                timerInterval = setInterval(function() {
+                    timerSeconds--;
+                    updateTimerDisplay();
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        if (resendBtn) {
+                            resendBtn.disabled = false;
+                            // Update the text to remove the timer
+                            document.getElementById('timerContainer').innerHTML = `
+                                <span>Didn't receive the code? </span>
+                                <button class="resend-btn" id="resendBtn">Resend Code</button>
+                            `;
+                            // Re-bind click listener
+                            document.getElementById('resendBtn').addEventListener('click', function() {
+                                showNotification('info', 'Code Resent!', 'A new verification code has been sent to your email.');
+                                clearOtp();
+                                // Reset timer UI
+                                document.getElementById('timerContainer').innerHTML = `
+                                    <span>Didn't receive the code? </span>
+                                    <button class="resend-btn" id="resendBtn" disabled>
+                                        Resend Code (<span id="timerCountdown" class="font-bold text-indigo-600">60</span>s)
+                                    </button>
+                                `;
+                                startTimer(60);
+                            });
+                        }
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay() {
+                const timerDisplayEl = document.getElementById('timerCountdown');
+                if (timerDisplayEl) {
+                    timerDisplayEl.textContent = timerSeconds;
+                }
+            }
+
+            // Resend button handler (initial binding)
+            if (resendBtn) {
+                resendBtn.addEventListener('click', function() {
+                    // This will be replaced by the dynamic binding above once timer hits 0.
+                    // But we keep it for safety.
+                });
+            }
+
+            // Start timer on load
+            startTimer(60);
+
+            // ============================================================
+            // VERIFY BUTTON
+            // ============================================================
+            verifyBtn.addEventListener('click', function() {
+                const code = getOtpCode();
+
+                // Validate: all 6 characters must be filled (alphanumeric)
+                if (code.length < 6) {
+                    // Shake the container and highlight empty inputs
+                    otpContainer.classList.add('shake');
+                    otpInputs.forEach((inp, idx) => {
+                        if (inp.value === '') {
+                            inp.classList.add('error');
+                        }
+                    });
+                    showNotification('warning', 'Incomplete Code', 'Please enter all 6 characters of the verification code.');
+                    setTimeout(() => {
+                        otpContainer.classList.remove('shake');
+                    }, 600);
+                    return;
+                }
+
+                // Validate alphanumeric format
+                if (!/^[a-zA-Z0-9]{6}$/.test(code)) {
+                    showNotification('error', 'Invalid Format', 'The code should only contain letters and numbers.');
+                    otpContainer.classList.add('shake');
+                    otpInputs.forEach(inp => inp.classList.add('error'));
+                    setTimeout(() => {
+                        otpContainer.classList.remove('shake');
+                    }, 600);
+                    return;
+                }
+
+                // Simulate verification
+                verifyBtn.classList.add('loading');
+                verifyBtn.disabled = true;
+
+                // Simulate API call
+                setTimeout(function() {
+                    verifyBtn.classList.remove('loading');
+                    verifyBtn.disabled = false;
+
+                    // For demo, accept any 6-character alphanumeric code
+                    const isValid = code.length === 6 && /^[a-zA-Z0-9]{6}$/.test(code);
+
+                    if (isValid) {
+                        // Success
+                        showNotification('success', 'Account Verified! 🎉', 'Your account has been successfully activated.');
+
+                        // Show success state
+                        formContainer.style.display = 'none';
+                        successContainer.style.display = 'block';
+
+                        // Mark inputs as success
+                        otpInputs.forEach(inp => inp.classList.add('success'));
+
+                        // Stop timer
+                        if (timerInterval) {
+                            clearInterval(timerInterval);
+                            timerInterval = null;
+                        }
+
+                        // Start auto-redirect countdown (5 seconds)
+                        startRedirectCountdown();
+
+                    } else {
+                        // Error
+                        showNotification('error', 'Invalid Code', 'The verification code you entered is incorrect. Please try again.');
+                        otpContainer.classList.add('shake');
+                        otpInputs.forEach(inp => inp.classList.add('error'));
+                        setTimeout(() => {
+                            otpContainer.classList.remove('shake');
+                        }, 600);
+                        setTimeout(() => {
+                            otpInputs.forEach(inp => {
+                                inp.classList.remove('error');
+                            });
+                        }, 1500);
+                    }
+                }, 1800);
+            });
+
+            // ============================================================
+            // AUTO-REDIRECT COUNTDOWN (to login page)
+            // ============================================================
+            let redirectInterval = null;
+            let redirectTimeout = null;
+            const redirectCountdownEl = document.getElementById('redirectCountdown');
+
+            function startRedirectCountdown() {
+                let countdown = 5;
+                if (redirectCountdownEl) {
+                    redirectCountdownEl.textContent = countdown;
+                }
+
+                if (redirectInterval) {
+                    clearInterval(redirectInterval);
+                }
+                if (redirectTimeout) {
+                    clearTimeout(redirectTimeout);
+                }
+
+                redirectInterval = setInterval(function() {
+                    countdown--;
+                    if (redirectCountdownEl) {
+                        redirectCountdownEl.textContent = countdown;
+                    }
+                    if (countdown <= 0) {
+                        clearInterval(redirectInterval);
+                        redirectInterval = null;
+                        // Redirect to login page (adjust URL as needed)
+                        window.location.href = '../../auth/login/'; // or '#'
+                    }
+                }, 1000);
+
+                // Fallback timeout in case interval fails
+                redirectTimeout = setTimeout(function() {
+                    if (redirectInterval) {
+                        clearInterval(redirectInterval);
+                        redirectInterval = null;
+                    }
+                    window.location.href = '../../auth/login/';
+                }, 6000);
+            }
+
+            // ============================================================
+            // KEYBOARD SHORTCUT: Enter to submit
+            // ============================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const active = document.activeElement;
+                    if (active && otpInputs.includes(active)) {
+                        const code = getOtpCode();
+                        if (code.length === 6) {
+                            verifyBtn.click();
+                        }
+                    }
+                }
+            });
+
+            // ============================================================
+            // CLICK ON CARD TO FOCUS FIRST INPUT
+            // ============================================================
+            document.getElementById('verifyCard').addEventListener('click', function(e) {
+                if (!e.target.closest('input') && !e.target.closest('button') && !e.target.closest('a')) {
+                    const firstEmpty = otpInputs.find(inp => inp.value === '');
+                    if (firstEmpty) {
+                        firstEmpty.focus();
+                    } else {
+                        otpInputs[0].focus();
+                    }
+                }
+            });
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            updateDots();
+
+        })();
+    </script>
+
+</body>
+</html>

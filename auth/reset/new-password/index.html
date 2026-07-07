@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMBoostly — Set New Password</title>
+
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind + config -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        glow: '0 20px 80px rgba(99,102,241,0.25)',
+                        'card': '0 25px 80px rgba(15,23,42,0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ---------- Base ---------- */
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(99, 102, 241, .18), transparent 30%),
+                radial-gradient(circle at top right, rgba(236, 72, 153, .14), transparent 26%),
+                linear-gradient(180deg, #eef2ff 0%, #f8fafc 48%, #eef2ff 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ---------- Password Wrapper (flex container for image + card) ---------- */
+        .password-wrapper {
+            display: flex;
+            position: relative;
+            width: 100%;
+            max-width: 940px;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            min-height: 560px;
+        }
+        .password-wrapper:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        }
+
+        /* Glow orbs behind wrapper */
+        .password-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 30%;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .password-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: 20%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217, 70, 239, 0.10), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .password-wrapper>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- Image Panel (left) ---------- */
+        .image-panel {
+            flex: 1;
+            min-width: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+            transform: translateX(-100%);
+            transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2.5rem 0 0 2.5rem;
+        }
+        .image-panel.open {
+            transform: translateX(0);
+        }
+
+        .image-panel .image-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(241, 245, 249, 0.4));
+        }
+
+        .image-panel .image-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s ease;
+        }
+
+        .image-panel.open .image-inner img {
+            transform: scale(1);
+        }
+
+        .image-panel .image-inner .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(217, 70, 239, 0.05));
+            pointer-events: none;
+        }
+
+        /* Decorative handle (on the right side of the image panel) */
+        .image-panel .door-handle {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.4));
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.4s;
+        }
+        .image-panel.open .door-handle {
+            opacity: 1;
+        }
+
+        /* Shadow on the right edge */
+        .image-panel::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15), rgba(217, 70, 239, 0.10));
+            z-index: 3;
+            border-radius: 2px 0 0 2px;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+        }
+        .image-panel.open::before {
+            opacity: 1;
+        }
+
+        /* ---------- Password Card (right) ---------- */
+        .password-card {
+            width: 100%;
+            max-width: 440px;
+            flex-shrink: 0;
+            padding: 2rem 1.75rem 1.5rem;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            overflow-y: auto;
+            max-height: 700px;
+        }
+
+        /* ---------- Logo ---------- */
+        .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            display: flex;
+            height: 48px;
+            width: 48px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+            transition: transform 0.3s ease;
+        }
+        .logo-icon:hover {
+            transform: scale(1.05);
+        }
+        .logo-text {
+            font-size: 1.65rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+        .logo-text span {
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ---------- Form ---------- */
+        .form-group {
+            margin-bottom: 0.6rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #475569;
+            margin-bottom: 3px;
+        }
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            border: 1.5px solid #e2e8f0;
+            transition: all 0.25s ease;
+            overflow: hidden;
+        }
+        .input-wrap:focus-within {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.10);
+            background: rgba(255, 255, 255, 0.85);
+        }
+        .input-wrap .input-icon {
+            flex-shrink: 0;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            transition: color 0.25s ease;
+        }
+        .input-wrap:focus-within .input-icon {
+            color: #4f46e5;
+        }
+        .input-wrap input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 11px 14px 11px 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            width: 100%;
+            min-width: 0;
+        }
+        .input-wrap input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+        .input-wrap .toggle-password {
+            flex-shrink: 0;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .input-wrap .toggle-password:hover {
+            color: #4f46e5;
+        }
+
+        /* Shake animation */
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            10% {
+                transform: translateX(-10px);
+            }
+            30% {
+                transform: translateX(10px);
+            }
+            50% {
+                transform: translateX(-8px);
+            }
+            70% {
+                transform: translateX(8px);
+            }
+            90% {
+                transform: translateX(-4px);
+            }
+        }
+        .input-wrap.shake {
+            animation: shake 0.5s ease forwards;
+        }
+        .input-wrap.shake {
+            border-color: #f87171;
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.12);
+        }
+        .input-wrap.shake .input-icon {
+            color: #f87171;
+        }
+
+        /* Error state (persistent) */
+        .input-wrap.error {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.04);
+        }
+        .input-wrap.error .input-icon {
+            color: #f87171;
+        }
+        .input-wrap.error:focus-within {
+            border-color: #f87171;
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.10);
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 13px 24px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 16px 48px rgba(99, 102, 241, 0.35);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-primary:disabled {
+            opacity: 0.7;
+            pointer-events: none;
+            transform: scale(0.98);
+        }
+        .btn-primary .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-primary.loading .spinner {
+            display: inline-block;
+        }
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+        .btn-primary.loading .btn-icon {
+            display: none;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---------- iOS Notification ---------- */
+        .ios-notification {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(30, 30, 40, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 18px;
+            padding: 14px 20px 14px 18px;
+            min-width: 300px;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ios-notification.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0px);
+        }
+        .ios-notification .notif-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #fff;
+            overflow: hidden;
+        }
+        .ios-notification .notif-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .ios-notification .notif-icon.success {
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .ios-notification .notif-icon.error {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
+        .ios-notification .notif-icon.warning {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+        .ios-notification .notif-icon.info {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+        .ios-notification .notif-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .ios-notification .notif-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+        }
+        .ios-notification .notif-message {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1px;
+            line-height: 1.3;
+        }
+        .ios-notification .notif-time {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            transition: color 0.2s;
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 480px) {
+            .ios-notification {
+                min-width: 0;
+                width: calc(100% - 32px);
+                padding: 12px 16px;
+                top: 16px;
+                border-radius: 14px;
+            }
+            .ios-notification .notif-icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+            .ios-notification .notif-title {
+                font-size: 0.78rem;
+            }
+            .ios-notification .notif-message {
+                font-size: 0.68rem;
+            }
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 480px) {
+            .password-card {
+                padding: 1.5rem 1.25rem 1.25rem;
+            }
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            .logo-icon {
+                height: 42px;
+                width: 42px;
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ---------- Background decoration ---------- */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .bg-blob-1 {
+            top: -10%;
+            right: -8%;
+            width: 500px;
+            height: 500px;
+            background: rgba(99, 102, 241, 0.12);
+        }
+        .bg-blob-2 {
+            bottom: -12%;
+            left: -6%;
+            width: 450px;
+            height: 450px;
+            background: rgba(217, 70, 239, 0.08);
+        }
+        @media (max-width: 640px) {
+            .bg-blob-1 {
+                width: 300px;
+                height: 300px;
+                top: -5%;
+            }
+            .bg-blob-2 {
+                width: 280px;
+                height: 280px;
+                bottom: -5%;
+            }
+        }
+
+        /* ---------- Heading ---------- */
+        .page-heading {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #0f172a;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .page-subheading {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: center;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        /* ---------- Trust Badges ---------- */
+        .trust-badge {
+            text-align: center;
+        }
+        .trust-badge .icon {
+            font-size: 1.5rem;
+            color: #4f46e5;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .trust-badge .title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .trust-badge .desc {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+
+        /* ---------- Bottom auth text ---------- */
+        .bottom-auth-text {
+            text-align: center;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .bottom-auth-text a {
+            color: #4f46e5;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .bottom-auth-text a:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+
+        /* ---------- Success state ---------- */
+        .success-icon {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            text-align: center;
+            margin: 8px 0 4px;
+        }
+        .success-text {
+            color: #0f172a;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .success-sub {
+            color: #94a3b8;
+            text-align: center;
+            font-size: 0.82rem;
+            margin-top: 2px;
+        }
+
+        /* ---------- Desktop: both panels visible ---------- */
+        @media (min-width: 769px) {
+            .password-wrapper {
+                min-height: 560px;
+            }
+            .image-panel {
+                flex: 1;
+                min-width: 0;
+                display: block;
+            }
+            .password-card {
+                max-width: 440px;
+            }
+        }
+
+        /* ---------- Mobile: image panel hidden ---------- */
+        @media (max-width: 768px) {
+            .password-wrapper {
+                max-width: 440px;
+                min-height: auto;
+                border-radius: 2.5rem;
+                overflow: hidden;
+            }
+            .image-panel {
+                display: none !important;
+            }
+            .password-card {
+                max-width: 100%;
+                padding: 1.5rem 1.25rem 1.25rem;
+                max-height: none;
+                overflow-y: visible;
+            }
+            .password-wrapper::before,
+            .password-wrapper::after {
+                display: none;
+            }
+        }
+
+        /* ---------- Password strength ---------- */
+        .strength-bar {
+            height: 4px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        .strength-bar .fill {
+            height: 100%;
+            border-radius: 4px;
+            width: 25%;
+            background: #f87171;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- iOS NOTIFICATION CONTAINER -->
+    <!-- ============================================================ -->
+    <div id="iosNotif" class="ios-notification" role="alert">
+        <div class="notif-icon" id="notifIcon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notif-content">
+            <div class="notif-title" id="notifTitle">Success</div>
+            <div class="notif-message" id="notifMessage">Action completed successfully.</div>
+            <div id="notifActionWrap" style="display:none; margin-top: 4px;"></div>
+        </div>
+        <span class="notif-time" id="notifTime">now</span>
+        <button class="notif-close" id="notifClose" aria-label="Dismiss notification">
+            <i class="fas fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- BACKGROUND BLOBS -->
+    <!-- ============================================================ -->
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
+    <!-- ============================================================ -->
+    <!-- PASSWORD WRAPPER (image panel + password card) -->
+    <!-- ============================================================ -->
+    <div class="password-wrapper" id="passwordWrapper">
+
+        <!-- ============================================================ -->
+        <!-- IMAGE PANEL (left) - slides in like a door -->
+        <!-- ============================================================ -->
+        <div class="image-panel" id="imagePanel">
+            <div class="door-handle"></div>
+            <div class="image-inner">
+                <img
+                src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783286464/blog/SMBoostly_new-password_img_1783286463.jpg"
+                alt="SMBoostly New Password Illustration"
+                loading="lazy"
+                />
+                <div class="img-overlay"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PASSWORD CARD (right) -->
+        <!-- ============================================================ -->
+        <div class="password-card" id="passwordCard">
+
+            <!-- Logo & Tagline -->
+            <div class="text-center">
+                <a href="#" class="logo-link justify-center">
+                    <div class="logo-icon">S</div>
+                    <div class="logo-text">SM<span>Boostly</span></div>
+                </a>
+                <div class="text-xs font-semibold text-indigo-500 uppercase tracking-wider mt-1">
+                    Boost. Engage. Earn.
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- PASSWORD FORM -->
+            <!-- ============================================================ -->
+            <div id="passwordFormContainer">
+                <div class="mt-4">
+                    <h1 class="page-heading">Stronger password, stronger you.</h1>
+                    <p class="page-subheading">Create a new password that keeps your account secure and your earnings safe.</p>
+                </div>
+
+                <form id="passwordForm" novalidate>
+                    <!-- New Password -->
+                    <div class="form-group mt-2">
+                        <label class="form-label" for="newPassword">
+                            <i class="fas fa-lock text-indigo-400 mr-1.5"></i> New Password
+                        </label>
+                        <div class="input-wrap" id="newPassWrap">
+                            <span class="input-icon"><i class="fas fa-key"></i></span>
+                            <input type="password" id="newPassword" placeholder="Enter your new password" autocomplete="new-password" />
+                            <button type="button" class="toggle-password" id="toggleNewPass" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye" id="newPassEye"></i>
+                            </button>
+                        </div>
+                        <!-- Password Strength -->
+                        <div class="mt-1">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-slate-400">Password strength: <span id="strengthText" class="font-semibold text-red-400">Weak</span></p>
+                            </div>
+                            <div class="strength-bar">
+                                <div class="fill" id="strengthFill" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label class="form-label" for="confirmNewPassword">
+                            <i class="fas fa-check-circle text-indigo-400 mr-1.5"></i> Confirm New Password
+                        </label>
+                        <div class="input-wrap" id="confirmPassWrap">
+                            <span class="input-icon"><i class="fas fa-check-double"></i></span>
+                            <input type="password" id="confirmNewPassword" placeholder="Confirm your new password" autocomplete="new-password" />
+                            <button type="button" class="toggle-password" id="toggleConfirmPass" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye" id="confirmPassEye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary mt-2" id="setPasswordBtn">
+                        <span class="btn-icon"><i class="fas fa-save"></i></span>
+                        <span class="btn-text">Reset Password</span>
+                        <span class="spinner"></span>
+                    </button>
+                </form>
+
+                <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-2 mt-6 py-4 border-t border-b border-slate-200/60">
+                    <div class="trust-badge">
+                        <i class="fas fa-shield-alt icon"></i>
+                        <p class="title">Secure</p>
+                        <p class="desc">Your data is always protected.</p>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-bolt icon"></i>
+                        <p class="title">Fast</p>
+                        <p class="desc">Quick and easy password reset.</p>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-check-circle icon"></i>
+                        <p class="title">Reliable</p>
+                        <p class="desc">We've got your back.</p>
+                    </div>
+                </div>
+
+                <!-- Security Tip -->
+                <p class="text-xs text-center text-slate-400 mt-3">Keep your account safe. Use a combination of uppercase, lowercase, numbers, and special characters.</p>
+
+                <div class="bottom-auth-text">
+                    <i class="fas fa-arrow-left text-indigo-300 mr-1"></i>
+                    <a href="../../../auth/login/" style="text-decoration: none;" target="_self">Back to login</a>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- SUCCESS STATE (hidden by default) -->
+            <!-- ============================================================ -->
+            <div id="successContainer" style="display:none;">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="success-text">Password Updated!</div>
+                <div class="success-sub">Your password has been changed successfully.</div>
+
+                <!-- Auto-redirect countdown -->
+                <p class="text-xs text-slate-400 mt-2 text-center">
+                    Redirecting to login in <span id="redirectCountdown" class="font-bold text-indigo-600">5</span> seconds...
+                </p>
+
+                <button class="btn-primary mt-4" onclick="window.location.href='#'">
+                    <a href="../../../auth/login/"></a><i class="fas fa-sign-in-alt"></i> Go to Login
+                </button>
+            </div>
+
+        </div>
+        <!-- End Password Card -->
+
+    </div>
+    <!-- End Password Wrapper -->
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // IMAGE PANEL SLIDE-IN (on desktop)
+            // ============================================================
+            const imagePanel = document.getElementById('imagePanel');
+
+            function openPanel() {
+                if (window.innerWidth > 768 && imagePanel) {
+                    setTimeout(function() {
+                        imagePanel.classList.add('open');
+                    }, 400);
+                }
+            }
+
+            window.addEventListener('load', openPanel);
+
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (window.innerWidth > 768 && imagePanel && !imagePanel.classList.contains('open')) {
+                        imagePanel.classList.add('open');
+                    }
+                }, 300);
+            });
+
+            // ============================================================
+            // iOS NOTIFICATION SYSTEM
+            // ============================================================
+            const notifEl = document.getElementById('iosNotif');
+            const notifIcon = document.getElementById('notifIcon');
+            const notifTitle = document.getElementById('notifTitle');
+            const notifMessage = document.getElementById('notifMessage');
+            const notifTime = document.getElementById('notifTime');
+            const notifClose = document.getElementById('notifClose');
+            const notifActionWrap = document.getElementById('notifActionWrap');
+
+            let notifTimeout = null;
+
+            function showNotification(type, title, message, actionHtml) {
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+
+                const iconMap = {
+                    success: { icon: 'fa-check-circle', cls: 'success' },
+                    error: { icon: 'fa-exclamation-circle', cls: 'error' },
+                    warning: { icon: 'fa-triangle-exclamation', cls: 'warning' },
+                    info: { icon: 'fa-info-circle', cls: 'info' },
+                };
+                const config = iconMap[type] || iconMap.info;
+
+                notifIcon.className = 'notif-icon ' + config.cls;
+                notifIcon.innerHTML = '<i class="fas ' + config.icon + '"></i>';
+
+                notifTitle.textContent = title || 'Notification';
+                notifMessage.textContent = message || '';
+
+                if (actionHtml) {
+                    notifActionWrap.style.display = 'block';
+                    notifActionWrap.innerHTML = actionHtml;
+                } else {
+                    notifActionWrap.style.display = 'none';
+                    notifActionWrap.innerHTML = '';
+                }
+
+                const now = new Date();
+                const timeStr = now.getHours().toString().padStart(2, '0') + ':' +
+                    now.getMinutes().toString().padStart(2, '0');
+                notifTime.textContent = timeStr;
+
+                notifEl.classList.add('show');
+
+                notifTimeout = setTimeout(function() {
+                    notifEl.classList.remove('show');
+                    notifTimeout = null;
+                }, 5000);
+            }
+
+            notifClose.addEventListener('click', function() {
+                notifEl.classList.remove('show');
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (notifEl.classList.contains('show') && !notifEl.contains(e.target)) {
+                    notifEl.classList.remove('show');
+                    if (notifTimeout) {
+                        clearTimeout(notifTimeout);
+                        notifTimeout = null;
+                    }
+                }
+            });
+
+            // ============================================================
+            // PASSWORD STRENGTH INDICATOR
+            // ============================================================
+            const newPass = document.getElementById('newPassword');
+            const strengthText = document.getElementById('strengthText');
+            const strengthFill = document.getElementById('strengthFill');
+
+            newPass.addEventListener('input', function() {
+                const pass = this.value;
+                let score = 0;
+                if (pass.length >= 6) score++;
+                if (pass.match(/[a-z]/) && pass.match(/[A-Z]/)) score++;
+                if (pass.match(/\d/)) score++;
+                if (pass.match(/[^a-zA-Z0-9]/)) score++;
+
+                const levels = ['Weak', 'Fair', 'Good', 'Strong'];
+                const colors = ['#f87171', '#fbbf24', '#34d399', '#34d399'];
+                const widths = ['25%', '50%', '75%', '100%'];
+
+                const idx = Math.min(score, 3);
+                strengthText.textContent = levels[idx];
+                strengthText.style.color = colors[idx];
+                strengthFill.style.width = widths[idx];
+                strengthFill.style.background = colors[idx];
+            });
+
+            // ============================================================
+            // TOGGLE PASSWORD VISIBILITY
+            // ============================================================
+            const confirmPass = document.getElementById('confirmNewPassword');
+
+            document.getElementById('toggleNewPass').addEventListener('click', function() {
+                const isPassword = newPass.type === 'password';
+                newPass.type = isPassword ? 'text' : 'password';
+                document.getElementById('newPassEye').className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+            });
+
+            document.getElementById('toggleConfirmPass').addEventListener('click', function() {
+                const isPassword = confirmPass.type === 'password';
+                confirmPass.type = isPassword ? 'text' : 'password';
+                document.getElementById('confirmPassEye').className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+            });
+
+            // ============================================================
+            // SHAKE & VALIDATION HELPERS
+            // ============================================================
+            const newPassWrap = document.getElementById('newPassWrap');
+            const confirmPassWrap = document.getElementById('confirmPassWrap');
+
+            function shakeElement(wrap) {
+                wrap.classList.remove('shake');
+                void wrap.offsetWidth;
+                wrap.classList.add('shake');
+                setTimeout(function() {
+                    wrap.classList.remove('shake');
+                }, 600);
+            }
+
+            function setError(wrap, isError) {
+                if (isError) {
+                    wrap.classList.add('error');
+                } else {
+                    wrap.classList.remove('error');
+                }
+            }
+
+            // Clear errors on input
+            newPass.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(newPassWrap, false);
+            });
+            confirmPass.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(confirmPassWrap, false);
+            });
+
+            // ============================================================
+            // FORM SUBMISSION
+            // ============================================================
+            const form = document.getElementById('passwordForm');
+            const btn = document.getElementById('setPasswordBtn');
+            const formContainer = document.getElementById('passwordFormContainer');
+            const successContainer = document.getElementById('successContainer');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const pass = newPass.value.trim();
+                const confirm = confirmPass.value.trim();
+                let hasError = false;
+
+                // Validate password
+                if (pass === '') {
+                    setError(newPassWrap, true);
+                    shakeElement(newPassWrap);
+                    hasError = true;
+                } else if (pass.length < 6) {
+                    setError(newPassWrap, true);
+                    shakeElement(newPassWrap);
+                    hasError = true;
+                    showNotification('error', 'Password too short', 'Password must be at least 6 characters.');
+                } else {
+                    setError(newPassWrap, false);
+                }
+
+                // Validate confirm
+                if (confirm === '') {
+                    setError(confirmPassWrap, true);
+                    shakeElement(confirmPassWrap);
+                    hasError = true;
+                } else if (confirm !== pass) {
+                    setError(confirmPassWrap, true);
+                    shakeElement(confirmPassWrap);
+                    hasError = true;
+                    showNotification('error', 'Passwords do not match', 'Please make sure both passwords match.');
+                } else {
+                    setError(confirmPassWrap, false);
+                }
+
+                if (hasError) {
+                    if (pass === '' || confirm === '') {
+                        showNotification('error', 'Please fill in all fields', 'Both password fields are required.');
+                    }
+                    return;
+                }
+
+                // --- Simulate API call ---
+                btn.classList.add('loading');
+                btn.disabled = true;
+
+                setTimeout(function() {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+
+                    // Success!
+                    showNotification('success', 'Password Updated! 🎉', 'Your password has been changed successfully.');
+
+                    // Hide form, show success state
+                    formContainer.style.display = 'none';
+                    successContainer.style.display = 'block';
+
+                    // Start auto-redirect countdown (5 seconds)
+                    startRedirectCountdown();
+
+                }, 1600);
+            });
+
+            // ============================================================
+            // AUTO-REDIRECT COUNTDOWN (to login page)
+            // ============================================================
+            let redirectInterval = null;
+            let redirectTimeout = null;
+            const redirectCountdownEl = document.getElementById('redirectCountdown');
+
+            function startRedirectCountdown() {
+                let countdown = 5;
+                if (redirectCountdownEl) {
+                    redirectCountdownEl.textContent = countdown;
+                }
+
+                if (redirectInterval) {
+                    clearInterval(redirectInterval);
+                }
+                if (redirectTimeout) {
+                    clearTimeout(redirectTimeout);
+                }
+
+                redirectInterval = setInterval(function() {
+                    countdown--;
+                    if (redirectCountdownEl) {
+                        redirectCountdownEl.textContent = countdown;
+                    }
+                    if (countdown <= 0) {
+                        clearInterval(redirectInterval);
+                        redirectInterval = null;
+                        // Redirect to login page (adjust URL as needed)
+                        window.location.href = '../../../auth/login/'; // or '#'
+                    }
+                }, 1000);
+
+                // Fallback timeout in case interval fails
+                redirectTimeout = setTimeout(function() {
+                    if (redirectInterval) {
+                        clearInterval(redirectInterval);
+                        redirectInterval = null;
+                    }
+                    window.location.href = '../../../auth/login/';
+                }, 6000);
+            }
+
+            // ============================================================
+            // KEYBOARD SHORTCUT: Enter to submit
+            // ============================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const active = document.activeElement;
+                    if (active && (active.id === 'newPassword' || active.id === 'confirmNewPassword')) {
+                        form.dispatchEvent(new Event('submit'));
+                    }
+                }
+            });
+
+        })();
+    </script>
+
+</body>
+</html>

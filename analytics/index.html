@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Analytics</title>
+  <meta name="theme-color" content="#07112b" />
+  <link rel="icon" href="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SMBoostly Analytics",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Analytics dashboard for SMBoostly with overview stats, earnings chart, task completion chart, audience engagement, campaign earnings, platform performance, activity, and quick actions."
+  }
+  </script>
+
+  <script type="application/json" id="analytics-data">
+  {
+    "profile": {
+      "name": "Adeola M.",
+      "role": "Publisher Plan",
+      "avatar": "https://i.pravatar.cc/80?img=5"
+    },
+    "stats": [
+      {"label":"Total Earnings","value":"₦480,000.00","sub":"+28.4% vs last month","icon":"fa-chart-line","accent":"purple"},
+      {"label":"Total Tasks","value":"1,250","sub":"+18.7% vs last month","icon":"fa-users","accent":"green"},
+      {"label":"Total Views","value":"1.2M","sub":"+25.6% vs last month","icon":"fa-eye","accent":"blue"},
+      {"label":"Engagement Rate","value":"7.48%","sub":"+12.5% vs last month","icon":"fa-mouse-pointer","accent":"orange"}
+    ],
+    "platforms": [
+      {"name":"Instagram","percent":52,"icon":"fa-instagram","color":"#e1306c"},
+      {"name":"TikTok","percent":24,"icon":"fa-tiktok","color":"#111111"},
+      {"name":"YouTube","percent":14,"icon":"fa-youtube","color":"#ff0000"},
+      {"name":"Telegram","percent":7,"icon":"fa-telegram","color":"#2f7cff"},
+      {"name":"X","percent":3,"icon":"fa-x-twitter","color":"#111111"}
+    ],
+    "recent": [
+      {"title":"New Task Completed","sub":"Follow Instagram Account","time":"2 mins ago","icon":"fa-arrow-up","color":"green"},
+      {"title":"Campaign Updated","sub":"Summer Sale Boost","time":"15 mins ago","icon":"fa-bullhorn","color":"blue"},
+      {"title":"Payment Received","sub":"₦20,000 from BrandX","time":"1 hour ago","icon":"fa-wallet","color":"orange"},
+      {"title":"New Campaign Created","sub":"TikTok Video Likes","time":"3 hours ago","icon":"fa-circle-plus","color":"purple"}
+    ],
+    "quick": [
+      {"label":"Create Campaign","icon":"fa-bullhorn"},
+      {"label":"Browse Tasks","icon":"fa-list-check"},
+      {"label":"View Reports","icon":"fa-chart-column"},
+      {"label":"Manage Wallet","icon":"fa-wallet"}
+    ],
+    "campaigns": [
+      {"name":"Summer Sale Boost","value":"₦120,000.00","color":"purple","percent":92},
+      {"name":"TikTok Video Likes","value":"₦90,000.00","color":"blue","percent":78},
+      {"name":"Instagram Growth","value":"₦75,000.00","color":"green","percent":66},
+      {"name":"YouTube Subscribers","value":"₦60,000.00","color":"orange","percent":58},
+      {"name":"Brand Awareness Drive","value":"₦45,000.00","color":"purple","percent":48}
+    ],
+    "earningsSeries": {
+      "labels":["May 1","May 6","May 11","May 16","May 21","May 26","May 31"],
+      "values":[100,110,165,200,225,245,260,290,280,275,285,310,290,265,230,240,255,250,260,315,305,320,305,300,310,315,330,390,480]
+    },
+    "engagement": {
+      "labels":["Likes","Comments","Shares","Clicks"],
+      "series":[
+        {"name":"Likes","color":"#6f49ff","values":[25,30,28,31,29,32,30,33,35,34,36,38,37,39,35,36,40,43,42,41,39,38,40,44,46,45,42,43,44,50]},
+        {"name":"Comments","color":"#2f7cff","values":[18,22,21,20,23,24,22,25,26,27,26,28,27,29,28,27,30,31,29,30,28,29,31,33,32,31,30,32,35,39]},
+        {"name":"Shares","color":"#f59e0b","values":[10,12,13,12,11,13,12,11,12,13,12,14,13,12,11,12,13,15,14,13,12,14,15,16,15,14,15,16,18,22]},
+        {"name":"Clicks","color":"#1bbf72","values":[6,7,6,5,7,6,7,6,5,6,7,6,7,8,7,6,7,8,7,6,7,8,9,10,9,8,9,10,11,12]}
+      ]
+    },
+    "taskCompletion": {
+      "completed": 78.4,
+      "inProgress": 16.8,
+      "pending": 3.6,
+      "cancelled": 1.2
+    }
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f7f8ff;
+      --card:#fff;
+      --line:#edf0f8;
+      --text:#11162b;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --shadow:0 18px 42px rgba(18,24,43,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 7% 0%, rgba(107,57,255,.10), transparent 14%),
+        radial-gradient(circle at 92% 2%, rgba(245,158,11,.08), transparent 14%),
+        linear-gradient(180deg,#fafbff 0%, #eef2ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
+    img{max-width:100%;display:block}
+    ::selection{background:rgba(111,73,255,.18)}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:6px 8px 18px;
+      margin-bottom:12px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:linear-gradient(135deg, rgba(107,57,255,.95), rgba(79,32,216,.95));
+      box-shadow:0 18px 34px rgba(107,57,255,.20);
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.66);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;
+      font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(107,57,255,.96),rgba(70,58,214,.86));
+      box-shadow:0 16px 28px rgba(107,57,255,.16);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .content{min-width:0}
+
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .menu-btn{
+      border:0;
+      background:transparent;
+      color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .top-title{
+      font-size:16px;
+      font-weight:800;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .date-pill{
+      height:42px;
+      border:1px solid #e2e6f1;
+      border-radius:12px;
+      padding:0 16px;
+      background:#fff;
+      color:#344054;
+      font-size:13px;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      white-space:nowrap;
+    }
+    .top-icon{
+      color:#344054;
+      position:relative;
+      font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;
+      top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff4a5d;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .profile img{
+      width:44px;height:44px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{
+      font-size:15px;
+      font-weight:700;
+      color:#11162b;
+      line-height:1.1;
+    }
+    .profile .role{
+      margin-top:4px;
+      font-size:12px;
+      color:#6d7590;
+    }
+    .chev{color:#6d7590;font-size:14px;margin-left:6px}
+
+    .main{
+      padding:22px 24px 28px;
+    }
+
+    .page-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .heading h2{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .heading p{
+      margin:8px 0 0;
+      font-size:15px;
+      color:#6d7590;
+    }
+    .export-btn{
+      height:42px;
+      border:0;
+      border-radius:12px;
+      padding:0 18px;
+      color:#fff;
+      font-weight:800;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(107,57,255,.22);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-bottom:16px;
+    }
+    .stat-card{
+      background:var(--card);
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:18px 18px 16px;
+      min-height:120px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .stat-ico{
+      width:54px;height:54px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:19px;
+      flex:0 0 auto;
+      box-shadow:0 14px 24px rgba(15,23,42,.08);
+    }
+    .stat-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .stat-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .stat-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .stat-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .stat-body .label{font-size:14px;color:#1d2939;font-weight:500;margin-top:2px}
+    .stat-body .value{
+      margin-top:4px;
+      font-size:28px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .stat-body .sub{
+      margin-top:8px;
+      font-size:13px;
+      color:#6d7590;
+    }
+
+    .content-grid{
+      display:grid;
+      grid-template-columns:1.35fr .75fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .top-left-grid{
+      grid-column:1 / 2;
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:14px;
+    }
+
+    .chart-card{
+      padding:18px;
+      min-height:320px;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .section-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .section-title i{
+      font-size:13px;
+      color:#6d7590;
+      font-weight:400;
+    }
+    .month-select{
+      height:36px;
+      border:1px solid #dde3ef;
+      background:#fff;
+      border-radius:12px;
+      padding:0 12px;
+      font-size:13px;
+      font-weight:700;
+      color:#344054;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      white-space:nowrap;
+    }
+
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-top:12px;
+      margin-bottom:10px;
+    }
+    .metric{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .metric-ico{
+      width:42px;height:42px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:15px;
+      flex:0 0 auto;
+      box-shadow:0 12px 18px rgba(15,23,42,.08);
+    }
+    .metric-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .metric-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .metric-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .metric-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .metric-label{
+      color:#667085;
+      font-size:12px;
+      font-weight:700;
+    }
+    .metric-value{
+      margin-top:4px;
+      color:#11162b;
+      font-size:18px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .chart-wrap{
+      position:relative;
+      margin-top:12px;
+      border-top:1px solid #f0f2f8;
+      padding-top:8px;
+    }
+    .chart{
+      width:100%;
+      height:240px;
+      display:block;
+      overflow:visible;
+    }
+    .axis-label{
+      fill:#667085;
+      font-size:11px;
+      font-weight:700;
+    }
+    .grid-line{
+      stroke:#edf0f8;
+      stroke-width:1;
+    }
+    .line{
+      fill:none;
+      stroke:#6f49ff;
+      stroke-width:3.2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      filter:drop-shadow(0 10px 18px rgba(111,73,255,.14));
+    }
+    .area{
+      fill:url(#areaGrad);
+    }
+    .point{
+      fill:#fff;
+      stroke:#6f49ff;
+      stroke-width:2.5;
+      filter:drop-shadow(0 8px 12px rgba(111,73,255,.18));
+    }
+    .tooltip{
+      position:absolute;
+      pointer-events:none;
+      display:none;
+      background:#fff;
+      border:1px solid #e8ebf4;
+      border-radius:12px;
+      box-shadow:0 14px 30px rgba(15,23,42,.10);
+      padding:8px 10px;
+      font-size:12px;
+      color:#11162b;
+      transform:translate(-50%, -120%);
+      white-space:nowrap;
+      z-index:4;
+    }
+
+    .tasks-card{
+      padding:18px;
+      min-height:320px;
+    }
+
+    .donut-wrap{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:12px;
+    }
+    .donut{
+      width:185px;
+      height:185px;
+      border-radius:50%;
+      background:
+        conic-gradient(
+          var(--green) 0 78.4%,
+          var(--blue) 78.4% 95.2%,
+          var(--orange) 95.2% 98.8%,
+          #8f95a8 98.8% 100%
+        );
+      position:relative;
+      box-shadow:0 18px 30px rgba(18,24,43,.06);
+      flex:0 0 auto;
+    }
+    .donut::after{
+      content:"";
+      position:absolute;
+      inset:26px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:inset 0 0 0 1px #edf0f8;
+    }
+    .donut-center{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      z-index:1;
+      pointer-events:none;
+    }
+    .donut-center .big{
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+      line-height:1.05;
+    }
+    .donut-center .small{
+      margin-top:4px;
+      font-size:12px;
+      color:#667085;
+      font-weight:600;
+    }
+    .legend{
+      display:grid;
+      gap:12px;
+      align-content:center;
+      min-width:180px;
+    }
+    .legend-item{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:13px;
+      color:#344054;
+      font-weight:700;
+    }
+    .legend-dot{
+      width:9px;height:9px;border-radius:50%;
+      display:inline-block;
+      background:#ccc;
+    }
+    .legend-dot.green{background:var(--green)}
+    .legend-dot.blue{background:var(--blue)}
+    .legend-dot.orange{background:var(--orange)}
+    .legend-dot.gray{background:#8f95a8}
+    .legend-item span{
+      display:block;
+      color:#667085;
+      font-weight:600;
+      font-size:12px;
+      margin-top:2px;
+    }
+
+    .bottom-left-grid{
+      grid-column:1 / 2;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .engagement-card{
+      padding:18px;
+      min-height:360px;
+    }
+    .engagement-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .engagement-overview{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-top:8px;
+      margin-bottom:10px;
+    }
+    .eng{
+      background:#fff;
+      border:1px solid #edf0f8;
+      border-radius:14px;
+      padding:12px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .eng-top{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .eng-ico{
+      width:38px;height:38px;border-radius:10px;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:16px;
+      flex:0 0 auto;
+      box-shadow:0 12px 18px rgba(15,23,42,.08);
+    }
+    .eng-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .eng-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .eng-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .eng-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .eng-label{
+      font-size:12px;
+      font-weight:700;
+      color:#667085;
+    }
+    .eng-value{
+      margin-top:5px;
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+    }
+    .eng-change{
+      margin-top:6px;
+      font-size:12px;
+      font-weight:700;
+      color:#16a34a;
+    }
+
+    .eng-legend{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      font-size:12px;
+      font-weight:700;
+      color:#667085;
+      margin:10px 0 8px;
+    }
+    .eng-legend span{
+      display:flex;
+      align-items:center;
+      gap:7px;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      display:inline-block;
+    }
+    .dot.purple{background:#6f49ff}
+    .dot.blue{background:#2f7cff}
+    .dot.orange{background:#f59e0b}
+    .dot.green{background:#1bbf72}
+
+    .multi-chart{
+      width:100%;
+      height:220px;
+      display:block;
+      margin-top:4px;
+    }
+
+    .campaign-card{
+      padding:18px;
+      min-height:360px;
+    }
+    .campaign-list{
+      display:grid;
+      gap:16px;
+      margin-top:14px;
+    }
+    .campaign-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      align-items:center;
+    }
+    .campaign-name{
+      font-size:13px;
+      font-weight:700;
+      color:#11162b;
+      margin-bottom:8px;
+    }
+    .bar{
+      height:6px;
+      border-radius:999px;
+      background:#e9ebf4;
+      overflow:hidden;
+      position:relative;
+    }
+    .bar span{
+      display:block;
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(90deg, currentColor, currentColor);
+      width:50%;
+    }
+    .campaign-row.purple{color:#6f49ff}
+    .campaign-row.blue{color:#2f7cff}
+    .campaign-row.green{color:#1bbf72}
+    .campaign-row.orange{color:#f59e0b}
+    .campaign-value{
+      font-size:13px;
+      font-weight:900;
+      color:#11162b;
+      white-space:nowrap;
+    }
+
+    .right-stack{
+      display:grid;
+      gap:14px;
+      align-content:start;
+    }
+
+    .platform-card,
+    .activity-card,
+    .quick-card{
+      padding:18px;
+    }
+
+    .platform-list{
+      display:grid;
+      gap:16px;
+      margin-top:12px;
+    }
+    .platform-row{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      align-items:center;
+    }
+    .platform-ico{
+      width:28px;height:28px;
+      display:grid;place-items:center;
+      font-size:20px;
+      flex:0 0 auto;
+    }
+    .platform-name{
+      font-size:13px;
+      font-weight:700;
+      color:#11162b;
+      margin-bottom:6px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .platform-line{
+      height:6px;
+      border-radius:999px;
+      background:#eef1f8;
+      overflow:hidden;
+      position:relative;
+    }
+    .platform-line span{
+      display:block;
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(90deg,#6f49ff,#5f39f7);
+    }
+    .platform-percent{
+      font-size:13px;
+      font-weight:900;
+      color:#344054;
+      width:34px;
+      text-align:right;
+    }
+
+    .activity-list{
+      display:grid;
+      gap:12px;
+      margin-top:12px;
+    }
+    .activity-row{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:10px 0;
+      border-top:1px solid #f0f2f8;
+    }
+    .activity-row:first-child{border-top:0;padding-top:0}
+    .activity-badge{
+      width:30px;height:30px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:13px;
+      flex:0 0 auto;
+      box-shadow:0 10px 16px rgba(15,23,42,.08);
+    }
+    .activity-badge.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .activity-badge.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .activity-badge.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .activity-badge.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .activity-title{
+      font-size:13px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.2;
+    }
+    .activity-sub{
+      margin-top:4px;
+      font-size:12px;
+      color:#667085;
+    }
+    .activity-time{
+      margin-left:auto;
+      color:#667085;
+      font-size:12px;
+      white-space:nowrap;
+      padding-top:2px;
+    }
+
+    .quick-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .quick-item{
+      border:1px solid #edf0f8;
+      border-radius:14px;
+      background:#fff;
+      padding:12px 10px;
+      text-align:center;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .quick-icon{
+      width:40px;height:40px;border-radius:12px;
+      display:grid;place-items:center;
+      margin:0 auto 10px;
+      color:#6f49ff;
+      background:rgba(111,73,255,.08);
+      font-size:16px;
+    }
+    .quick-label{
+      font-size:12px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.25;
+    }
+
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:40px;border-radius:12px;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    @media (max-width: 1360px){
+      .content-grid{
+        grid-template-columns:1fr;
+      }
+      .right-stack{
+        grid-template-columns:1fr 1fr;
+      }
+      .top-left-grid,.bottom-left-grid{
+        grid-template-columns:1fr;
+      }
+      .bottom-left-grid{
+        grid-column:auto;
+      }
+      .engagement-card,.campaign-card{
+        min-height:auto;
+      }
+    }
+
+    @media (max-width: 1080px){
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .engagement-overview{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .right-stack{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 980px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .main{padding:16px}
+      .topbar{padding:0 16px}
+      .page-head{flex-direction:column}
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+
+    @media (max-width: 720px){
+      .topbar-right{gap:12px}
+      .profile .text{display:none}
+      .chev{display:none}
+      .heading h2{font-size:24px}
+      .heading p{font-size:14px}
+      .stats-grid{grid-template-columns:1fr}
+      .stat-card{padding:16px}
+      .stat-body .value{font-size:24px}
+      .page-head{gap:12px}
+      .export-btn{width:100%;justify-content:center}
+      .date-pill{display:none}
+      .metrics{grid-template-columns:1fr}
+      .engagement-overview{grid-template-columns:1fr 1fr}
+      .quick-grid{grid-template-columns:1fr 1fr}
+      .donut-wrap{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .donut{
+        width:165px;height:165px;
+      }
+      .legend{
+        width:100%;
+        min-width:0;
+      }
+      .section-title{font-size:16px}
+    }
+
+    @media (max-width: 520px){
+      .topbar-right{gap:10px}
+      .heading h2{font-size:22px}
+      .main{padding:12px}
+      .chart-card,.tasks-card,.engagement-card,.campaign-card,.platform-card,.activity-card,.quick-card{
+        padding:14px;
+      }
+      .engagement-overview,.quick-grid{grid-template-columns:1fr}
+      .multi-chart,.chart{height:210px}
+      .cta-title{font-size:15px}
+      .cta-sub{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+     <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item active" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+           <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item active" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+            <p style="margin:6px 0 0;">Get help & support</p>
+          </div>
+          <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-solid fa-chart-column"></i> <span>Analytics</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="date-pill"><i class="fa-regular fa-calendar-days"></i> May 1 - May 31, 2025 <i class="fa-solid fa-chevron-down"></i></div>
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img id="profileAvatar" src="https://i.pravatar.cc/80?img=5" alt="Profile photo">
+            <div class="text">
+              <div class="name" id="profileNameTop">Adeola M.</div>
+              <div class="role" id="profileRole">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="page-head">
+          <div class="heading">
+            <h2>Analytics Overview</h2>
+            <p>Track your performance, engagement and earnings across all campaigns.</p>
+          </div>
+          <button class="export-btn"><i class="fa-solid fa-download"></i> Export Report</button>
+        </div>
+
+        <section class="stats-grid" id="statsGrid"></section>
+
+        <section class="content-grid">
+          <div class="top-left-grid">
+            <article class="panel chart-card">
+              <div class="section-head">
+                <h3 class="section-title">Earnings Over Time <i class="fa-regular fa-circle-question"></i></h3>
+                <div class="month-select">Daily <i class="fa-solid fa-chevron-down"></i></div>
+              </div>
+
+              <div class="chart-wrap">
+                <div class="tooltip" id="tooltip1"></div>
+                <svg class="chart" id="earningsChart" viewBox="0 0 820 240" preserveAspectRatio="none" aria-label="Earnings over time chart">
+                  <defs>
+                    <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#6f49ff" stop-opacity="0.20"/>
+                      <stop offset="100%" stop-color="#6f49ff" stop-opacity="0.02"/>
+                    </linearGradient>
+                  </defs>
+                  <g id="earningsGrid"></g>
+                  <path id="earningsArea" class="area"></path>
+                  <path id="earningsLine" class="line"></path>
+                  <g id="earningsPoints"></g>
+                  <g id="earningsLabels"></g>
+                </svg>
+              </div>
+            </article>
+
+            <article class="panel tasks-card">
+              <div class="section-head">
+                <h3 class="section-title">Tasks Completion <i class="fa-regular fa-circle-question"></i></h3>
+              </div>
+              <div class="donut-wrap">
+                <div class="donut" id="donut">
+                  <div class="donut-center">
+                    <div>
+                      <div class="big">78.4%</div>
+                      <div class="small">Overall</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="legend" id="legendList"></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="right-stack">
+            <article class="panel platform-card">
+              <div class="section-head">
+                <h3 class="section-title">Top Performing Platform</h3>
+                <a href="#" class="view-link">View all</a>
+              </div>
+              <div class="platform-list" id="platformList"></div>
+            </article>
+
+            <article class="panel activity-card">
+              <div class="section-head">
+                <h3 class="section-title">Recent Activity</h3>
+                <a href="#" class="view-link">View all</a>
+              </div>
+              <div class="activity-list" id="activityList"></div>
+            </article>
+
+            <article class="panel quick-card">
+              <div class="section-head">
+                <h3 class="section-title">Quick Actions</h3>
+              </div>
+              <div class="quick-grid" id="quickGrid"></div>
+            </article>
+          </div>
+
+          <div class="bottom-left-grid">
+            <article class="panel engagement-card">
+              <div class="engagement-head">
+                <h3 class="section-title">Audience Engagement <i class="fa-regular fa-circle-question"></i></h3>
+                <div class="month-select">This Month <i class="fa-solid fa-chevron-down"></i></div>
+              </div>
+
+              <div class="engagement-overview" id="engOverview"></div>
+              <div class="eng-legend">
+                <span><i class="dot purple"></i> Likes</span>
+                <span><i class="dot blue"></i> Comments</span>
+                <span><i class="dot orange"></i> Shares</span>
+                <span><i class="dot green"></i> Clicks</span>
+              </div>
+
+              <div class="chart-wrap" style="border-top:0;padding-top:0;">
+                <div class="tooltip" id="tooltip2"></div>
+                <svg class="multi-chart" id="engagementChart" viewBox="0 0 820 220" preserveAspectRatio="none" aria-label="Audience engagement chart">
+                  <defs>
+                    <linearGradient id="lineGlow1" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#6f49ff" stop-opacity="0.24"/>
+                      <stop offset="100%" stop-color="#6f49ff" stop-opacity="0.03"/>
+                    </linearGradient>
+                  </defs>
+                  <g id="engagementGrid"></g>
+                  <g id="engagementLines"></g>
+                  <g id="engagementPoints"></g>
+                  <g id="engagementLabels"></g>
+                </svg>
+              </div>
+            </article>
+
+            <article class="panel campaign-card">
+              <div class="section-head">
+                <h3 class="section-title">Earnings by Campaign <i class="fa-regular fa-circle-question"></i></h3>
+                <a href="#" class="view-link">View all</a>
+              </div>
+              <div class="campaign-list" id="campaignList"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('analytics-data').textContent);
+
+    document.getElementById('profileAvatar').src = data.profile.avatar;
+    document.getElementById('profileNameTop').textContent = data.profile.name;
+    document.getElementById('profileRole').textContent = data.profile.role;
+
+    const statsGrid = document.getElementById('statsGrid');
+    statsGrid.innerHTML = data.stats.map(stat => `
+      <article class="stat-card">
+        <div class="stat-ico ${stat.accent}">
+          <i class="fa-solid ${stat.icon}"></i>
+        </div>
+        <div class="stat-body">
+          <div class="label">${stat.label}</div>
+          <div class="value">${stat.value}</div>
+          <div class="sub">${stat.sub}</div>
+        </div>
+      </article>
+    `).join('');
+
+    const platformList = document.getElementById('platformList');
+    platformList.innerHTML = data.platforms.map(p => `
+      <div class="platform-row">
+        <div class="platform-ico" style="color:${p.color}">
+          <i class="fa-brands ${p.icon}"></i>
+        </div>
+        <div>
+          <div class="platform-name">${p.name}</div>
+          <div class="platform-line"><span style="width:${p.percent}%"></span></div>
+        </div>
+        <div class="platform-percent">${p.percent}%</div>
+      </div>
+    `).join('');
+
+    const recentList = document.getElementById('activityList');
+    recentList.innerHTML = data.recent.map(r => `
+      <div class="activity-row">
+        <div class="activity-badge ${r.color}">
+          <i class="fa-solid ${r.icon}"></i>
+        </div>
+        <div>
+          <div class="activity-title">${r.title}</div>
+          <div class="activity-sub">${r.sub}</div>
+        </div>
+        <div class="activity-time">${r.time}</div>
+      </div>
+    `).join('');
+
+    const quickGrid = document.getElementById('quickGrid');
+    quickGrid.innerHTML = data.quick.map(q => `
+      <div class="quick-item">
+        <div class="quick-icon"><i class="fa-solid ${q.icon}"></i></div>
+        <div class="quick-label">${q.label}</div>
+      </div>
+    `).join('');
+
+    const engOverview = document.getElementById('engOverview');
+    engOverview.innerHTML = `
+      <div class="eng">
+        <div class="eng-top">
+          <div class="eng-ico purple"><i class="fa-solid fa-heart"></i></div>
+          <div>
+            <div class="eng-label">Likes</div>
+            <div class="eng-value">45.2K</div>
+            <div class="eng-change">↑ 22.4%</div>
+          </div>
+        </div>
+      </div>
+      <div class="eng">
+        <div class="eng-top">
+          <div class="eng-ico blue"><i class="fa-solid fa-comment-dots"></i></div>
+          <div>
+            <div class="eng-label">Comments</div>
+            <div class="eng-value">8.6K</div>
+            <div class="eng-change">↑ 18.6%</div>
+          </div>
+        </div>
+      </div>
+      <div class="eng">
+        <div class="eng-top">
+          <div class="eng-ico orange"><i class="fa-solid fa-share-nodes"></i></div>
+          <div>
+            <div class="eng-label">Shares</div>
+            <div class="eng-value">12.7K</div>
+            <div class="eng-change">↑ 16.3%</div>
+          </div>
+        </div>
+      </div>
+      <div class="eng">
+        <div class="eng-top">
+          <div class="eng-ico green"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <div class="eng-label">Clicks</div>
+            <div class="eng-value">34.8K</div>
+            <div class="eng-change">↑ 27.8%</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const campaignList = document.getElementById('campaignList');
+    campaignList.innerHTML = data.campaigns.map(c => `
+      <div class="campaign-row ${c.color}">
+        <div>
+          <div class="campaign-name">${c.name}</div>
+          <div class="bar"><span style="width:${c.percent}%;color:currentColor"></span></div>
+        </div>
+        <div class="campaign-value">${c.value}</div>
+      </div>
+    `).join('');
+
+    const legendList = document.getElementById('legendList');
+    legendList.innerHTML = `
+      <div class="legend-item"><span class="legend-dot green"></span><div>Completed<br><span>${data.taskCompletion.completed}% overall</span></div></div>
+      <div class="legend-item"><span class="legend-dot blue"></span><div>In Progress<br><span>${data.taskCompletion.inProgress}% overall</span></div></div>
+      <div class="legend-item"><span class="legend-dot orange"></span><div>Pending<br><span>${data.taskCompletion.pending}% overall</span></div></div>
+      <div class="legend-item"><span class="legend-dot gray"></span><div>Cancelled<br><span>${data.taskCompletion.cancelled}% overall</span></div></div>
+    `;
+
+    function buildLinePath(values, width, height, padL, padR, padT, padB) {
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+      const chartH = height - padT - padB;
+      const stepX = (width - padL - padR) / (values.length - 1);
+      const coords = values.map((v, i) => {
+        const x = padL + i * stepX;
+        const y = padT + chartH - ((v - min) / (max - min || 1)) * chartH;
+        return {x,y,v};
+      });
+      let d = `M ${coords[0].x} ${coords[0].y}`;
+      for (let i = 1; i < coords.length; i++) {
+        const prev = coords[i - 1];
+        const cur = coords[i];
+        const c1x = prev.x + stepX / 2;
+        const c1y = prev.y;
+        const c2x = cur.x - stepX / 2;
+        const c2y = cur.y;
+        d += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${cur.x} ${cur.y}`;
+      }
+      const area = `${d} L ${coords[coords.length-1].x} ${height-padB} L ${coords[0].x} ${height-padB} Z`;
+      return {coords, d, area, max, min};
+    }
+
+    function drawEarningsChart() {
+      const svg = document.getElementById('earningsChart');
+      const grid = document.getElementById('earningsGrid');
+      const area = document.getElementById('earningsArea');
+      const line = document.getElementById('earningsLine');
+      const points = document.getElementById('earningsPoints');
+      const labels = document.getElementById('earningsLabels');
+      const tooltip = document.getElementById('tooltip1');
+
+      const width = 820, height = 240, padL = 46, padR = 18, padT = 18, padB = 36;
+      const values = data.earningsSeries.values;
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+      const chartH = height - padT - padB;
+
+      grid.innerHTML = '';
+      for (let i = 0; i <= 4; i++) {
+        const y = padT + (chartH / 4) * i;
+        const val = Math.round(max - (max - min) * (i / 4));
+        grid.insertAdjacentHTML('beforeend', `<line class="grid-line" x1="${padL}" y1="${y}" x2="${width-padR}" y2="${y}"></line>`);
+        grid.insertAdjacentHTML('beforeend', `<text class="axis-label" x="8" y="${y + 4}">₦${Math.round(val/100)*100}K</text>`);
+      }
+
+      const stepX = (width - padL - padR) / (values.length - 1);
+      const coords = values.map((v, i) => ({
+        x: padL + i * stepX,
+        y: padT + chartH - ((v - min) / (max - min || 1)) * chartH,
+        v
+      }));
+
+      let d = `M ${coords[0].x} ${coords[0].y}`;
+      for (let i = 1; i < coords.length; i++) {
+        const prev = coords[i - 1], cur = coords[i];
+        d += ` C ${prev.x + stepX/2} ${prev.y}, ${cur.x - stepX/2} ${cur.y}, ${cur.x} ${cur.y}`;
+      }
+      const areaPath = `${d} L ${coords[coords.length-1].x} ${height-padB} L ${coords[0].x} ${height-padB} Z`;
+
+      area.setAttribute('d', areaPath);
+      line.setAttribute('d', d);
+      points.innerHTML = coords.map((p, idx) => `
+        <circle class="point" cx="${p.x}" cy="${p.y}" r="${idx === coords.length-1 ? 4.8 : 4.3}" data-value="${p.v}" data-label="${data.earningsSeries.labels[Math.min(idx, data.earningsSeries.labels.length-1)]}"></circle>
+      `).join('');
+
+      labels.innerHTML = '';
+      [0, 4, 8, 12, 16, 20, 24, 28].forEach(i => {
+        if (coords[i]) {
+          labels.insertAdjacentHTML('beforeend', `<text class="axis-label" x="${coords[i].x}" y="${height - 12}" text-anchor="middle">${data.earningsSeries.labels[Math.min(Math.round(i/4), data.earningsSeries.labels.length-1)]}</text>`);
+        }
+      });
+
+      const circles = points.querySelectorAll('circle');
+      circles.forEach((circle, idx) => {
+        circle.addEventListener('mouseenter', () => {
+          const p = coords[idx];
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `<strong>May 31, 2025</strong> ₦${data.stats[0].value.replace(/[₦,]/g,'')}<br>`;
+          tooltip.innerHTML = `<strong>${data.earningsSeries.labels[Math.min(idx, data.earningsSeries.labels.length-1)]}, 2025</strong> ₦${values[idx]}.00`;
+          tooltip.style.left = `${(p.x / width) * svg.clientWidth}px`;
+          tooltip.style.top = `${(p.y / height) * svg.clientHeight}px`;
+        });
+        circle.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+      });
+    }
+
+    function drawEngagementChart() {
+      const svg = document.getElementById('engagementChart');
+      const grid = document.getElementById('engagementGrid');
+      const lines = document.getElementById('engagementLines');
+      const points = document.getElementById('engagementPoints');
+      const labels = document.getElementById('engagementLabels');
+      const tooltip = document.getElementById('tooltip2');
+
+      const width = 820, height = 220, padL = 44, padR = 18, padT = 16, padB = 34;
+      const series = data.engagement.series;
+      const allVals = series.flatMap(s => s.values);
+      const max = Math.max(...allVals);
+      const min = Math.min(...allVals);
+      const chartH = height - padT - padB;
+      const len = series[0].values.length;
+      const stepX = (width - padL - padR) / (len - 1);
+
+      grid.innerHTML = '';
+      for (let i = 0; i <= 4; i++) {
+        const y = padT + (chartH / 4) * i;
+        const val = Math.round((max - (max - min) * (i / 4)));
+        grid.insertAdjacentHTML('beforeend', `<line class="grid-line" x1="${padL}" y1="${y}" x2="${width-padR}" y2="${y}"></line>`);
+        grid.insertAdjacentHTML('beforeend', `<text class="axis-label" x="8" y="${y + 4}">${Math.round(val/10)}K</text>`);
+      }
+
+      lines.innerHTML = '';
+      points.innerHTML = '';
+      labels.innerHTML = '';
+
+      series.forEach((s, sIdx) => {
+        const coords = s.values.map((v, i) => ({
+          x: padL + i * stepX,
+          y: padT + chartH - ((v - min) / (max - min || 1)) * chartH,
+          v
+        }));
+        let d = `M ${coords[0].x} ${coords[0].y}`;
+        for (let i = 1; i < coords.length; i++) {
+          const prev = coords[i - 1], cur = coords[i];
+          d += ` C ${prev.x + stepX/2} ${prev.y}, ${cur.x - stepX/2} ${cur.y}, ${cur.x} ${cur.y}`;
+        }
+        lines.insertAdjacentHTML('beforeend', `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${sIdx===0?3:2.2}" stroke-linecap="round" stroke-linejoin="round"></path>`);
+        coords.forEach((p, idx) => {
+          points.insertAdjacentHTML('beforeend', `<circle class="point" cx="${p.x}" cy="${p.y}" r="${sIdx===0?3.4:2.8}" fill="#fff" stroke="${s.color}" stroke-width="2"></circle>`);
+        });
+      });
+
+      labels.innerHTML = '';
+      data.earningsSeries.labels.forEach((lab, idx) => {
+        const x = padL + idx * ((width - padL - padR) / (data.earningsSeries.labels.length - 1));
+        labels.insertAdjacentHTML('beforeend', `<text class="axis-label" x="${x}" y="${height - 12}" text-anchor="middle">${lab}</text>`);
+      });
+    }
+
+    drawEarningsChart();
+    drawEngagementChart();
+    window.addEventListener('resize', () => {
+      drawEarningsChart();
+      drawEngagementChart();
+    });
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>

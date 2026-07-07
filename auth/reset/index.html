@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMBoostly — Reset Password</title>
+
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind + config -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        glow: '0 20px 80px rgba(99,102,241,0.25)',
+                        'card': '0 25px 80px rgba(15,23,42,0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ---------- Base ---------- */
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(99, 102, 241, .18), transparent 30%),
+                radial-gradient(circle at top right, rgba(236, 72, 153, .14), transparent 26%),
+                linear-gradient(180deg, #eef2ff 0%, #f8fafc 48%, #eef2ff 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ---------- Reset Wrapper (flex container for image + card) ---------- */
+        .reset-wrapper {
+            display: flex;
+            position: relative;
+            width: 100%;
+            max-width: 940px;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            min-height: 560px;
+        }
+        .reset-wrapper:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        }
+
+        /* Glow orbs behind wrapper */
+        .reset-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 30%;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .reset-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: 20%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217, 70, 239, 0.10), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .reset-wrapper>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- Image Panel (left) ---------- */
+        .image-panel {
+            flex: 1;
+            min-width: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+            transform: translateX(-100%);
+            transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2.5rem 0 0 2.5rem;
+        }
+        .image-panel.open {
+            transform: translateX(0);
+        }
+
+        .image-panel .image-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(241, 245, 249, 0.4));
+        }
+
+        .image-panel .image-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s ease;
+        }
+
+        .image-panel.open .image-inner img {
+            transform: scale(1);
+        }
+
+        .image-panel .image-inner .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(217, 70, 239, 0.05));
+            pointer-events: none;
+        }
+
+        /* Decorative handle (on the right side of the image panel) */
+        .image-panel .door-handle {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.4));
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.4s;
+        }
+        .image-panel.open .door-handle {
+            opacity: 1;
+        }
+
+        /* Shadow on the right edge */
+        .image-panel::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15), rgba(217, 70, 239, 0.10));
+            z-index: 3;
+            border-radius: 2px 0 0 2px;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+        }
+        .image-panel.open::before {
+            opacity: 1;
+        }
+
+        /* ---------- Reset Card (right) ---------- */
+        .reset-card {
+            width: 100%;
+            max-width: 440px;
+            flex-shrink: 0;
+            padding: 2rem 1.75rem 1.5rem;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            overflow-y: auto;
+            max-height: 700px;
+        }
+
+        /* ---------- Logo ---------- */
+        .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            display: flex;
+            height: 48px;
+            width: 48px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+            transition: transform 0.3s ease;
+        }
+        .logo-icon:hover {
+            transform: scale(1.05);
+        }
+        .logo-text {
+            font-size: 1.65rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+        .logo-text span {
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ---------- Form ---------- */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #475569;
+            margin-bottom: 5px;
+        }
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            transition: all 0.25s ease;
+            overflow: hidden;
+        }
+        .input-wrap:focus-within {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.10);
+            background: rgba(255, 255, 255, 0.85);
+        }
+        .input-wrap .input-icon {
+            flex-shrink: 0;
+            width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1rem;
+            transition: color 0.25s ease;
+        }
+        .input-wrap:focus-within .input-icon {
+            color: #4f46e5;
+        }
+        .input-wrap input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 13px 16px 13px 0;
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            width: 100%;
+            min-width: 0;
+        }
+        .input-wrap input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        /* Shake animation */
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            10% {
+                transform: translateX(-10px);
+            }
+            30% {
+                transform: translateX(10px);
+            }
+            50% {
+                transform: translateX(-8px);
+            }
+            70% {
+                transform: translateX(8px);
+            }
+            90% {
+                transform: translateX(-4px);
+            }
+        }
+        .input-wrap.shake {
+            animation: shake 0.5s ease forwards;
+        }
+        .input-wrap.shake {
+            border-color: #f87171;
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.12);
+        }
+        .input-wrap.shake .input-icon {
+            color: #f87171;
+        }
+
+        /* Error state (persistent) */
+        .input-wrap.error {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.04);
+        }
+        .input-wrap.error .input-icon {
+            color: #f87171;
+        }
+        .input-wrap.error:focus-within {
+            border-color: #f87171;
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.10);
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px 24px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 16px 48px rgba(99, 102, 241, 0.35);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-primary:disabled {
+            opacity: 0.7;
+            pointer-events: none;
+            transform: scale(0.98);
+        }
+        .btn-primary .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-primary.loading .spinner {
+            display: inline-block;
+        }
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+        .btn-primary.loading .btn-icon {
+            display: none;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---------- iOS Notification ---------- */
+        .ios-notification {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(30, 30, 40, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 18px;
+            padding: 14px 20px 14px 18px;
+            min-width: 300px;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ios-notification.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0px);
+        }
+        .ios-notification .notif-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #fff;
+            overflow: hidden;
+        }
+        .ios-notification .notif-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .ios-notification .notif-icon.success {
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .ios-notification .notif-icon.error {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
+        .ios-notification .notif-icon.warning {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+        .ios-notification .notif-icon.info {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+        .ios-notification .notif-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .ios-notification .notif-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+        }
+        .ios-notification .notif-message {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1px;
+            line-height: 1.3;
+        }
+        .ios-notification .notif-time {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            transition: color 0.2s;
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 480px) {
+            .ios-notification {
+                min-width: 0;
+                width: calc(100% - 32px);
+                padding: 12px 16px;
+                top: 16px;
+                border-radius: 14px;
+            }
+            .ios-notification .notif-icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+            .ios-notification .notif-title {
+                font-size: 0.78rem;
+            }
+            .ios-notification .notif-message {
+                font-size: 0.68rem;
+            }
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 480px) {
+            .reset-card {
+                padding: 1.5rem 1.25rem 1.25rem;
+            }
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            .logo-icon {
+                height: 42px;
+                width: 42px;
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ---------- Background decoration ---------- */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .bg-blob-1 {
+            top: -10%;
+            right: -8%;
+            width: 500px;
+            height: 500px;
+            background: rgba(99, 102, 241, 0.12);
+        }
+        .bg-blob-2 {
+            bottom: -12%;
+            left: -6%;
+            width: 450px;
+            height: 450px;
+            background: rgba(217, 70, 239, 0.08);
+        }
+        @media (max-width: 640px) {
+            .bg-blob-1 {
+                width: 300px;
+                height: 300px;
+                top: -5%;
+            }
+            .bg-blob-2 {
+                width: 280px;
+                height: 280px;
+                bottom: -5%;
+            }
+        }
+
+        /* ---------- Form transition ---------- */
+        .form-step {
+            display: none;
+            animation: fadeSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .form-step.active {
+            display: block;
+        }
+        @keyframes fadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------- Heading ---------- */
+        .page-heading {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #0f172a;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .page-subheading {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: center;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        /* ---------- Trust Badges ---------- */
+        .trust-badge {
+            text-align: center;
+        }
+        .trust-badge .icon {
+            font-size: 1.5rem;
+            color: #4f46e5;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .trust-badge .title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .trust-badge .desc {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+
+        /* ---------- Back to login ---------- */
+        .back-to-login {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px 12px;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .back-to-login:hover {
+            color: #4f46e5;
+        }
+        .back-to-login i {
+            font-size: 0.9rem;
+        }
+
+        /* ---------- Success state ---------- */
+        .success-icon {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            text-align: center;
+            margin: 6px 0 4px;
+        }
+        .success-title {
+            color: #0f172a;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        .success-sub {
+            color: #475569;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .success-detail {
+            color: #64748b;
+            text-align: center;
+            font-size: 0.8rem;
+            margin-top: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            word-break: break-all;
+        }
+        .success-detail strong {
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        /* Success step action buttons */
+        .success-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .back-to-request {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 12px;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .back-to-request:hover {
+            color: #4f46e5;
+        }
+        .back-to-request i {
+            font-size: 0.9rem;
+        }
+
+        /* ---------- Desktop: both panels visible ---------- */
+        @media (min-width: 769px) {
+            .reset-wrapper {
+                min-height: 560px;
+            }
+            .image-panel {
+                flex: 1;
+                min-width: 0;
+                display: block;
+            }
+            .reset-card {
+                max-width: 440px;
+            }
+        }
+
+        /* ---------- Mobile: image panel hidden ---------- */
+        @media (max-width: 768px) {
+            .reset-wrapper {
+                max-width: 440px;
+                min-height: auto;
+                border-radius: 2.5rem;
+                overflow: hidden;
+            }
+            .image-panel {
+                display: none !important;
+            }
+            .reset-card {
+                max-width: 100%;
+                padding: 1.5rem 1.25rem 1.25rem;
+                max-height: none;
+                overflow-y: visible;
+            }
+            .reset-wrapper::before,
+            .reset-wrapper::after {
+                display: none;
+            }
+        }
+
+        /* ---------- "Try another way" styles ---------- */
+        .method-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 1rem;
+            opacity: 0;
+            max-height: 0;
+            padding: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+        }
+        .method-selector.visible {
+            opacity: 1;
+            max-height: 80px;
+            padding: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .method-btn {
+            padding: 0.3rem 0.8rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #94a3b8;
+            background: transparent;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            white-space: nowrap;
+        }
+        .method-btn .fas,
+        .method-btn .fab {
+            font-size: 0.7rem;
+        }
+        .method-btn.active {
+            color: #4f46e5;
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+        .method-btn:hover:not(.active) {
+            color: #334155;
+            background: rgba(0, 0, 0, 0.04);
+        }
+        .try-another-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #4f46e5;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-decoration: none;
+            background: none;
+            border: none;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .try-another-link:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+        .try-another-link i {
+            font-size: 0.65rem;
+            margin-right: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- iOS NOTIFICATION CONTAINER -->
+    <!-- ============================================================ -->
+    <div id="iosNotif" class="ios-notification" role="alert">
+        <div class="notif-icon" id="notifIcon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notif-content">
+            <div class="notif-title" id="notifTitle">Success</div>
+            <div class="notif-message" id="notifMessage">Action completed successfully.</div>
+            <div id="notifActionWrap" style="display:none; margin-top: 4px;"></div>
+        </div>
+        <span class="notif-time" id="notifTime">now</span>
+        <button class="notif-close" id="notifClose" aria-label="Dismiss notification">
+            <i class="fas fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- BACKGROUND BLOBS -->
+    <!-- ============================================================ -->
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
+    <!-- ============================================================ -->
+    <!-- RESET WRAPPER (image panel + reset card) -->
+    <!-- ============================================================ -->
+    <div class="reset-wrapper" id="resetWrapper">
+
+        <!-- ============================================================ -->
+        <!-- IMAGE PANEL (left) - slides in like a door -->
+        <!-- ============================================================ -->
+        <div class="image-panel" id="imagePanel">
+            <div class="door-handle"></div>
+            <div class="image-inner">
+                <img
+                src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783285418/blog/SMBoostly_Reset_Img_1783285417.jpg"
+                alt="SMBoostly Reset Password Illustration"
+                loading="lazy"
+                />
+                <div class="img-overlay"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- RESET CARD (right) -->
+        <!-- ============================================================ -->
+        <div class="reset-card" id="resetCard">
+
+            <!-- Logo & Tagline -->
+            <div class="text-center">
+                <a href="#" class="logo-link justify-center">
+                    <div class="logo-icon">S</div>
+                    <div class="logo-text">SM<span>Boostly</span></div>
+                </a>
+                <div class="text-xs font-semibold text-indigo-500 uppercase tracking-wider mt-1">
+                    Boost. Engage. Earn.
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- STEP 1: REQUEST RESET -->
+            <!-- ============================================================ -->
+            <div class="form-step active" id="stepRequest">
+                <div class="mt-4">
+                    <h1 class="page-heading">Reset your password, regain access.</h1>
+                    <p class="page-subheading">No worries! Enter your email address and we'll send you instructions to reset your password.</p>
+                </div>
+
+                
+                <h2 class="text-lg font-bold text-slate-900 mt-4">Forgotten Password?</h2>
+                <p class="text-sm text-slate-500 mb-4">Enter the email address associated with your account and we'll send you a link to reset your password.</p>
+
+                <form id="resetForm" novalidate>
+                    <div class="form-group">
+                        <!-- Method Selector (hidden initially) -->
+                        <div class="method-selector" id="methodSelector">
+                            <button class="method-btn active" data-method="email">
+                                <i class="fas fa-envelope"></i> Email
+                            </button>
+                            <button class="method-btn" data-method="username">
+                                <i class="fas fa-user"></i> Username
+                            </button>
+                            <button class="method-btn" data-method="phone">
+                                <i class="fas fa-phone"></i> Phone
+                            </button>
+                        </div>
+
+                        <label class="form-label" id="resetLabel">
+                            <i class="fas fa-envelope text-indigo-400 mr-1.5"></i> Email Address
+                        </label>
+                        <div class="input-wrap" id="resetWrap">
+                            <span class="input-icon"><i class="fas fa-envelope" id="resetIcon"></i></span>
+                            <input type="email" id="resetInput" placeholder="Enter your email address" autocomplete="email" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="resetBtn">
+                        <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+                        <span class="btn-text">Send Reset Link</span>
+                        <span class="spinner"></span>
+                    </button>
+
+                    <p class="text-xs text-center text-slate-400 mt-3">Don't worry! If you don't receive the email within a few minutes, please check your spam folder.</p>
+                    
+                     <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-2 mt-6 py-4 border-t border-b border-slate-200/60">
+                    <div class="trust-badge">
+                        <i class="fas fa-shield-alt icon"></i>
+                        <p class="title">Secure</p>
+                        <p class="desc">Your data is always protected.</p>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-bolt icon"></i>
+                        <p class="title">Fast</p>
+                        <p class="desc">Quick and easy password reset.</p>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-check-circle icon"></i>
+                        <p class="title">Reliable</p>
+                        <p class="desc">We've got your back.</p>
+                    </div>
+                </div>
+
+
+                    <!-- "or try another way" link -->
+                    <div class="text-center mt-2">
+                        <button class="try-another-link" id="tryAnotherWay">
+                            <i class="fas fa-chevron-down"></i> Try another way
+                        </button>
+                    </div>
+
+                    <a href="../../auth/login/" style="text-decoration: none;" target="_self" class="back-to-login">
+                        <i class="fas fa-arrow-left"></i> Back to sign in
+                    </a>
+
+                </form>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- STEP 2: SUCCESS -->
+            <!-- ============================================================ -->
+            <div class="form-step" id="stepSuccess">
+                <div class="text-center py-2">
+                    <span class="success-icon"><i class="fas fa-check-circle"></i></span>
+                    <div class="success-title">Check your inbox</div>
+                    <div class="success-sub">We've sent a password reset link to:</div>
+                    <div class="success-detail" id="successIdentifier">
+                        <strong id="successValue">user@example.com</strong>
+                    </div>
+
+                    <div class="success-actions">
+                        <!-- Back to Request button — goes back to the initial reset page -->
+                        <button class="back-to-request" id="backToRequestBtn">
+                            <a href="../../../auth/reset/" style="text-decoration: none;" target="_self">  <i class="fas fa-arrow-left"></i> Go Back </a>
+                        </button>
+
+                        <!-- Back to Login button — goes to login page -->
+                        <button class="btn-primary" id="backToLoginSuccessBtn">
+                           <a href="../../../auth/login/" style="text-decoration: none;" target="_self"> <i class="fas fa-sign-in-alt"></i> Back to Login</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End Reset Card -->
+
+    </div>
+    <!-- End Reset Wrapper -->
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // IMAGE PANEL SLIDE-IN (on desktop)
+            // ============================================================
+            const imagePanel = document.getElementById('imagePanel');
+
+            function openPanel() {
+                if (window.innerWidth > 768 && imagePanel) {
+                    setTimeout(function() {
+                        imagePanel.classList.add('open');
+                    }, 400);
+                }
+            }
+
+            window.addEventListener('load', openPanel);
+
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (window.innerWidth > 768 && imagePanel && !imagePanel.classList.contains('open')) {
+                        imagePanel.classList.add('open');
+                    }
+                }, 300);
+            });
+
+            // ============================================================
+            // iOS NOTIFICATION SYSTEM
+            // ============================================================
+            const notifEl = document.getElementById('iosNotif');
+            const notifIcon = document.getElementById('notifIcon');
+            const notifTitle = document.getElementById('notifTitle');
+            const notifMessage = document.getElementById('notifMessage');
+            const notifTime = document.getElementById('notifTime');
+            const notifClose = document.getElementById('notifClose');
+            const notifActionWrap = document.getElementById('notifActionWrap');
+
+            let notifTimeout = null;
+
+            function showNotification(type, title, message, actionHtml) {
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+
+                const iconMap = {
+                    success: { icon: 'fa-check-circle', cls: 'success' },
+                    error: { icon: 'fa-exclamation-circle', cls: 'error' },
+                    warning: { icon: 'fa-triangle-exclamation', cls: 'warning' },
+                    info: { icon: 'fa-info-circle', cls: 'info' },
+                    profile: { icon: '', cls: 'profile' }
+                };
+                const config = iconMap[type] || iconMap.info;
+
+                if (type === 'profile') {
+                    notifIcon.className = 'notif-icon profile';
+                    const avatarUrl = 'https://i.pravatar.cc/150?img=' + (Math.floor(Math.random() * 70) + 1);
+                    notifIcon.innerHTML = '<img src="' + avatarUrl + '" alt="Profile" class="notif-profile-pic" />';
+                } else {
+                    notifIcon.className = 'notif-icon ' + config.cls;
+                    notifIcon.innerHTML = '<i class="fas ' + config.icon + '"></i>';
+                }
+
+                notifTitle.textContent = title || 'Notification';
+                notifMessage.textContent = message || '';
+
+                if (actionHtml) {
+                    notifActionWrap.style.display = 'block';
+                    notifActionWrap.innerHTML = actionHtml;
+                } else {
+                    notifActionWrap.style.display = 'none';
+                    notifActionWrap.innerHTML = '';
+                }
+
+                const now = new Date();
+                const timeStr = now.getHours().toString().padStart(2, '0') + ':' +
+                    now.getMinutes().toString().padStart(2, '0');
+                notifTime.textContent = timeStr;
+
+                notifEl.classList.add('show');
+
+                const duration = type === 'profile' || type === 'success' ? 7000 : 5000;
+                notifTimeout = setTimeout(function() {
+                    notifEl.classList.remove('show');
+                    notifTimeout = null;
+                }, duration);
+            }
+
+            notifClose.addEventListener('click', function() {
+                notifEl.classList.remove('show');
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (notifEl.classList.contains('show') && !notifEl.contains(e.target)) {
+                    notifEl.classList.remove('show');
+                    if (notifTimeout) {
+                        clearTimeout(notifTimeout);
+                        notifTimeout = null;
+                    }
+                }
+            });
+
+            // ============================================================
+            // STEP MANAGEMENT
+            // ============================================================
+            const stepRequest = document.getElementById('stepRequest');
+            const stepSuccess = document.getElementById('stepSuccess');
+            const successValue = document.getElementById('successValue');
+
+            function showStep(stepId) {
+                stepRequest.classList.remove('active');
+                stepSuccess.classList.remove('active');
+                if (stepId === 'stepRequest') {
+                    stepRequest.classList.add('active');
+                } else if (stepId === 'stepSuccess') {
+                    stepSuccess.classList.add('active');
+                }
+            }
+
+            // ============================================================
+            // SHAKE & ERROR HELPERS
+            // ============================================================
+            const resetWrap = document.getElementById('resetWrap');
+
+            function shakeElement(wrap) {
+                wrap.classList.remove('shake');
+                void wrap.offsetWidth;
+                wrap.classList.add('shake');
+                setTimeout(function() {
+                    wrap.classList.remove('shake');
+                }, 600);
+            }
+
+            function setError(wrap, isError) {
+                if (isError) {
+                    wrap.classList.add('error');
+                } else {
+                    wrap.classList.remove('error');
+                }
+            }
+
+            // ============================================================
+            // "TRY ANOTHER WAY" LOGIC
+            // ============================================================
+            const methodSelector = document.getElementById('methodSelector');
+            const methodBtns = document.querySelectorAll('.method-btn');
+            const tryAnotherLink = document.getElementById('tryAnotherWay');
+            const resetInput = document.getElementById('resetInput');
+            const resetLabel = document.getElementById('resetLabel');
+            const resetIcon = document.getElementById('resetIcon');
+            const defaultMethod = 'email';
+
+            let currentMethod = defaultMethod;
+
+            function updateInputMethod(method) {
+                currentMethod = method;
+                // Reset error state
+                setError(resetWrap, false);
+                resetInput.value = '';
+
+                // Update active class on buttons
+                methodBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.method === method) {
+                        btn.classList.add('active');
+                    }
+                });
+
+                // Update UI elements
+                if (method === 'email') {
+                    resetLabel.innerHTML = '<i class="fas fa-envelope text-indigo-400 mr-1.5"></i> Email Address';
+                    resetInput.type = 'email';
+                    resetInput.placeholder = 'Enter your email address';
+                    resetIcon.className = 'fas fa-envelope';
+                } else if (method === 'username') {
+                    resetLabel.innerHTML = '<i class="fas fa-user text-indigo-400 mr-1.5"></i> Username';
+                    resetInput.type = 'text';
+                    resetInput.placeholder = 'Enter your username';
+                    resetIcon.className = 'fas fa-user';
+                } else if (method === 'phone') {
+                    resetLabel.innerHTML = '<i class="fas fa-phone text-indigo-400 mr-1.5"></i> Phone Number';
+                    resetInput.type = 'tel';
+                    resetInput.placeholder = 'Enter your phone number';
+                    resetIcon.className = 'fas fa-phone';
+                }
+            }
+
+            function resetToDefaultMethod() {
+                // Close the method selector
+                methodSelector.classList.remove('visible');
+                tryAnotherLink.innerHTML = '<i class="fas fa-chevron-down"></i> Try another way';
+                // Reset to email
+                updateInputMethod(defaultMethod);
+                // Focus the input
+                setTimeout(() => resetInput.focus(), 100);
+            }
+
+            // Toggle method selector visibility
+            tryAnotherLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const isVisible = methodSelector.classList.contains('visible');
+                if (isVisible) {
+                    methodSelector.classList.remove('visible');
+                    tryAnotherLink.innerHTML = '<i class="fas fa-chevron-down"></i> Try another way';
+                    // Reset to email when closing
+                    updateInputMethod(defaultMethod);
+                } else {
+                    methodSelector.classList.add('visible');
+                    tryAnotherLink.innerHTML = '<i class="fas fa-chevron-up"></i> Close options';
+                }
+            });
+
+            // Handle method button clicks
+            methodBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const method = this.dataset.method;
+                    updateInputMethod(method);
+                    // Optionally close the selector after selecting? No, keep it open so they can see what's selected.
+                });
+            });
+
+            // ============================================================
+            // FORM SUBMISSION
+            // ============================================================
+            const resetForm = document.getElementById('resetForm');
+            const resetBtn = document.getElementById('resetBtn');
+
+            resetInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(resetWrap, false);
+            });
+            resetInput.addEventListener('focus', function() {
+                setError(resetWrap, false);
+            });
+
+            resetForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const identifier = resetInput.value.trim();
+
+                if (identifier === '') {
+                    setError(resetWrap, true);
+                    shakeElement(resetWrap);
+                    showNotification('error', 'Field Required', 'Please enter your ' + currentMethod + '.');
+                    return;
+                }
+
+                resetBtn.classList.add('loading');
+                resetBtn.disabled = true;
+
+                setTimeout(function() {
+                    resetBtn.classList.remove('loading');
+                    resetBtn.disabled = false;
+
+                    showNotification('success', 'Reset Link Sent!', 'Please check your ' + currentMethod +
+                    ' for the reset link.');
+
+                    successValue.textContent = identifier;
+
+                    // Close the method selector when moving to success
+                    methodSelector.classList.remove('visible');
+                    tryAnotherLink.innerHTML = '<i class="fas fa-chevron-down"></i> Try another way';
+
+                    setTimeout(function() {
+                        showStep('stepSuccess');
+                    }, 1200);
+
+                }, 1800);
+            });
+
+            // ============================================================
+            // BACK BUTTONS
+            // ============================================================
+
+            // 1. Back to Login (from request step)
+            const backToLoginLink = document.getElementById('backToLoginLink');
+            backToLoginLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showNotification('info', 'Redirecting', 'Taking you to the login page.');
+                window.location.href = '../../../auth/login/';
+            });
+
+            // 2. Back to Request (from success step)
+            const backToRequestBtn = document.getElementById('backToRequestBtn');
+            backToRequestBtn.addEventListener('click', function() {
+                // Reset to default state
+                resetToDefaultMethod();
+                resetInput.value = '';
+                setError(resetWrap, false);
+                // Show the request step
+                showStep('stepRequest');
+                // Focus the input
+                setTimeout(function() {
+                    resetInput.focus();
+                }, 100);
+            });
+
+            // 3. Back to Login (from success step)
+            const backToLoginSuccessBtn = document.getElementById('backToLoginSuccessBtn');
+            backToLoginSuccessBtn.addEventListener('click', function() {
+                showNotification('info', 'Redirecting', 'Taking you to the login page.');
+                // window.location.href = '/login';
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUT: Enter to submit
+            // ============================================================
+            resetInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    resetForm.dispatchEvent(new Event('submit'));
+                }
+            });
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            // Ensure the method selector is hidden initially and default to email
+            methodSelector.classList.remove('visible');
+            updateInputMethod(defaultMethod);
+
+        })();
+    </script>
+
+</body>
+</html>

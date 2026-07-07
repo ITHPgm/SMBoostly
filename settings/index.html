@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Settings</title>
+  <meta name="theme-color" content="#07112b" />
+  <link rel="icon" href="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SMBoostly Settings",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Responsive settings dashboard for SMBoostly with account settings, security, notifications, connected accounts, and preferences."
+  }
+  </script>
+
+  <script type="application/json" id="settings-data">
+  {
+    "profile": {
+      "name": "Adeola M.",
+      "role": "Publisher Plan",
+      "avatar": "https://i.pravatar.cc/240?img=47",
+      "handle": "@adeolam",
+      "joined": "Joined March 2024",
+      "memberId": "SMB-78452",
+      "email": "adeola.m@example.com",
+      "phone": "+234 801 234 5678",
+      "country": "Nigeria",
+      "website": "https://adeolam.com",
+      "bio": "Content creator and digital marketer. Helping brands grow with authentic engagement and creative content.",
+      "description": "I am a passionate content creator and digital marketer with over 3 years of experience. I specialize in creating engaging content that drives real results for brands and businesses."
+    },
+    "menu": [
+      {"label":"Account Settings","icon":"fa-user", "active": true},
+      {"label":"Security","icon":"fa-lock"},
+      {"label":"Notifications","icon":"fa-bell"},
+      {"label":"Privacy","icon":"fa-shield-halved"},
+      {"label":"Payment Methods","icon":"fa-credit-card"},
+      {"label":"Connected Accounts","icon":"fa-link"},
+      {"label":"Preferences","icon":"fa-sliders"},
+      {"label":"Appearance","icon":"fa-palette"},
+      {"label":"Language & Region","icon":"fa-globe"},
+      {"label":"Support","icon":"fa-circle-question"},
+      {"label":"Delete Account","icon":"fa-trash-can"}
+    ],
+    "security": [
+      {"label":"Password","value":"••••••••••••••••","action":"Change"},
+      {"label":"Two-Factor Authentication","value":"Enabled","status":"on"},
+      {"label":"Login Sessions","value":"3 active sessions","status":"link"},
+      {"label":"Security Questions","value":"Set","status":"link"}
+    ],
+    "notifications": [
+      {"label":"Email Notifications","sub":"Receive updates via email","checked": true},
+      {"label":"Push Notifications","sub":"Receive push notifications","checked": true},
+      {"label":"Task Alerts","sub":"New tasks and updates","checked": true},
+      {"label":"Campaign Updates","sub":"Updates about campaigns","checked": false},
+      {"label":"Marketing Emails","sub":"Promotions and offers","checked": false}
+    ],
+    "connected": [
+      {"name":"Instagram","handle":"@adeolam", "icon":"fa-instagram", "brand":"instagram", "status":"Connected"},
+      {"name":"Twitter","handle":"@adeolam_", "icon":"fa-twitter", "brand":"twitter", "status":"Connected"},
+      {"name":"TikTok","handle":"@adeolam", "icon":"fa-tiktok", "brand":"tiktok", "status":"Connected"},
+      {"name":"YouTube","handle":"Adeola M.", "icon":"fa-youtube", "brand":"youtube", "status":"Connected"}
+    ],
+    "preferences": [
+      {"title":"Default Currency","desc":"Select your preferred currency for transactions","value":"NGN (₦)","icon":"fa-dollar-sign","options":["NGN (₦)","USD ($)","GBP (£)","EUR (€)"]},
+      {"title":"Timezone","desc":"Set your timezone for accurate scheduling","value":"West Africa Time (WAT)","icon":"fa-clock","options":["West Africa Time (WAT)","UTC","GMT","EST","PST"]},
+      {"title":"Date Format","desc":"Choose your preferred date format","value":"DD MMM YYYY","icon":"fa-calendar-days","options":["DD MMM YYYY","MM/DD/YYYY","YYYY-MM-DD"]},
+      {"title":"Time Format","desc":"Choose how time is displayed","value":"12-Hour (AM/PM)","icon":"fa-clock","options":["12-Hour (AM/PM)","24-Hour"]}
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f7f8ff;
+      --card:#fff;
+      --line:#edf0f8;
+      --text:#11162b;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --shadow:0 18px 42px rgba(18,24,43,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 7% 0%, rgba(107,57,255,.10), transparent 14%),
+        radial-gradient(circle at 92% 2%, rgba(245,158,11,.08), transparent 14%),
+        linear-gradient(180deg,#fafbff 0%, #eef2ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    img{max-width:100%;display:block}
+    ::selection{background:rgba(111,73,255,.18)}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:6px 8px 18px;
+      margin-bottom:12px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:linear-gradient(135deg, rgba(107,57,255,.95), rgba(79,32,216,.95));
+      box-shadow:0 18px 34px rgba(107,57,255,.20);
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.66);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;
+      font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(107,57,255,.96),rgba(70,58,214,.86));
+      box-shadow:0 16px 28px rgba(107,57,255,.16);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    /* Content */
+    .content{
+      min-width:0;
+      display:grid;
+      grid-template-rows:68px 1fr;
+    }
+
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .menu-btn{
+      border:0;
+      background:transparent;
+      color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .top-title{
+      font-size:16px;
+      font-weight:800;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .search{
+      width:min(300px, 38vw);
+      height:40px;
+      border:1px solid #e2e6f1;
+      border-radius:12px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 14px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .search i{color:#6a728d;font-size:17px}
+    .search input{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:#11162b;
+      font-size:13px;
+    }
+    .top-icon{
+      color:#344054;
+      position:relative;
+      font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;
+      top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff4a5d;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+    }
+    .profile img{
+      width:44px;height:44px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{
+      font-size:15px;
+      font-weight:700;
+      color:#11162b;
+      line-height:1.1;
+    }
+    .profile .role{
+      margin-top:4px;
+      font-size:12px;
+      color:#6d7590;
+    }
+    .chev{color:#6d7590;font-size:14px;margin-left:6px}
+
+    .main{
+      min-width:0;
+      padding:22px 24px 28px;
+      overflow:auto;
+    }
+
+    .page-title{
+      margin:0;
+      font-size:31px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .page-sub{
+      margin:8px 0 20px;
+      font-size:15px;
+      color:#6d7590;
+    }
+
+    .settings-layout{
+      display:grid;
+      grid-template-columns:260px minmax(0,1fr) 360px;
+      grid-template-areas:
+        "menu account security"
+        "menu account notifications"
+        "preferences preferences connected";
+      gap:14px;
+      align-items:start;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      min-width:0;
+    }
+
+    /* Left settings nav */
+    .settings-nav-card{
+      grid-area:menu;
+      padding:12px 0;
+      overflow:hidden;
+    }
+    .settings-nav-list{
+      display:flex;
+      flex-direction:column;
+    }
+    .settings-item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 18px;
+      color:#344054;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:700;
+      border-left:4px solid transparent;
+      transition:.2s ease;
+    }
+    .settings-item i{
+      width:18px;
+      color:#5b6583;
+      font-size:15px;
+      flex:0 0 auto;
+    }
+    .settings-item:hover{background:#fafbff}
+    .settings-item.active{
+      background:linear-gradient(90deg,#f3edff 0%, #efeaff 100%);
+      border-left-color:#6f49ff;
+      color:#6f49ff;
+    }
+    .settings-item.active i{color:#6f49ff}
+
+    /* Account settings card */
+    .account-card{
+      grid-area:account;
+      padding:18px 18px 20px;
+    }
+    .card-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .card-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+      letter-spacing:-.02em;
+    }
+    .card-sub{
+      margin:6px 0 0;
+      color:#6d7590;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .edit-btn{
+      height:34px;
+      padding:0 14px;
+      border:1px solid #e1e5ef;
+      border-radius:10px;
+      background:#fff;
+      color:#344054;
+      font-size:13px;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      white-space:nowrap;
+    }
+
+    .profile-row{
+      display:flex;
+      gap:18px;
+      align-items:flex-start;
+      margin:12px 0 14px;
+    }
+    .avatar-wrap{
+      width:122px;height:122px;
+      border-radius:50%;
+      padding:5px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(111,73,255,.16);
+      flex:0 0 auto;
+      position:relative;
+    }
+    .avatar-wrap::after{
+      content:"";
+      position:absolute;
+      inset:4px;
+      border-radius:50%;
+      background:transparent;
+      box-shadow:inset 0 0 0 6px #fff;
+      pointer-events:none;
+    }
+    .avatar{
+      width:100%;height:100%;
+      object-fit:cover;
+      border-radius:50%;
+      border:6px solid #fff;
+    }
+    .camera-badge{
+      position:absolute;
+      right:8px;
+      bottom:10px;
+      width:28px;height:28px;
+      border-radius:50%;
+      background:#fff;
+      color:#344054;
+      display:grid;
+      place-items:center;
+      box-shadow:0 10px 20px rgba(15,23,42,.10);
+      border:1px solid #edf0f8;
+      font-size:12px;
+      cursor:pointer;
+    }
+
+    .profile-info{
+      min-width:0;
+      flex:1;
+      padding-top:18px;
+    }
+    .name-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .profile-name{
+      margin:0;
+      font-size:28px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .blue-badge{
+      color:#1877f2;
+      font-size:18px;
+    }
+    .meta-row{
+      margin-top:8px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      color:#667085;
+      font-size:14px;
+    }
+    .sep{
+      width:4px;height:4px;border-radius:50%;
+      background:#c8cfe0;
+    }
+
+    .status-chip{
+      display:inline-flex;
+      align-items:center;
+      height:30px;
+      padding:0 12px;
+      border-radius:10px;
+      font-size:13px;
+      font-weight:800;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      box-shadow:0 14px 24px rgba(111,73,255,.18);
+      margin-top:10px;
+    }
+
+    .profile-bio{
+      margin-top:16px;
+      color:#4b5563;
+      font-size:14px;
+      line-height:1.7;
+      max-width:680px;
+    }
+
+    .links-row{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-top:16px;
+      color:#4b5563;
+      font-size:14px;
+    }
+    .links-row a{
+      color:#6f49ff;
+      font-weight:800;
+    }
+    .links-icons{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:15px;
+      color:#58627d;
+    }
+
+    .form-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .field label{
+      color:#11162b;
+      font-size:13px;
+      font-weight:700;
+    }
+    .input, .textarea, .select{
+      width:100%;
+      border:1px solid #e3e7f0;
+      border-radius:10px;
+      background:#fff;
+      height:40px;
+      padding:0 14px;
+      color:#11162b;
+      font-size:14px;
+      outline:none;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .textarea{
+      min-height:84px;
+      height:84px;
+      resize:none;
+      padding:12px 14px;
+      line-height:1.45;
+    }
+    .input::placeholder,.textarea::placeholder{color:#98a0b3}
+    .input-group{
+      display:flex;
+      align-items:stretch;
+      border:1px solid #e3e7f0;
+      border-radius:10px;
+      overflow:hidden;
+      background:#fff;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      height:40px;
+    }
+    .input-group .prefix{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:0 12px;
+      border-right:1px solid #eef1f8;
+      color:#344054;
+      background:#fafbff;
+      font-weight:700;
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .input-group input{
+      border:0;
+      outline:none;
+      flex:1;
+      padding:0 14px;
+      font-size:14px;
+      color:#11162b;
+      background:transparent;
+    }
+    .field.full{grid-column:1 / -1;}
+    .save-row{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:16px;
+    }
+    .save-btn{
+      height:40px;
+      padding:0 16px;
+      border:0;
+      border-radius:10px;
+      color:#fff;
+      font-weight:800;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(111,73,255,.22);
+      cursor:pointer;
+    }
+
+    /* Right column cards */
+    .security-card{
+      grid-area:security;
+      padding:18px;
+      position:relative;
+    }
+    .security-card::after,
+    .notifications-card::after{
+      content:"";
+      position:absolute;
+      right:18px;top:18px;
+      width:44px;height:44px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(111,73,255,.24),rgba(145,110,255,.36));
+      display:grid;
+      place-items:center;
+    }
+    .security-card::before{
+      content:"\f3ed";
+      font-family:"Font Awesome 6 Free";
+      font-weight:900;
+      position:absolute;
+      right:28px;top:28px;
+      color:#fff;
+      z-index:1;
+      font-size:16px;
+    }
+    .notifications-card{
+      grid-area:notifications;
+      padding:18px;
+      position:relative;
+    }
+    .notifications-card::before{
+      content:"\f0f3";
+      font-family:"Font Awesome 6 Free";
+      font-weight:900;
+      position:absolute;
+      right:30px;top:29px;
+      color:#fff;
+      z-index:1;
+      font-size:16px;
+    }
+
+    .security-list{
+      margin-top:12px;
+      display:grid;
+    }
+    .sec-row{
+      display:grid;
+      grid-template-columns:1fr auto auto;
+      align-items:center;
+      gap:12px;
+      padding:14px 0;
+      border-top:1px solid #f0f2f8;
+      font-size:14px;
+    }
+    .sec-row:first-child{border-top:0;padding-top:8px}
+    .sec-label{
+      color:#11162b;
+      font-weight:700;
+    }
+    .sec-value{
+      color:#6f49ff;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .sec-value.muted{
+      color:#11162b;
+      font-weight:800;
+      opacity:.82;
+    }
+    .sec-value.green{
+      color:#16a34a;
+    }
+    .sec-action{
+      height:30px;
+      border:1px solid #e1e5ef;
+      border-radius:10px;
+      background:#fff;
+      color:#344054;
+      padding:0 12px;
+      font-size:13px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .arrow{
+      color:#667085;
+      font-size:14px;
+      margin-left:4px;
+    }
+
+    .notif-list{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+    .notif-item{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:10px 0;
+      border-top:1px solid #f0f2f8;
+    }
+    .notif-item:first-child{border-top:0;padding-top:6px}
+    .notif-ico{
+      width:28px;height:28px;
+      border-radius:50%;
+      display:grid;place-items:center;
+      color:#6f49ff;
+      font-size:14px;
+      flex:0 0 auto;
+    }
+    .notif-title{
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.25;
+    }
+    .notif-sub{
+      color:#667085;
+      font-size:12px;
+      margin-top:4px;
+      line-height:1.35;
+    }
+
+    .switch{
+      position:relative;
+      width:42px;
+      height:22px;
+      flex:0 0 auto;
+    }
+    .switch input{
+      width:0;height:0;opacity:0;
+      position:absolute;
+    }
+    .slider{
+      position:absolute;
+      inset:0;
+      cursor:pointer;
+      border-radius:999px;
+      background:#dde1ec;
+      transition:.25s ease;
+    }
+    .slider::before{
+      content:"";
+      position:absolute;
+      width:16px;height:16px;
+      left:3px;top:3px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:0 6px 12px rgba(15,23,42,.12);
+      transition:.25s ease;
+    }
+    .switch input:checked + .slider{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+    }
+    .switch input:checked + .slider::before{
+      transform:translateX(20px);
+    }
+
+    .connected-card{
+      grid-area:connected;
+      padding:18px;
+    }
+    .connected-list{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+    .conn-row{
+      display:grid;
+      grid-template-columns:auto 1fr auto auto;
+      gap:12px;
+      align-items:center;
+      padding:10px 0;
+      border-top:1px solid #f0f2f8;
+    }
+    .conn-row:first-child{border-top:0;padding-top:6px}
+    .conn-ico{
+      width:28px;height:28px;
+      border-radius:10px;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:14px;
+      flex:0 0 auto;
+      box-shadow:0 10px 18px rgba(15,23,42,.08);
+    }
+    .instagram{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)}
+    .twitter{background:linear-gradient(135deg,#1da1f2,#0d8bd9)}
+    .tiktok{background:linear-gradient(135deg,#111,#444)}
+    .youtube{background:linear-gradient(135deg,#ff0000,#df0f0f)}
+    .conn-name{
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+    }
+    .conn-handle{
+      color:#667085;
+      font-size:13px;
+      justify-self:start;
+      white-space:nowrap;
+    }
+    .connected-badge{
+      display:inline-flex;
+      align-items:center;
+      height:24px;
+      padding:0 10px;
+      border-radius:999px;
+      background:linear-gradient(180deg,#eefaf2,#e9f7ef);
+      color:#16a34a;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .conn-arrow{
+      color:#8b93a8;
+      font-size:14px;
+      margin-left:2px;
+    }
+
+    /* Preferences */
+    .preferences-card{
+      grid-area:preferences;
+      padding:18px;
+    }
+    .prefs-grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+    }
+    .pref{
+      border:1px solid #edf0f8;
+      border-radius:14px;
+      background:#fff;
+      padding:16px 14px 12px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      min-width:0;
+    }
+    .pref-ico{
+      width:38px;height:38px;
+      border-radius:50%;
+      display:grid;place-items:center;
+      font-size:16px;
+      color:#6f49ff;
+      background:rgba(111,73,255,.08);
+      margin-bottom:10px;
+    }
+    .pref-title{
+      margin:0;
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+    }
+    .pref-desc{
+      margin:6px 0 14px;
+      color:#667085;
+      font-size:12px;
+      line-height:1.45;
+    }
+    .pref-select{
+      width:100%;
+      height:34px;
+      border:1px solid #e1e5ef;
+      border-radius:10px;
+      background:#fff;
+      padding:0 10px;
+      font-size:13px;
+      color:#344054;
+      outline:none;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+
+    /* Mobile drawer / responsive */
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:40px;border-radius:12px;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    /* Desktop tablet */
+    @media (max-width: 1360px){
+      .settings-layout{
+        grid-template-columns:240px minmax(0,1fr) 330px;
+      }
+    }
+
+    @media (max-width: 1180px){
+      .prefs-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .settings-layout{
+        grid-template-columns:240px minmax(0,1fr);
+        grid-template-areas:
+          "menu account"
+          "menu account"
+          "preferences preferences"
+          "security security"
+          "notifications notifications"
+          "connected connected";
+      }
+    }
+
+    @media (max-width: 980px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .main{padding:16px}
+      .topbar{padding:0 16px}
+      .settings-layout{
+        grid-template-columns:1fr;
+        grid-template-areas:
+          "menu"
+          "account"
+          "security"
+          "notifications"
+          "connected"
+          "preferences";
+      }
+    }
+
+    @media (max-width: 760px){
+      .topbar-right{gap:12px}
+      .profile .text{display:none}
+      .chev{display:none}
+      .search{display:none}
+      .page-title{font-size:24px}
+      .page-sub{font-size:14px}
+      .main{padding:10px}
+      .settings-nav-card,
+      .account-card,
+      .security-card,
+      .notifications-card,
+      .connected-card,
+      .preferences-card{
+        padding:14px;
+      }
+      .card-title,.section-head h3{font-size:16px}
+      .profile-row{
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+      }
+      .profile-info{
+        padding-top:0;
+      }
+      .hero-actions{
+        justify-content:center;
+        margin-top:0;
+      }
+      .profile-main{
+        padding-left:0;
+      }
+      .avatar-wrap{
+        width:120px;height:120px;
+      }
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+      .prefs-grid{
+        grid-template-columns:1fr;
+      }
+      .sec-row,
+      .conn-row{
+        grid-template-columns:1fr auto;
+      }
+      .sec-action{
+        grid-column:2 / 3;
+      }
+      .sec-value{
+        grid-column:1 / 2;
+      }
+      .sec-row .arrow{
+        grid-column:2 / 3;
+        justify-self:end;
+      }
+      .notif-item{
+        grid-template-columns:auto 1fr;
+      }
+      .switch{
+        grid-column:2 / 3;
+        justify-self:end;
+      }
+      .connected-badge,
+      .conn-arrow{
+        grid-column:2 / 3;
+        justify-self:end;
+      }
+      .conn-handle{
+        grid-column:1 / 2;
+      }
+      .social-icons{gap:10px}
+      .settings-nav-list{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:8px;
+      }
+      .settings-item{
+        border-left:0;
+        border:1px solid #edf0f8;
+        border-radius:12px;
+        background:#fff;
+        justify-content:flex-start;
+        padding:12px 10px;
+        font-size:13px;
+      }
+      .settings-item.active{
+        border-color:#e6dcff;
+      }
+    }
+
+    @media (max-width: 520px){
+      .topbar{padding:0 12px}
+      .topbar-right{gap:10px}
+      .main{padding:8px}
+      .page-title{font-size:22px}
+      .page-sub{font-size:13px}
+      .card-head{
+        flex-direction:column;
+      }
+      .edit-btn{
+        align-self:flex-start;
+      }
+      .hero-actions{
+        flex-direction:column;
+        width:100%;
+      }
+      .ghost-btn,.primary-btn{
+        width:100%;
+        justify-content:center;
+      }
+      .links-row{
+        justify-content:center;
+        text-align:center;
+      }
+      .settings-nav-list{
+        grid-template-columns:1fr;
+      }
+      .sec-row,
+      .conn-row{
+        gap:8px;
+      }
+      .sec-action{
+        width:100%;
+      }
+    }
+
+    .mobile-switch{
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item active" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+          <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+         <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item active" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+            <p style="margin:6px 0 0;">Get help & support</p>
+          </div>
+          <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-solid fa-gear"></i> <span>Settings</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search..." />
+          </div>
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img src="https://i.pravatar.cc/80?img=47" alt="Profile photo">
+            <div class="text">
+              <div class="name">Adeola M.</div>
+              <div class="role">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-sub">Manage your account, preferences and security settings.</p>
+
+        <section class="settings-layout">
+          <aside class="panel settings-nav-card" id="settingsMenu"></aside>
+
+          <article class="panel account-card">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title">Account Settings</h2>
+                <p class="card-sub">Update your account information and profile details.</p>
+              </div>
+              <button class="edit-btn"><i class="fa-regular fa-pen-to-square"></i> Edit Profile</button>
+            </div>
+
+            <div class="profile-row">
+              <div class="avatar-wrap">
+                <img class="avatar" id="profileAvatar" src="https://i.pravatar.cc/240?img=47" alt="Profile avatar">
+                <button class="camera-badge" aria-label="Change photo"><i class="fa-solid fa-camera"></i></button>
+              </div>
+
+              <div class="profile-info">
+                <div class="name-row">
+                  <h3 class="profile-name" id="profileName">Adeola M.</h3>
+                  <i class="fa-solid fa-circle-check blue-badge"></i>
+                </div>
+                <div class="meta-row">
+                  <span id="profileHandle">@adeolam</span>
+                  <span class="sep"></span>
+                  <span id="profileJoined">Joined March 2024</span>
+                </div>
+                <div class="status-chip">Publisher</div>
+              </div>
+            </div>
+
+            <p class="profile-bio" id="profileBio">
+              Content creator and digital marketer. Helping brands grow with authentic engagement and creative content.
+            </p>
+
+            <div class="links-row">
+              <span><i class="fa-solid fa-location-dot"></i> Lagos, Nigeria</span>
+              <span><i class="fa-solid fa-link"></i> <a id="profileWebsite" href="#">adeolam.com</a></span>
+              <div class="links-icons">
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-twitter"></i>
+                <i class="fa-brands fa-tiktok"></i>
+                <i class="fa-brands fa-youtube"></i>
+              </div>
+            </div>
+
+            <div class="form-grid" id="accountForm"></div>
+
+            <div class="save-row">
+              <button class="save-btn">Save Changes</button>
+            </div>
+          </article>
+
+          <aside class="panel security-card">
+            <div class="card-head" style="margin-bottom:8px;">
+              <div>
+                <h2 class="card-title">Security</h2>
+                <p class="card-sub">Manage your password and account security.</p>
+              </div>
+            </div>
+            <div class="security-list" id="securityList"></div>
+          </aside>
+
+          <aside class="panel notifications-card">
+            <div class="card-head" style="margin-bottom:8px;">
+              <div>
+                <h2 class="card-title">Notifications</h2>
+                <p class="card-sub">Choose how you want to be notified.</p>
+              </div>
+            </div>
+            <div class="notif-list" id="notifList"></div>
+          </aside>
+
+          <article class="panel preferences-card">
+            <div class="card-head" style="margin-bottom:8px;">
+              <div>
+                <h2 class="card-title">Preferences</h2>
+                <p class="card-sub">Customize your experience on SMBoostly.</p>
+              </div>
+            </div>
+            <div class="prefs-grid" id="prefsGrid"></div>
+          </article>
+
+          <aside class="panel connected-card">
+            <div class="card-head" style="margin-bottom:8px;">
+              <div>
+                <h2 class="card-title">Connected Accounts</h2>
+                <p class="card-sub">Manage your connected social accounts.</p>
+              </div>
+            </div>
+            <div class="connected-list" id="connectedList"></div>
+          </aside>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('settings-data').textContent);
+
+    // Header / hero content
+    document.getElementById('profileAvatar').src = data.profile.avatar;
+    document.getElementById('profileName').textContent = data.profile.name;
+    document.getElementById('profileHandle').textContent = data.profile.handle;
+    document.getElementById('profileJoined').textContent = data.profile.joined;
+    document.getElementById('profileBio').textContent = data.profile.bio;
+    document.getElementById('profileWebsite').textContent = data.profile.website.replace(/^https?:\/\//, '');
+
+    // Settings menu
+    const settingsMenu = document.getElementById('settingsMenu');
+    settingsMenu.innerHTML = `
+      <div class="settings-nav-list">
+        ${data.menu.map((item, idx) => `
+          <div class="settings-item ${item.active ? 'active' : ''}">
+            <i class="fa-solid ${item.icon}"></i>
+            <span>${item.label}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Account form fields
+    const accountForm = document.getElementById('accountForm');
+    accountForm.innerHTML = `
+      <div class="field">
+        <label>Full Name</label>
+        <input class="input" value="${data.profile.name}" />
+      </div>
+
+      <div class="field">
+        <label>Bio</label>
+        <textarea class="textarea">${data.profile.bio}</textarea>
+      </div>
+
+      <div class="field">
+        <label>Username</label>
+        <input class="input" value="${data.profile.handle}" />
+      </div>
+
+      <div class="field">
+        <label>Location</label>
+        <div class="input-group">
+          <div class="prefix"><i class="fa-solid fa-location-dot"></i> Lagos, Nigeria</div>
+          <input value="Lagos, Nigeria" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email Address</label>
+        <input class="input" value="${data.profile.email}" />
+      </div>
+
+      <div class="field">
+        <label>Website</label>
+        <div class="input-group">
+          <div class="prefix"><i class="fa-solid fa-link"></i></div>
+          <input value="${data.profile.website}" />
+        </div>
+      </div>
+
+      <div class="field full">
+        <label>Phone Number</label>
+        <div class="input-group">
+          <div class="prefix">🇳🇬 <i class="fa-solid fa-chevron-down" style="font-size:11px;color:#667085;"></i></div>
+          <input value="${data.profile.phone}" />
+        </div>
+      </div>
+    `;
+
+    // Security list
+    const securityList = document.getElementById('securityList');
+    securityList.innerHTML = data.security.map((item, i) => `
+      <div class="sec-row">
+        <div class="sec-label">${item.label}</div>
+        <div class="sec-value ${item.status === 'on' ? 'green' : item.status === 'link' ? 'muted' : ''}">${item.value}</div>
+        ${
+          item.action
+            ? `<button class="sec-action">${item.action}</button>`
+            : `<i class="fa-solid fa-chevron-right arrow"></i>`
+        }
+      </div>
+    `).join('');
+
+    // Notifications
+    const notifList = document.getElementById('notifList');
+    notifList.innerHTML = data.notifications.map((item, idx) => `
+      <div class="notif-item">
+        <div class="notif-ico"><i class="fa-regular fa-bell"></i></div>
+        <div>
+          <div class="notif-title">${item.label}</div>
+          <div class="notif-sub">${item.sub}</div>
+        </div>
+        <label class="switch" aria-label="${item.label}">
+          <input type="checkbox" ${item.checked ? 'checked' : ''} />
+          <span class="slider"></span>
+        </label>
+      </div>
+    `).join('');
+
+    // Connected accounts
+    const connectedList = document.getElementById('connectedList');
+    connectedList.innerHTML = data.connected.map(item => `
+      <div class="conn-row">
+        <div class="conn-ico ${item.brand}">
+          <i class="fa-brands ${item.icon}"></i>
+        </div>
+        <div class="conn-name">${item.name}</div>
+        <div class="conn-handle">${item.handle}</div>
+        <div class="connected-badge">${item.status}</div>
+        <div class="conn-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+      </div>
+    `).join('');
+
+    // Preferences
+    const prefsGrid = document.getElementById('prefsGrid');
+    prefsGrid.innerHTML = data.preferences.map(pref => `
+      <div class="pref">
+        <div class="pref-ico"><i class="fa-solid ${pref.icon}"></i></div>
+        <h4 class="pref-title">${pref.title}</h4>
+        <p class="pref-desc">${pref.desc}</p>
+        <select class="pref-select">
+          ${pref.options.map(opt => `<option ${opt === pref.value ? 'selected' : ''}>${opt}</option>`).join('')}
+        </select>
+      </div>
+    `).join('');
+
+    // Mobile drawer
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>

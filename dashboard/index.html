@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly Dashboard</title>
+  <meta name="description" content="SMBoostly dashboard for publishers and taskers with campaign management, earnings, tasks, analytics, and wallet overview." />
+  <meta name="theme-color" content="#07112b" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SMBoostly",
+    "url": "https://smboostly.example",
+    "description": "Dashboard for managing social media campaigns, tasks, analytics, and wallet earnings."
+  }
+  </script>
+
+  <script type="application/json" id="dashboard-data">
+  {
+    "stats": [
+      {"title":"Total Earnings","value":"₦250,000","icon":"fa-users","color":"purple","change":"+23%","spark":"purple"},
+      {"title":"Campaigns Run","value":"56","icon":"fa-bullhorn","color":"green","change":"+18%","spark":"green"},
+      {"title":"Tasks Completed","value":"1,250","icon":"fa-list-check","color":"orange","change":"+31%","spark":"orange"},
+      {"title":"Wallet Balance","value":"₦45,600","icon":"fa-wallet","color":"blue","change":"+12%","spark":"blue"}
+    ],
+    "tasks": [
+      {"platform":"Instagram","title":"Follow on Instagram","reward":"₦200","status":"Completed","icon":"fa-instagram","badge":"completed"},
+      {"platform":"TikTok","title":"Like TikTok Video","reward":"₦150","status":"Pending","icon":"fa-tiktok","badge":"pending"},
+      {"platform":"YouTube","title":"Subscribe on YouTube","reward":"₦300","status":"Completed","icon":"fa-youtube","badge":"completed"},
+      {"platform":"Telegram","title":"Join Telegram Channel","reward":"₦100","icon":"fa-telegram","status":"Pending","badge":"pending"},
+      {"platform":"X","title":"Retweet a Post","reward":"₦120","icon":"fa-x-twitter","status":"Completed","badge":"completed"}
+    ],
+    "campaigns": [
+      {"name":"Instagram Followers","platform":"Instagram","budget":"₦50,000","completed":"120/200","status":"Active","progress":60},
+      {"name":"TikTok Video Likes","platform":"TikTok","budget":"₦30,000","completed":"80/150","status":"Active","progress":53},
+      {"name":"YouTube Subscribers","platform":"YouTube","budget":"₦80,000","completed":"60/100","status":"Active","progress":60},
+      {"name":"Telegram Members","platform":"Telegram","budget":"₦20,000","completed":"90/150","status":"Active","progress":60}
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --bg: #f4f6ff;
+      --navy: #07112b;
+      --navy-2: #0b1637;
+      --text: #101828;
+      --muted: #667085;
+      --line: #e7eaf5;
+      --card: #ffffff;
+      --shadow: 0 18px 44px rgba(15, 23, 42, .08);
+      --shadow-2: 0 24px 80px rgba(15, 23, 42, .12);
+      --radius: 20px;
+      --purple: #6f49ff;
+      --green: #27c27b;
+      --orange: #f59e0b;
+      --blue: #2f7cff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(111,73,255,.12), transparent 20%),
+        radial-gradient(circle at 90% 5%, rgba(255,69,162,.08), transparent 18%),
+        linear-gradient(180deg, #f7f8ff 0%, #eef2ff 100%);
+      color: var(--text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #07112b 0%, #0a1430 100%);
+      color: #fff;
+      padding: 22px 18px;
+      position: relative;
+      box-shadow: inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 8px 18px;
+      margin-bottom: 10px;
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(111,73,255,.95), rgba(47,124,255,.95));
+      box-shadow: 0 20px 40px rgba(111,73,255,.18);
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -1px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: -1.2px;
+      font-weight: 900;
+    }
+
+    .brand h1 span:last-child {
+      background: linear-gradient(90deg, #7a5cff, #ff54b0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 6px;
+      letter-spacing: .22em;
+      font-size: 10px;
+      color: rgba(255,255,255,.68);
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 16px;
+      border-radius: 14px;
+      color: rgba(255,255,255,.88);
+      transition: .2s ease;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .nav-item i {
+      width: 22px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,.06); }
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(111,73,255,.92), rgba(65,64,214,.84));
+      box-shadow: 0 16px 30px rgba(86,73,255,.18);
+    }
+
+    .sidebar-card {
+      margin-top: 28px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      border-radius: 18px;
+      padding: 18px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .sidebar-card .icon-box {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      color: #f4c150;
+      background: rgba(255,255,255,.06);
+    }
+
+    .sidebar-card h4,
+    .support h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .sidebar-card p,
+    .support p {
+      margin: 10px 0 16px;
+      color: rgba(255,255,255,.74);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .upgrade-btn,
+    .support-btn {
+      width: 100%;
+      height: 48px;
+      border: 0;
+      border-radius: 13px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      background: linear-gradient(135deg, #7a5cff, #5f39f7);
+      box-shadow: 0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      border-radius: 18px;
+      padding: 18px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .support p { margin-bottom: 0; }
+
+    .support-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .content {
+      min-width: 0;
+      background: rgba(255,255,255,.3);
+    }
+
+    .topbar {
+      height: 68px;
+      background: rgba(255,255,255,.72);
+      border-bottom: 1px solid rgba(231,234,245,.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .menu-btn {
+      border: 0;
+      background: transparent;
+      color: #344054;
+      font-size: 18px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .top-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #101828;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .top-title .bars {
+      width: 18px;
+      color: #3d4f72;
+      font-size: 18px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .top-icon {
+      color: #344054;
+      position: relative;
+      font-size: 18px;
+    }
+
+    .top-icon .dot {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #ff5c61;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      border: 2px solid #fff;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 8px 20px rgba(15,23,42,.12);
+    }
+
+    .profile .name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #101828;
+      line-height: 1.1;
+    }
+
+    .profile .plan {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #667085;
+    }
+
+    .profile .chev {
+      color: #667085;
+      font-size: 14px;
+      margin-left: 6px;
+    }
+
+    .main {
+      padding: 22px 24px 28px;
+    }
+
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .heading h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      color: #101828;
+    }
+
+    .heading p {
+      margin: 8px 0 0;
+      color: #667085;
+      font-size: 15px;
+    }
+
+    .date-pill {
+      min-width: 170px;
+      height: 40px;
+      border: 1px solid #dde2f0;
+      background: #fff;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #344054;
+      font-size: 13px;
+      padding: 0 14px;
+      box-shadow: 0 8px 18px rgba(15,23,42,.03);
+      white-space: nowrap;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) 1.25fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .stat,
+    .panel,
+    .table-card,
+    .widget-card {
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(231,234,245,.92);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat {
+      padding: 18px;
+      min-height: 154px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 19px;
+      box-shadow: 0 14px 24px rgba(15,23,42,.09);
+    }
+
+    .icon-purple { background: linear-gradient(135deg, #6f49ff, #8754ff); }
+    .icon-green { background: linear-gradient(135deg, #29c17f, #1da76a); }
+    .icon-orange { background: linear-gradient(135deg, #ffa82e, #f59e0b); }
+    .icon-blue { background: linear-gradient(135deg, #3a88ff, #2768f6); }
+
+    .stat-title {
+      color: #344054;
+      font-size: 14px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      line-height: 1;
+      margin-top: 8px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      color: #101828;
+    }
+
+    .trend {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #27ae60;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .trend small {
+      display: block;
+      color: #98a2b3;
+      font-weight: 500;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .spark {
+      margin-left: auto;
+      width: 86px;
+      height: 28px;
+      align-self: flex-end;
+      opacity: .95;
+    }
+
+    .wallet-card {
+      grid-column: span 1;
+      min-height: 236px;
+      padding: 22px;
+      background: linear-gradient(145deg, #6752ff 0%, #4736db 58%, #4a36d8 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 26px 50px rgba(88,72,255,.22);
+    }
+
+    .wallet-card::after {
+      content: "";
+      position: absolute;
+      right: 26px;
+      top: 50%;
+      width: 146px;
+      height: 146px;
+      transform: translateY(-28%);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.12), transparent 55%);
+      border-radius: 32px;
+      opacity: .6;
+    }
+
+    .wallet-ellipsis {
+      position: absolute;
+      right: 18px;
+      top: 14px;
+      color: rgba(255,255,255,.8);
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .wallet-card h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,.95);
+    }
+
+    .wallet-balance {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -.05em;
+      margin-bottom: 16px;
+    }
+
+    .wallet-meta {
+      color: rgba(255,255,255,.84);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .wallet-amount {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .wallet-btn {
+      height: 44px;
+      width: 140px;
+      border: 1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.05);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .dashboard-row {
+      display: grid;
+      grid-template-columns: 1.4fr .88fr .92fr;
+      gap: 14px;
+      margin-bottom: 14px;
+      align-items: stretch;
+    }
+
+    .panel {
+      padding: 20px;
+      min-width: 0;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 900;
+      color: #101828;
+      letter-spacing: -.02em;
+    }
+
+    .dropdown {
+      height: 38px;
+      padding: 0 12px;
+      border: 1px solid #dde2f0;
+      border-radius: 12px;
+      background: #fff;
+      color: #344054;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .chart {
+      position: relative;
+      height: 280px;
+      border-top: 1px solid #f0f2f8;
+      padding-top: 14px;
+    }
+
+    .y-axis {
+      position: absolute;
+      left: 2px;
+      top: 24px;
+      bottom: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #667085;
+      font-size: 11px;
+      width: 45px;
+    }
+
+    .grid-lines {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 16px;
+      bottom: 34px;
+      border-radius: 12px;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 19%, rgba(226,230,240,.68) 19.8%, rgba(0,0,0,0) 20.4%, rgba(0,0,0,0) 39%, rgba(226,230,240,.68) 39.8%, rgba(0,0,0,0) 40.4%, rgba(0,0,0,0) 59%, rgba(226,230,240,.68) 59.8%, rgba(0,0,0,0) 60.4%, rgba(0,0,0,0) 79%, rgba(226,230,240,.68) 79.8%, rgba(0,0,0,0) 80.4%, rgba(0,0,0,0) 100%);
+      opacity: .55;
+    }
+
+    .line-wrap {
+      position: absolute;
+      inset: 18px 0 36px 46px;
+      padding-right: 10px;
+    }
+
+    .chart-line {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .tooltip {
+      position: absolute;
+      right: 16px;
+      top: 24%;
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(231,234,245,.98);
+      box-shadow: 0 18px 36px rgba(15,23,42,.10);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #344054;
+      min-width: 100px;
+    }
+    .tooltip strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 14px;
+      color: #101828;
+    }
+
+    .x-axis {
+      position: absolute;
+      left: 46px;
+      right: 8px;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      color: #667085;
+      font-size: 11px;
+      padding-top: 8px;
+    }
+
+    .donut-box {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+    }
+
+    .donut-area {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding-top: 8px;
+    }
+
+    .donut {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background:
+        conic-gradient(
+          #2f7cff 0 41%,
+          #27c27b 41% 77%,
+          #f59e0b 77% 95%,
+          #ff5f5f 95% 100%
+        );
+      position: relative;
+      margin: 8px auto 10px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.66);
+    }
+
+    .donut::before {
+      content: "56\A Total";
+      white-space: pre;
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: white;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #101828;
+      font-size: 15px;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 1px rgba(231,234,245,.9);
+    }
+
+    .legend {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .legend li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #344054;
+      font-size: 13px;
+    }
+
+    .legend .key {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.active { background: #2f7cff; }
+    .dot.completed { background: #27c27b; }
+    .dot.pending { background: #f59e0b; }
+    .dot.cancelled { background: #ff5f5f; }
+
+    .tasks-card {
+      padding: 20px;
+    }
+
+    .task-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 0;
+      border-top: 1px solid #f0f2f8;
+    }
+    .task-item:first-of-type { border-top: 0; padding-top: 0; }
+
+    .task-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 16px;
+      box-shadow: 0 12px 20px rgba(15,23,42,.1);
+    }
+
+    .task-main .title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #101828;
+      line-height: 1.15;
+    }
+
+    .task-main .sub {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #667085;
+    }
+
+    .reward {
+      color: #101828;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: right;
+      min-width: 62px;
+    }
+
+    .reward small {
+      display: block;
+      margin-top: 4px;
+      color: #667085;
+      font-weight: 500;
+    }
+
+    .status {
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 7px 12px;
+      min-width: 78px;
+      text-align: center;
+    }
+
+    .status.completed {
+      color: #14a44d;
+      background: rgba(39,194,123,.10);
+    }
+
+    .status.pending {
+      color: #f59e0b;
+      background: rgba(245,158,11,.12);
+    }
+
+    .panel-link {
+      color: #4c3fe3;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .table-card {
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 14px 0;
+      border-top: 1px solid #f0f2f8;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .table thead th {
+      border-top: 0;
+      color: #667085;
+      font-weight: 600;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 12px;
+      text-transform: none;
+    }
+
+    .campaign-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .campaign-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+
+    .platform-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      height: 24px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 0 10px;
+    }
+
+    .platform-instagram { background: linear-gradient(135deg, #ff7e5f, #e1306c, #833ab4); }
+    .platform-tiktok { background: #111111; }
+    .platform-youtube { background: #ff3b30; }
+    .platform-telegram { background: #2f7cff; }
+
+    .progress {
+      width: 120px;
+      height: 6px;
+      border-radius: 999px;
+      background: #e9ecf5;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #6f49ff, #7c5cff);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #16a34a;
+      background: rgba(39,194,123,.10);
+    }
+
+    .action-btn {
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 10px;
+      border: 1px solid #dfe5f2;
+      background: #fff;
+      color: #344054;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .summary {
+      padding: 20px;
+    }
+
+    .summary-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .summary-item {
+      border: 1px solid #edf1f8;
+      border-radius: 18px;
+      background: #fff;
+      padding: 16px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .summary-ico {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 16px;
+      flex: 0 0 auto;
+    }
+
+    .summary-text .k {
+      color: #667085;
+      font-size: 12px;
+    }
+    .summary-text .v {
+      margin-top: 6px;
+      color: #101828;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+
+    .quick-actions {
+      padding: 20px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .qa {
+      border: 1px solid #edf1f8;
+      background: #fff;
+      border-radius: 18px;
+      padding: 16px 12px;
+      text-align: center;
+      box-shadow: 0 10px 22px rgba(15,23,42,.04);
+    }
+
+    .qa .qa-ico {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 10px;
+      color: #fff;
+      font-size: 18px;
+      box-shadow: 0 12px 20px rgba(15,23,42,.08);
+    }
+
+    .qa p {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #101828;
+      line-height: 1.2;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7,17,43,.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+      z-index: 80;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: min(300px, 86vw);
+      background: linear-gradient(180deg, #07112b 0%, #0a1430 100%);
+      transform: translateX(-102%);
+      transition: .28s ease;
+      z-index: 90;
+      padding: 18px;
+      color: #fff;
+      overflow: auto;
+      box-shadow: 30px 0 60px rgba(7,17,43,.30);
+    }
+
+    .mobile-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .close-btn {
+      border: 0;
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-size: 18px;
+    }
+
+    .mobile-drawer .nav {
+      margin-top: 18px;
+    }
+
+    .mobile-drawer .support {
+      position: static;
+      margin-top: 18px;
+    }
+
+    .mobile-drawer .sidebar-card {
+      margin-top: 18px;
+    }
+
+    @media (max-width: 1280px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) 1.2fr; }
+      .wallet-card { grid-column: span 3; }
+      .dashboard-row { grid-template-columns: 1fr 1fr; }
+      .dashboard-row > .donut-box { grid-column: span 1; }
+      .bottom-grid { grid-template-columns: 1fr; }
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .quick-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .menu-btn { display: inline-grid; place-items: center; }
+      .topbar { padding: 0 16px; }
+      .main { padding: 16px; }
+      .page-head { flex-direction: column; }
+      .date-pill { align-self: flex-start; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .wallet-card { grid-column: span 2; }
+      .dashboard-row { grid-template-columns: 1fr; }
+      .donut-area { grid-template-columns: 1fr; justify-items: center; }
+      .task-item { grid-template-columns: auto 1fr auto; }
+      .reward { display: none; }
+      .table-wrap { overflow-x: auto; }
+      .table { min-width: 720px; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-right { gap: 12px; }
+      .profile .text { display: none; }
+      .profile .chev { display: none; }
+      .heading h2 { font-size: 24px; }
+      .heading p { font-size: 14px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .wallet-card { grid-column: span 1; min-height: 220px; }
+      .stat-value { font-size: 24px; }
+      .chart { height: 240px; }
+      .summary-grid,
+      .quick-grid { grid-template-columns: 1fr; }
+      .table { min-width: 860px; }
+      .panel,
+      .table-card,
+      .summary,
+      .quick-actions,
+      .tasks-card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">SM</div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item active" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and grow faster.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+          <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">SM</div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item active" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and grow faster.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+            <p style="margin:6px 0 0;">Get help & support</p>
+          </div>
+          <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="top-title">
+            <i class="fa-solid fa-bars-staggered bars"></i>
+            <span>Dashboard</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img src="https://i.pravatar.cc/80?img=5" alt="Profile photo">
+            <div class="text">
+              <div class="name">Adeola M.</div>
+              <div class="plan">Essentials Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="page-head">
+          <div class="heading">
+            <h2>Overview</h2>
+            <p>Welcome back, Adeola! Here&apos;s what&apos;s happening with your account today.</p>
+          </div>
+          <div class="date-pill">
+            <span>May 12 – June 12, 2025</span>
+            <i class="fa-regular fa-calendar"></i>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+          <div class="wallet-card">
+            <div class="wallet-ellipsis"><i class="fa-solid fa-ellipsis-vertical"></i></div>
+            <h3>Your Wallet Balance</h3>
+            <div class="wallet-balance">₦45,600.00</div>
+            <div class="wallet-meta">Available to withdraw</div>
+            <div class="wallet-amount">₦35,600.00</div>
+            <button class="wallet-btn"><a href="/wallet/">Withdraw Funds <i class="fa-solid fa-arrow-right"></i></a></button>
+          </div>
+        </div>
+
+        <div class="dashboard-row">
+          <div class="panel">
+            <div class="panel-head">
+              <h3 class="panel-title">Earnings Overview</h3>
+              <div class="dropdown">Last 30 Days <i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+
+            <div class="chart">
+              <div class="grid-lines"></div>
+              <div class="y-axis">
+                <span>₦300K</span>
+                <span>₦250K</span>
+                <span>₦200K</span>
+                <span>₦150K</span>
+                <span>₦100K</span>
+                <span>₦50K</span>
+                <span>₦0</span>
+              </div>
+
+              <div class="line-wrap">
+                <svg class="chart-line" viewBox="0 0 860 240" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="lineFill" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="rgba(111,73,255,.32)"/>
+                      <stop offset="100%" stop-color="rgba(111,73,255,0)"/>
+                    </linearGradient>
+                    <linearGradient id="lineStroke" x1="0" x2="1">
+                      <stop offset="0%" stop-color="#5f49ff"/>
+                      <stop offset="100%" stop-color="#8c5bff"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,228 C40,210 52,185 72,165 C88,148 100,110 128,120 C158,130 174,95 192,90 C210,84 222,98 244,88 C272,76 293,54 322,60 C345,65 358,94 384,98 C413,102 434,88 455,92 C485,97 502,132 528,124 C553,116 570,74 600,72 C628,70 647,84 668,94 C689,104 711,116 732,102 C756,86 780,52 808,49 C831,47 846,56 860,52 L860,240 L0,240 Z" fill="url(#lineFill)"></path>
+                  <path d="M0,228 C40,210 52,185 72,165 C88,148 100,110 128,120 C158,130 174,95 192,90 C210,84 222,98 244,88 C272,76 293,54 322,60 C345,65 358,94 384,98 C413,102 434,88 455,92 C485,97 502,132 528,124 C553,116 570,74 600,72 C628,70 647,84 668,94 C689,104 711,116 732,102 C756,86 780,52 808,49 C831,47 846,56 860,52" fill="none" stroke="url(#lineStroke)" stroke-width="3.5" stroke-linecap="round"></path>
+                </svg>
+                <div class="tooltip">
+                  June 12, 2025
+                  <strong>₦250,000</strong>
+                </div>
+              </div>
+
+              <div class="x-axis">
+                <span>May 12</span>
+                <span>May 19</span>
+                <span>May 26</span>
+                <span>Jun 02</span>
+                <span>Jun 09</span>
+                <span>Jun 12</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel donut-box">
+            <div class="panel-head">
+              <h3 class="panel-title">Campaign Performance</h3>
+            </div>
+
+            <div class="donut-area">
+              <div class="donut"></div>
+              <ul class="legend">
+                <li><span class="key"><span class="dot active"></span>Active</span><span>23 (41%)</span></li>
+                <li><span class="key"><span class="dot completed"></span>Completed</span><span>20 (36%)</span></li>
+                <li><span class="key"><span class="dot pending"></span>Pending</span><span>10 (18%)</span></li>
+                <li><span class="key"><span class="dot cancelled"></span>Cancelled</span><span>3 (5%)</span></li>
+              </ul>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 18px;">
+              <a href="/campaigns/" class="panel-link">View all campaigns</a>
+              <i class="fa-solid fa-arrow-right" style="color:#6f49ff;"></i>
+            </div>
+          </div>
+
+          <div class="panel tasks-card">
+            <div class="panel-head">
+              <h3 class="panel-title">Recent Tasks</h3>
+              <a href="/tasks/" class="panel-link">View all</a>
+            </div>
+
+            <div id="taskList"></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-toolbar">
+            <h3 class="panel-title" style="margin:0;">Recent Campaigns</h3>
+            <a href="/campaigns/" class="panel-link">View all</a>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table" id="campaignTable">
+              <thead>
+                <tr>
+                  <th>Campaign</th>
+                  <th>Platform</th>
+                  <th>Budget</th>
+                  <th>Completed</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bottom-grid">
+          <div class="summary">
+            <div class="summary-head">
+              <h3 class="panel-title" style="margin:0;">Earnings Summary</h3>
+              <div class="dropdown">This Month <i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="summary-grid" id="summaryGrid"></div>
+          </div>
+
+          <div class="quick-actions">
+            <div class="summary-head" style="margin-bottom: 6px;">
+              <h3 class="panel-title" style="margin:0;">Quick Actions</h3>
+            </div>
+            <div class="quick-grid" id="quickGrid"></div>
+          </div>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('dashboard-data').textContent);
+
+    const statsGrid = document.getElementById('statsGrid');
+    const taskList = document.getElementById('taskList');
+    const campaignTableBody = document.querySelector('#campaignTable tbody');
+    const summaryGrid = document.getElementById('summaryGrid');
+    const quickGrid = document.getElementById('quickGrid');
+
+    const colorClass = {
+      purple: 'icon-purple',
+      green: 'icon-green',
+      orange: 'icon-orange',
+      blue: 'icon-blue'
+    };
+
+    const summaryData = [
+      { icon: 'fa-download', color: 'green', label: 'Total Earnings', value: '₦125,600.00' },
+      { icon: 'fa-tasks', color: 'blue', label: 'Completed Tasks', value: '320' },
+      { icon: 'fa-money-bill-transfer', color: 'purple', label: 'Referral Earnings', value: '₦15,200.00' },
+      { icon: 'fa-wallet', color: 'orange', label: 'Pending Balance', value: '₦10,000.00' }
+    ];
+
+    const quickActions = [
+      { icon: 'fa-plus', color: 'purple', label: 'Create Campaign', URL: '/campaigns/create/' },
+      { icon: 'fa-layer-group', color: 'green', label: 'Browse Tasks', URL: '/tasks/' },
+      { icon: 'fa-wallet', color: 'orange', label: 'Withdraw Funds', URL: '/wallet/withdraw/' },
+      { icon: 'fa-users', color: 'blue', label: 'Refer & Earn', URL: '/refer/' }
+    ];
+
+    const platformPill = (name) => {
+      const lower = name.toLowerCase();
+      if (lower.includes('instagram')) return 'platform-instagram';
+      if (lower.includes('tiktok')) return 'platform-tiktok';
+      if (lower.includes('youtube')) return 'platform-youtube';
+      if (lower.includes('telegram')) return 'platform-telegram';
+      return 'platform-telegram';
+    };
+
+    function renderStats() {
+      const statsHtml = data.stats.map((item) => `
+        <article class="stat">
+          <div class="stat-top">
+            <div>
+              <div class="stat-icon ${colorClass[item.color]}"><i class="fa-solid ${item.icon}"></i></div>
+              <div class="stat-title">${item.title}</div>
+              <div class="stat-value">${item.value}</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="trend"><i class="fa-solid fa-arrow-trend-up"></i> ${item.change}</div>
+              <small>vs last 30 days</small>
+            </div>
+          </div>
+          <svg class="spark" viewBox="0 0 100 28" aria-hidden="true">
+            <path d="M2 22 C12 20, 14 10, 24 14 C34 18, 35 8, 45 10 C55 12, 57 4, 67 9 C76 14, 80 8, 88 6" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"/>
+          </svg>
+        </article>
+      `).join('');
+
+      const walletCard = document.querySelector('.wallet-card');
+      statsGrid.innerHTML = statsHtml + walletCard.outerHTML;
+    }
+
+    function renderTasks() {
+      taskList.innerHTML = data.tasks.map((task) => `
+        <div class="task-item">
+          <div class="task-icon ${task.platform.toLowerCase().includes('instagram') ? 'icon-purple' : task.platform.toLowerCase().includes('tiktok') ? 'icon-blue' : task.platform.toLowerCase().includes('youtube') ? 'icon-orange' : 'icon-green'}">
+            <i class="fa-brands ${task.icon}"></i>
+          </div>
+          <div class="task-main">
+            <div class="title">${task.title}</div>
+            <div class="sub">Earn ${task.reward}</div>
+          </div>
+          <div class="reward">
+            ${task.reward}
+            <small>Earn</small>
+          </div>
+          <div class="status ${task.badge}">${task.status}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderCampaigns() {
+      campaignTableBody.innerHTML = data.campaigns.map((c) => `
+        <tr>
+          <td>
+            <div class="campaign-cell">
+              <div class="campaign-icon ${platformPill(c.platform)}"><i class="fa-brands ${c.platform.toLowerCase() === 'x' ? 'fa-x-twitter' : c.platform.toLowerCase()}"></i></div>
+              <div>
+                <div style="font-weight:700;color:#101828;">${c.name}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="platform-pill ${platformPill(c.platform)}">${c.platform}</span></td>
+          <td style="font-weight:700;color:#101828;">${c.budget}</td>
+          <td>
+            <span style="font-size:13px;color:#344054;">${c.completed}</span>
+            <span class="progress"><span style="width:${c.progress}%"></span></span>
+          </td>
+          <td><span class="status-pill">Active</span></td>
+          <td><button class="action-btn">View</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderSummary() {
+      summaryGrid.innerHTML = summaryData.map((item) => `
+        <div class="summary-item">
+          <div class="summary-ico ${colorClass[item.color]}"><i class="fa-solid ${item.icon}"></i></div>
+          <div class="summary-text">
+            <div class="k">${item.label}</div>
+            <div class="v">${item.value}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderQuick() {
+      quickGrid.innerHTML = quickActions.map((item) => `
+        <div class="qa">
+          <div class="qa-ico ${colorClass[item.color]}"><i class="fa-solid ${item.icon}"></i></div>
+          <p>${item.label}</p>
+        </div>
+      `).join('');
+    }
+
+    renderStats();
+    renderTasks();
+    renderCampaigns();
+    renderSummary();
+    renderQuick();
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>

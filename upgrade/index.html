@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Upgrade</title>
+  <meta name="description" content="SMBoostly upgrade page with pricing plans, pro features, FAQs, and trust badges." />
+  <meta name="theme-color" content="#07112b" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SMBoostly Upgrade",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Upgrade page for SMBoostly with plan comparison, pro features, FAQs, and trust badges."
+  }
+  </script>
+
+  <script type="application/json" id="upgrade-data">
+  {
+    "profile": {
+      "name": "Adeola M.",
+      "role": "Publisher Plan",
+      "avatar": "https://i.pravatar.cc/80?img=5"
+    },
+    "hero": {
+      "title": "Upgrade to Pro",
+      "subtitle": "Unlock premium features, higher rewards and grow your business faster.",
+      "guarantee": "14-day money back guarantee",
+      "whyTitle": "Why Upgrade?",
+      "whyText": "Pro members earn up to 5x more and get access to powerful growth tools."
+    },
+    "billing": {
+      "monthlyLabel": "Monthly",
+      "yearlyLabel": "Yearly",
+      "save": "Save 20%"
+    },
+    "plans": [
+      {
+        "name": "Basic",
+        "tagline": "Perfect for getting started",
+        "monthly": 0,
+        "yearly": 0,
+        "note": "Free forever",
+        "button": "Current Plan",
+        "style": "outline",
+        "features": [
+          "Create up to 3 campaigns",
+          "Basic analytics",
+          "Standard support",
+          "Wallet & transactions",
+          "Access to tasks"
+        ],
+        "disabledFeatures": [
+          "Advanced analytics",
+          "Priority support",
+          "Higher rewards"
+        ]
+      },
+      {
+        "name": "Pro",
+        "tagline": "Best for growing creators",
+        "monthly": 9999,
+        "yearly": 9599,
+        "note": "Was ₦12,499.00",
+        "button": "Upgrade to Pro",
+        "style": "primary",
+        "popular": true,
+        "features": [
+          "Unlimited campaigns",
+          "Advanced analytics",
+          "Priority support",
+          "Earn up to 5x more rewards",
+          "Early access to new features",
+          "Custom reports",
+          "Exclusive Pro community"
+        ]
+      },
+      {
+        "name": "Business",
+        "tagline": "For teams and agencies",
+        "monthly": 29999,
+        "yearly": 23999,
+        "note": "Was ₦37,499.00",
+        "button": "Upgrade to Business",
+        "style": "outline",
+        "features": [
+          "Team members (up to 5)",
+          "Client management",
+          "White-label reports",
+          "Dedicated account manager",
+          "API access",
+          "Custom integrations",
+          "Advanced security"
+        ]
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "fa-gem",
+        "title": "Higher Earnings",
+        "text": "Earn up to 5x more on every campaign with Pro rewards."
+      },
+      {
+        "icon": "fa-chart-line",
+        "title": "Advanced Analytics",
+        "text": "Get deep insights with advanced reports and real-time data."
+      },
+      {
+        "icon": "fa-headset",
+        "title": "Priority Support",
+        "text": "Get faster help with priority support whenever you need it."
+      },
+      {
+        "icon": "fa-gem",
+        "title": "Exclusive Tools",
+        "text": "Access premium tools and features not available in Basic."
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can I upgrade or downgrade anytime?",
+        "a": "Yes. You can switch plans at any time from your account settings."
+      },
+      {
+        "q": "What payment methods do you accept?",
+        "a": "You can pay with your wallet balance, bank card, or supported local payment methods."
+      },
+      {
+        "q": "Is there a refund policy?",
+        "a": "Yes. Eligible purchases are covered by the 14-day money back guarantee."
+      }
+    ],
+    "trust": [
+      {
+        "icon": "fa-face-smile",
+        "title": "14-Day Guarantee",
+        "text": "Not satisfied? Get a full refund within 14 days."
+      },
+      {
+        "icon": "fa-lock",
+        "title": "Secure Payments",
+        "text": "Your payment information is 100% secure and encrypted."
+      },
+      {
+        "icon": "fa-circle-xmark",
+        "title": "Cancel Anytime",
+        "text": "Upgrade, downgrade or cancel your plan at any time."
+      },
+      {
+        "icon": "fa-shield-halved",
+        "title": "Trusted by 50K+ Users",
+        "text": "Join thousands of creators and businesses growing with SMBoostly."
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f6f7ff;
+      --card:#ffffff;
+      --line:#edf0f8;
+      --text:#101828;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --shadow:0 18px 40px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(111,73,255,.10), transparent 18%),
+        radial-gradient(circle at 92% 4%, rgba(255,182,66,.08), transparent 18%),
+        linear-gradient(180deg,#f8f9ff 0%, #eff2ff 100%);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    a{text-decoration:none;color:inherit}
+    button,input{font:inherit}
+    img{max-width:100%;display:block}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns: 290px 1fr;
+    }
+
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, #0a1430 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:8px 8px 18px;
+      margin-bottom:10px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      background:linear-gradient(135deg, rgba(111,73,255,.95), rgba(47,124,255,.95));
+      display:grid;place-items:center;
+      font-size:18px;font-weight:900;letter-spacing:-1px;
+      box-shadow:0 20px 40px rgba(111,73,255,.18);
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-1.2px;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.68);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+    .nav-item{
+      display:flex;align-items:center;gap:14px;
+      padding:16px;border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(111,73,255,.95),rgba(65,64,214,.84));
+      box-shadow:0 16px 30px rgba(86,73,255,.18);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;font-size:18px;font-weight:800;letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.74);
+      font-size:14px;line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;height:48px;border:0;border-radius:13px;cursor:pointer;
+      color:#fff;font-weight:700;font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+
+    .content{min-width:0}
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.76);
+      border-bottom:1px solid rgba(231,234,245,.9);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px;
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{display:flex;align-items:center;gap:18px}
+    .menu-btn{
+      border:0;background:transparent;color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;cursor:pointer;font-size:18px;
+    }
+    .top-title{
+      font-size:16px;font-weight:800;color:#101828;
+      display:flex;align-items:center;gap:10px;
+    }
+    .top-icon{
+      color:#344054;position:relative;font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff5c61;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{display:flex;align-items:center;gap:12px}
+    .profile img{
+      width:44px;height:44px;border-radius:50%;object-fit:cover;
+      border:3px solid #fff;box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{font-size:15px;font-weight:700;color:#101828;line-height:1.1}
+    .profile .role{margin-top:4px;font-size:12px;color:#667085}
+    .profile .chev{color:#667085;font-size:14px;margin-left:6px}
+
+    .main{
+      padding:22px 24px 28px;
+    }
+    .page-head{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+      margin-bottom:18px;
+    }
+    .heading h2{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#101828;
+    }
+    .heading p{
+      margin:8px 0 0;
+      color:#667085;
+      font-size:15px;
+    }
+    .hero-right{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .guarantee-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:#5f39f7;
+      font-weight:700;
+      font-size:13px;
+      margin-top:16px;
+    }
+    .guarantee-pill i{font-size:15px}
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1fr 390px;
+      gap:14px;
+      margin-bottom:16px;
+      align-items:start;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid rgba(231,234,245,.92);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero-card{
+      background:#fff;
+      border:1px solid rgba(231,234,245,.92);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:20px;
+      min-height:120px;
+    }
+
+    .hero-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .hero-copy h2{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+    }
+    .hero-copy p{
+      margin:10px 0 0;
+      color:#667085;
+      font-size:15px;
+      line-height:1.5;
+    }
+
+    .rocket-wrap{
+      width:240px;
+      height:150px;
+      position:relative;
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+    }
+    .rocket{
+      width:124px;
+      height:124px;
+      position:relative;
+      transform:translateY(-8px) rotate(10deg);
+      filter: drop-shadow(0 16px 24px rgba(111,73,255,.18));
+    }
+    .rocket::before{
+      content:"";
+      position:absolute;
+      width:36px;height:74px;
+      left:50%;top:22px;
+      transform:translateX(-50%);
+      background:linear-gradient(180deg,#7a5cff,#5f39f7);
+      border-radius:30px 30px 12px 12px;
+      clip-path:polygon(50% 0, 88% 12%, 100% 42%, 92% 78%, 50% 100%, 8% 78%, 0 42%, 12% 12%);
+    }
+    .rocket::after{
+      content:"";
+      position:absolute;
+      width:44px;height:44px;
+      left:50%;top:35px;
+      transform:translateX(-50%);
+      background:radial-gradient(circle at 40% 35%, #dfe4ff 0 16%, #4b5cff 17% 35%, #232f85 36% 100%);
+      border-radius:50%;
+      box-shadow: inset 0 0 0 4px rgba(255,255,255,.35);
+    }
+    .rocket-tail{
+      position:absolute;
+      left:50%;bottom:14px;
+      transform:translateX(-50%) rotate(180deg);
+      width:40px;height:30px;
+      background:linear-gradient(180deg,#ffbd4d,#ff9438);
+      clip-path:polygon(50% 0, 100% 100%, 50% 72%, 0 100%);
+      filter:blur(.1px);
+    }
+    .cloud{
+      position:absolute;
+      bottom:18px;
+      width:74px;height:22px;
+      background:#e7e9fb;
+      border-radius:999px;
+      box-shadow: 18px 2px 0 0 #eef1ff, 34px -3px 0 0 #e7e9fb, 48px 2px 0 0 #eef1ff;
+      opacity:.95;
+    }
+    .spark{
+      position:absolute;
+      width:10px;height:10px;
+      transform:rotate(45deg);
+      background:linear-gradient(135deg,#ffbf63,#ff9b2e);
+      border-radius:2px;
+      opacity:.95;
+    }
+    .spark.s1{top:16px;right:16px}
+    .spark.s2{top:42px;left:18px}
+    .spark.s3{bottom:44px;left:42px;background:linear-gradient(135deg,#7a5cff,#b18bff)}
+    .spark.s4{bottom:18px;right:42px;background:linear-gradient(135deg,#7a5cff,#b18bff)}
+
+    .guarantee-card{
+      padding:20px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-height:120px;
+    }
+    .why-ico{
+      width:56px;height:56px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      color:#6f49ff;
+      background:rgba(111,73,255,.08);
+      font-size:22px;
+      flex:0 0 auto;
+    }
+    .why-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      color:#101828;
+    }
+    .why-text{
+      margin-top:6px;
+      color:#667085;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .pricing-layout{
+      display:grid;
+      grid-template-columns: 1fr 390px;
+      gap:14px;
+      align-items:start;
+      margin-bottom:16px;
+    }
+
+    .plans-card{
+      padding:0;
+      overflow:hidden;
+    }
+
+    .billing-row{
+      padding:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border-bottom:1px solid var(--line);
+    }
+    .billing-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:#f5f6ff;
+      border:1px solid #e7eaf6;
+      border-radius:12px;
+      padding:4px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .billing-toggle button{
+      border:0;
+      background:transparent;
+      height:30px;
+      padding:0 16px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:13px;
+      color:#344054;
+    }
+    .billing-toggle button.active{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      box-shadow:0 10px 18px rgba(111,73,255,.20);
+    }
+    .save-badge{
+      display:inline-flex;
+      align-items:center;
+      height:26px;
+      padding:0 10px;
+      border-radius:999px;
+      background:rgba(25,195,125,.12);
+      color:#16a34a;
+      font-weight:800;
+      font-size:12px;
+    }
+
+    .plans-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:0;
+      padding:0 18px 18px;
+    }
+
+    .plan{
+      padding:18px 14px 16px;
+      position:relative;
+      min-height:520px;
+      border-radius:18px;
+      border:1px solid transparent;
+      background:#fff;
+    }
+
+    .plan.basic{border-right:1px solid var(--line)}
+    .plan.business{border-left:1px solid var(--line)}
+    .plan.popular{
+      border:1px solid rgba(111,73,255,.90);
+      box-shadow:0 10px 30px rgba(111,73,255,.12);
+      margin-top:-6px;
+      transform:translateY(6px);
+      background:#fff;
+      z-index:1;
+    }
+    .popular-ribbon{
+      position:absolute;
+      top:-1px;
+      left:50%;
+      transform:translateX(-50%);
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      padding:7px 18px;
+      border-radius:0 0 12px 12px;
+      font-size:12px;
+      font-weight:800;
+      box-shadow:0 8px 18px rgba(111,73,255,.16);
+    }
+
+    .plan h3{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      color:#101828;
+    }
+    .plan .tagline{
+      margin-top:8px;
+      color:#667085;
+      font-size:13px;
+    }
+    .price{
+      margin-top:22px;
+      font-size:28px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#101828;
+      display:flex;
+      align-items:baseline;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .price small{
+      font-size:14px;
+      font-weight:500;
+      color:#667085;
+      letter-spacing:0;
+    }
+    .was{
+      margin-top:6px;
+      color:#98a2b3;
+      font-size:13px;
+      text-decoration:line-through;
+    }
+    .plan-btn{
+      width:100%;
+      height:40px;
+      border-radius:12px;
+      font-weight:800;
+      cursor:pointer;
+      margin-top:18px;
+      font-size:13px;
+      border:1px solid transparent;
+    }
+    .plan-btn.primary{
+      color:#fff;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 16px 28px rgba(111,73,255,.22);
+    }
+    .plan-btn.outline{
+      color:#5f39f7;
+      background:#fff;
+      border:1.5px solid #8b5cf6;
+    }
+
+    .features-head{
+      margin-top:18px;
+      font-size:14px;
+      font-weight:900;
+      color:#101828;
+    }
+    .feature-list{
+      margin:12px 0 0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .feature-list li{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      color:#344054;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .feature-list li i{
+      margin-top:2px;
+      color:#16a34a;
+      font-size:15px;
+      flex:0 0 auto;
+    }
+    .feature-list li.disabled{
+      color:#98a2b3;
+    }
+    .feature-list li.disabled i{
+      color:#c9ceda;
+    }
+
+    .side-stack{
+      display:grid;
+      gap:14px;
+    }
+
+    .benefit-card,.faq-card{
+      padding:20px;
+    }
+
+    .benefit-list{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+    .benefit{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:6px 0;
+    }
+    .benefit-ico{
+      width:48px;height:48px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-size:20px;
+      flex:0 0 auto;
+      color:#6f49ff;
+      background:rgba(111,73,255,.08);
+    }
+    .benefit h4{
+      margin:0;
+      font-size:15px;
+      font-weight:900;
+      color:#101828;
+    }
+    .benefit p{
+      margin:6px 0 0;
+      color:#667085;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .faq-list{
+      margin-top:12px;
+      border-top:1px solid var(--line);
+    }
+    .faq-item{
+      border-bottom:1px solid var(--line);
+      padding:14px 0;
+    }
+    .faq-q{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background:none;
+      border:0;
+      padding:0;
+      cursor:pointer;
+      text-align:left;
+    }
+    .faq-q span{
+      font-size:13px;
+      font-weight:800;
+      color:#101828;
+      line-height:1.4;
+    }
+    .faq-q i{
+      color:#667085;
+      transition:transform .2s ease;
+    }
+    .faq-item.open .faq-q i{transform:rotate(180deg)}
+    .faq-a{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .25s ease;
+      color:#667085;
+      font-size:13px;
+      line-height:1.6;
+    }
+    .faq-item.open .faq-a{
+      max-height:120px;
+      margin-top:8px;
+    }
+
+    .trust-wrap{
+      background:#fff;
+      border:1px solid rgba(231,234,245,.92);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:18px 14px;
+      margin-bottom:12px;
+    }
+    .trust-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:0;
+    }
+    .trust{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:6px 16px;
+      border-left:1px solid var(--line);
+    }
+    .trust:first-child{border-left:none}
+    .trust-ico{
+      width:44px;height:44px;border-radius:50%;
+      display:grid;place-items:center;
+      font-size:18px;
+      flex:0 0 auto;
+    }
+    .trust:nth-child(1) .trust-ico{background:rgba(111,73,255,.08);color:#6f49ff}
+    .trust:nth-child(2) .trust-ico{background:rgba(25,195,125,.10);color:#16a34a}
+    .trust:nth-child(3) .trust-ico{background:rgba(255,121,68,.12);color:#ff5f2e}
+    .trust:nth-child(4) .trust-ico{background:rgba(47,124,255,.10);color:#2f7cff}
+    .trust h4{
+      margin:0;
+      font-size:13px;
+      font-weight:900;
+      color:#101828;
+    }
+    .trust p{
+      margin:6px 0 0;
+      font-size:12px;
+      color:#667085;
+      line-height:1.45;
+    }
+
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, #0a1430 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+    .drawer-head{
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;background:rgba(255,255,255,.08);color:#fff;
+      width:40px;height:40px;border-radius:12px;font-size:18px;cursor:pointer;
+    }
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    .hero-lead{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-top:16px;
+      color:#5f39f7;
+      font-size:13px;
+      font-weight:700;
+    }
+    .hero-lead i{
+      font-size:16px;
+    }
+
+    @media (max-width: 1320px){
+      .hero-grid,.pricing-layout{grid-template-columns:1fr}
+      .side-stack{grid-template-columns:1fr 1fr}
+      .trust-grid{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width: 1080px){
+      .plans-grid{grid-template-columns:1fr}
+      .plan.basic,.plan.business{border-left:none;border-right:none}
+      .plan.popular{margin-top:0;transform:none}
+      .plan{min-height:auto}
+    }
+
+    @media (max-width: 980px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .main{padding:16px}
+      .topbar{padding:0 16px}
+      .page-head{flex-direction:column}
+      .hero-head{flex-direction:column}
+      .rocket-wrap{align-self:center}
+      .hero-copy h2,.heading h2{font-size:24px}
+      .hero-copy p,.heading p{font-size:14px}
+      .side-stack{grid-template-columns:1fr}
+      .trust-grid{grid-template-columns:1fr 1fr}
+      .plan{padding:16px 12px}
+    }
+
+    @media (max-width: 720px){
+      .topbar-right{gap:12px}
+      .profile .text{display:none}
+      .profile .chev{display:none}
+      .hero-card,.guarantee-card,.benefit-card,.faq-card,.trust-wrap{padding:16px}
+      .billing-row{padding:14px}
+      .billing-toggle{width:100%;justify-content:space-between}
+      .billing-toggle button{flex:1}
+      .share-row{gap:8px}
+      .trust-grid{grid-template-columns:1fr}
+      .trust{
+        border-left:none;
+        border-top:1px solid var(--line);
+        padding:14px 0;
+      }
+      .trust:first-child{border-top:none;padding-top:0}
+      .trust-wrap{padding-bottom:10px}
+      .hero-grid,.pricing-layout{gap:12px}
+      .faq-q span{font-size:12.5px}
+      .trust h4{font-size:13px}
+      .plan-btn{width:100%}
+      .hero-lead{flex-wrap:wrap}
+    }
+
+    @media (max-width: 520px){
+      .topbar-right{gap:10px}
+      .heading h2,.hero-copy h2{font-size:22px}
+      .why-title{font-size:16px}
+      .price{font-size:24px}
+      .plan h3{font-size:17px}
+      .hero-copy p{font-size:13px}
+      .guarantee-pill{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">SM</div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+       <a class="nav-item active" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+          <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">SM</div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+       <a class="nav-item active" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+            <p style="margin:6px 0 0;">Get help & support</p>
+          </div>
+          <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-solid fa-rocket"></i> <span>Upgrade</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img id="profileAvatar" src="https://i.pravatar.cc/80?img=5" alt="Profile photo">
+            <div class="text">
+              <div class="name" id="profileNameTop">Adeola M.</div>
+              <div class="role" id="profileRole">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="page-head">
+          <div>
+            <div class="heading">
+              <h2 id="heroTitle">Upgrade to Pro</h2>
+              <p id="heroSubtitle">Unlock premium features, higher rewards and grow your business faster.</p>
+            </div>
+            <div class="hero-lead">
+              <i class="fa-solid fa-shield-heart"></i>
+              <span id="heroGuarantee">14-day money back guarantee</span>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div class="hero-card guarantee-card" style="width:min(100%, 420px)">
+              <div class="why-ico"><i class="fa-solid fa-gem"></i></div>
+              <div>
+                <h3 class="why-title" id="whyTitle">Why Upgrade?</h3>
+                <div class="why-text" id="whyText">Pro members earn up to 5x more and get access to powerful growth tools.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="hero-grid">
+          <div class="hero-card">
+            <div class="hero-head">
+              <div class="hero-copy">
+                <h2 id="heroMainTitle">Upgrade to Pro</h2>
+                <p>Choose a plan that fits your growth stage and unlock the best tools for creators, teams, and agencies.</p>
+              </div>
+
+              <div class="rocket-wrap" aria-hidden="true">
+                 <img
+              class="gift-illustration"
+              alt="Gift illustration"
+              src="https://png.pngtree.com/png-clipart/20250519/original/pngtree-cartoon-rocket-ship-taking-off-against-a-transparent-background-ready-for-png-image_21030409.png"
+            />
+              </div>
+            </div>
+
+            <div class="hero-lead" style="margin-top:12px;">
+              <i class="fa-regular fa-circle-check"></i>
+              <span>Plans are safe, transparent, and can be changed anytime.</span>
+            </div>
+          </div>
+
+        </section>
+
+        <section class="pricing-layout">
+          <article class="card plans-card">
+            <div class="billing-row">
+              <div class="billing-toggle" role="tablist" aria-label="Billing cycle">
+                <button id="monthlyBtn" class="active" type="button">Monthly</button>
+                <button id="yearlyBtn" type="button">Yearly</button>
+              </div>
+              <span class="save-badge" id="saveBadge">Save 20%</span>
+            </div>
+
+            <div class="plans-grid" id="plansGrid"></div>
+          </article>
+
+          <div class="side-stack">
+            <article class="card benefit-card">
+              <div class="panel-head" style="margin-bottom:0;">
+                <h3>Pro Features</h3>
+              </div>
+              <div class="benefit-list" id="benefitList"></div>
+            </article>
+
+            <article class="card faq-card">
+              <div class="panel-head" style="margin-bottom:0;">
+                <h3>Frequently Asked Questions</h3>
+              </div>
+              <div class="faq-list" id="faqList"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="trust-wrap">
+          <div class="trust-grid" id="trustGrid"></div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('upgrade-data').textContent);
+
+    document.getElementById('profileAvatar').src = data.profile.avatar;
+    document.getElementById('profileNameTop').textContent = data.profile.name;
+    document.getElementById('profileRole').textContent = data.profile.role;
+
+    document.getElementById('heroTitle').textContent = data.hero.title;
+    document.getElementById('heroMainTitle').textContent = data.hero.title;
+    document.getElementById('heroSubtitle').textContent = data.hero.subtitle;
+    document.getElementById('heroGuarantee').textContent = data.hero.guarantee;
+    document.getElementById('whyTitle').textContent = data.hero.whyTitle;
+    document.getElementById('whyText').textContent = data.hero.whyText;
+
+    const plansGrid = document.getElementById('plansGrid');
+    const benefitList = document.getElementById('benefitList');
+    const faqList = document.getElementById('faqList');
+    const trustGrid = document.getElementById('trustGrid');
+    const monthlyBtn = document.getElementById('monthlyBtn');
+    const yearlyBtn = document.getElementById('yearlyBtn');
+
+    let billing = 'monthly';
+
+    function formatNaira(value) {
+      return `₦${value.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    function renderPlans() {
+      plansGrid.innerHTML = data.plans.map((plan, idx) => {
+        const current = billing === 'monthly' ? plan.monthly : plan.yearly;
+        const cardClass = idx === 1 ? 'popular' : '';
+        const buttonClass = plan.style === 'primary' ? 'primary' : 'outline';
+        const title = billing === 'monthly' ? `${formatNaira(current)} <small>/ month</small>` : `${formatNaira(current)} <small>/ month</small>`;
+        const note = plan.note;
+
+        const optionalItems = plan.disabledFeatures ? plan.disabledFeatures.map(f => `<li class="disabled"><i class="fa-solid fa-circle-minus"></i>${f}</li>`).join('') : '';
+        const featureItems = plan.features.map(f => `<li><i class="fa-solid fa-circle-check"></i>${f}</li>`).join('');
+
+        return `
+          <div class="plan ${idx === 0 ? 'basic' : idx === 1 ? 'popular' : 'business'}">
+            ${plan.popular ? '<div class="popular-ribbon">Most Popular</div>' : ''}
+            <h3>${plan.name}</h3>
+            <div class="tagline">${plan.tagline}</div>
+            <div class="price">${title}</div>
+            ${idx === 0 ? `<div class="was">${note}</div>` : `<div class="was">${note}</div>`}
+            <button class="plan-btn ${buttonClass}">${plan.button}</button>
+
+            <div class="features-head">${idx === 0 ? 'Includes:' : `Everything in ${idx === 1 ? 'Basic' : 'Pro'}, plus:`}</div>
+            <ul class="feature-list">
+              ${featureItems}
+              ${optionalItems}
+            </ul>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderBenefits() {
+      benefitList.innerHTML = data.benefits.map(item => `
+        <div class="benefit">
+          <div class="benefit-ico"><i class="fa-solid ${item.icon}"></i></div>
+          <div>
+            <h4>${item.title}</h4>
+            <p>${item.text}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderFaq() {
+      faqList.innerHTML = data.faqs.map((item, index) => `
+        <div class="faq-item ${index === 0 ? 'open' : ''}">
+          <button class="faq-q" type="button" aria-expanded="${index === 0 ? 'true' : 'false'}">
+            <span>${item.q}</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="faq-a">${item.a}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderTrust() {
+      trustGrid.innerHTML = data.trust.map(item => `
+        <div class="trust">
+          <div class="trust-ico"><i class="fa-solid ${item.icon}"></i></div>
+          <div>
+            <h4>${item.title}</h4>
+            <p>${item.text}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setBilling(mode) {
+      billing = mode;
+      monthlyBtn.classList.toggle('active', mode === 'monthly');
+      yearlyBtn.classList.toggle('active', mode === 'yearly');
+      renderPlans();
+    }
+
+    monthlyBtn.addEventListener('click', () => setBilling('monthly'));
+    yearlyBtn.addEventListener('click', () => setBilling('yearly'));
+
+    faqList.addEventListener('click', (e) => {
+      const btn = e.target.closest('.faq-q');
+      if (!btn) return;
+      const item = btn.parentElement;
+      const open = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.faq-q')?.setAttribute('aria-expanded', 'false');
+      });
+      if (!open) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    renderPlans();
+    renderBenefits();
+    renderFaq();
+    renderTrust();
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Profile</title>
+  <meta name="theme-color" content="#07112b" />
+  <link rel="icon" href="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SMBoostly Profile",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Responsive profile dashboard for SMBoostly with profile overview, stats, profile type, badges, activity, and social links."
+  }
+  </script>
+
+  <script type="application/json" id="profile-data">
+  {
+    "profile": {
+      "name": "Adeola M.",
+      "handle": "@adeolam",
+      "joined": "Joined March 2024",
+      "role": "Publisher Plan",
+      "type": "Publisher",
+      "typeDescription": "You create and manage campaigns to reach and engage your audience.",
+      "bio": "Content creator and digital marketer. Helping brands grow with authentic engagement and creative content.",
+      "about": "I am a passionate content creator and digital marketer with over 3 years of experience. I specialize in creating engaging content that drives real results for brands and businesses.",
+      "location": "Lagos, Nigeria",
+      "website": "adeolam.com",
+      "memberId": "SMB-78452",
+      "email": "adeola.m@example.com",
+      "phone": "+234 801 234 5678",
+      "country": "Nigeria",
+      "avatar": "https://i.pravatar.cc/300?img=47",
+      "topAvatar": "https://i.pravatar.cc/80?img=47"
+    },
+    "stats": [
+      { "label": "Total Earnings", "value": "₦125,600.00", "sub": "+23% vs last 30 days", "icon": "fa-wallet", "color": "green" },
+      { "label": "Completed Tasks", "value": "320", "sub": "+18% vs last 30 days", "icon": "fa-list-check", "color": "blue" },
+      { "label": "Referrals", "value": "156", "sub": "+12% vs last 30 days", "icon": "fa-user-group", "color": "purple" },
+      { "label": "Wallet Balance", "value": "₦45,600.00", "sub": "+8% vs last 30 days", "icon": "fa-wallet", "color": "orange" }
+    ],
+    "badges": [
+      { "label": "Top Publisher", "icon": "fa-crown", "color": "purple" },
+      { "label": "Fast Responder", "icon": "fa-bolt", "color": "green" },
+      { "label": "Task Master", "icon": "fa-award", "color": "orange" },
+      { "label": "Rising Star", "icon": "fa-star", "color": "blue" }
+    ],
+    "activity": [
+      { "title": "Completed Instagram Followers Campaign", "sub": "Earned ₦2,500.00", "time": "2 hours ago", "icon": "fa-circle-check", "color": "green" },
+      { "title": "Withdrawal to GTBank **** 5487", "sub": "₦20,000.00", "time": "1 day ago", "icon": "fa-wallet", "color": "blue" },
+      { "title": "Completed TikTok Video Likes Task", "sub": "Earned ₦1,500.00", "time": "2 days ago", "icon": "fa-list-check", "color": "orange" },
+      { "title": "New Referral Joined", "sub": "@emma_j joined via your link", "time": "3 days ago", "icon": "fa-user-plus", "color": "purple" }
+    ],
+    "socialLinks": [
+      { "name": "Instagram", "handle": "@adeolam", "icon": "fa-instagram", "brand": "instagram" },
+      { "name": "Twitter", "handle": "@adeolam_", "icon": "fa-twitter", "brand": "twitter" },
+      { "name": "TikTok", "handle": "@adeolam", "icon": "fa-tiktok", "brand": "tiktok" },
+      { "name": "YouTube", "handle": "Adeola M.", "icon": "fa-youtube", "brand": "youtube" }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f7f8ff;
+      --card:#fff;
+      --line:#edf0f8;
+      --text:#11162b;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --shadow:0 18px 42px rgba(18,24,43,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 7% 0%, rgba(107,57,255,.10), transparent 14%),
+        radial-gradient(circle at 92% 2%, rgba(245,158,11,.08), transparent 14%),
+        linear-gradient(180deg,#fafbff 0%, #eef2ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    img{max-width:100%;display:block}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:6px 8px 18px;
+      margin-bottom:12px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:linear-gradient(135deg, rgba(107,57,255,.95), rgba(79,32,216,.95));
+      box-shadow:0 18px 34px rgba(107,57,255,.20);
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.66);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;
+      font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(107,57,255,.96),rgba(70,58,214,.86));
+      box-shadow:0 16px 28px rgba(107,57,255,.16);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .content{
+      min-width:0;
+      display:grid;
+      grid-template-rows:68px 1fr;
+    }
+
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .menu-btn{
+      border:0;
+      background:transparent;
+      color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .top-title{
+      font-size:16px;
+      font-weight:800;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .search{
+      width:min(300px, 38vw);
+      height:40px;
+      border:1px solid #e2e6f1;
+      border-radius:12px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 14px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .search i{color:#6a728d;font-size:17px}
+    .search input{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:#11162b;
+      font-size:13px;
+    }
+    .top-icon{
+      color:#344054;
+      position:relative;
+      font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;
+      top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff4a5d;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+    }
+    .profile img{
+      width:44px;height:44px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{
+      font-size:15px;
+      font-weight:700;
+      color:#11162b;
+      line-height:1.1;
+    }
+    .profile .role{
+      margin-top:4px;
+      font-size:12px;
+      color:#6d7590;
+    }
+    .chev{color:#6d7590;font-size:14px;margin-left:6px}
+
+    .main{
+      min-width:0;
+      padding:16px 16px 18px;
+      overflow:auto;
+    }
+
+    .dashboard{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 360px;
+      gap:14px;
+      align-items:start;
+    }
+
+    .left-col{
+      min-width:0;
+      display:grid;
+      gap:14px;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      min-width:0;
+    }
+
+    .hero-card{
+      overflow:hidden;
+    }
+    .hero-banner{
+      height:170px;
+      background:
+        radial-gradient(circle at 50% 58%, rgba(255,255,255,.12) 0 15%, transparent 16%),
+        radial-gradient(circle at 92% 14%, rgba(255,255,255,.08) 0 8%, transparent 9%),
+        radial-gradient(circle at 78% 2%, rgba(255,255,255,.08) 0 11%, transparent 12%),
+        linear-gradient(135deg,#5d3be7 0%, #5b35f2 52%, #4a2fe2 100%);
+      position:relative;
+    }
+    .hero-banner::before{
+      content:"";
+      position:absolute;
+      inset:auto auto -80px 180px;
+      width:340px;height:340px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      filter:blur(2px);
+    }
+    .hero-banner::after{
+      content:"";
+      position:absolute;
+      right:50px;top:-12px;
+      width:220px;height:220px;
+      border-radius:50%;
+      background:rgba(255,255,255,.04);
+    }
+
+    .hero-body{
+      position:relative;
+      padding:0 18px 18px;
+    }
+
+    .avatar-wrap{
+      width:180px;height:180px;
+      border-radius:50%;
+      position:absolute;
+      left:22px;
+      top:-92px;
+      background:linear-gradient(180deg,#fff,#fff);
+      padding:6px;
+      box-shadow:0 18px 34px rgba(18,24,43,.12);
+    }
+    .avatar{
+      width:100%;height:100%;
+      border-radius:50%;
+      object-fit:cover;
+      border:6px solid #fff;
+      box-shadow:0 16px 30px rgba(111,73,255,.15);
+    }
+    .online{
+      position:absolute;
+      right:16px;
+      bottom:18px;
+      width:18px;height:18px;
+      border-radius:50%;
+      background:var(--green);
+      border:3px solid #fff;
+      box-shadow:0 0 0 4px rgba(27,191,114,.12);
+    }
+
+    .hero-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:-24px;
+      position:relative;
+      z-index:2;
+      flex-wrap:wrap;
+    }
+    .ghost-btn,.primary-btn{
+      height:42px;
+      border-radius:12px;
+      padding:0 18px;
+      font-weight:800;
+      font-size:14px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      border:1px solid #e2e6f1;
+      background:#fff;
+      color:#344054;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .primary-btn{
+      border:0;
+      color:#fff;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(111,73,255,.22);
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:16px;
+      padding-top:18px;
+      align-items:start;
+    }
+
+    .profile-main{
+      padding-left:210px;
+      min-height:120px;
+    }
+    .name-line{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .display-name{
+      margin:0;
+      font-size:27px;
+      font-weight:900;
+      color:#11162b;
+      letter-spacing:-.04em;
+    }
+    .verified{
+      color:#1f7aff;
+      font-size:20px;
+    }
+    .meta{
+      margin-top:8px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#667085;
+      font-size:14px;
+      flex-wrap:wrap;
+    }
+    .dot-sep{
+      width:4px;height:4px;border-radius:50%;
+      background:#c8cfe0;
+    }
+
+    .chips{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      height:34px;
+      padding:0 14px;
+      border-radius:12px;
+      background:linear-gradient(180deg,#efeaff 0%, #e9e2ff 100%);
+      color:#6f49ff;
+      font-weight:800;
+      font-size:13px;
+    }
+    .chip.purple{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      box-shadow:0 14px 24px rgba(111,73,255,.18);
+    }
+
+    .profile-desc{
+      margin-top:14px;
+      color:#4b5563;
+      font-size:14px;
+      line-height:1.65;
+      max-width:690px;
+    }
+    .links-row{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-top:16px;
+      color:#4b5563;
+      flex-wrap:wrap;
+    }
+    .links-row a{
+      color:#6f49ff;
+      font-weight:700;
+    }
+    .social-icons{
+      display:flex;
+      gap:14px;
+      color:#4b5563;
+      font-size:16px;
+    }
+
+    .stats-strip{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:0;
+      border-radius:18px;
+      overflow:hidden;
+    }
+    .stat{
+      background:#fff;
+      padding:18px 16px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      border-right:1px solid #edf0f8;
+    }
+    .stat:last-child{border-right:0}
+    .stat-icon{
+      width:44px;height:44px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      flex:0 0 auto;
+      box-shadow:0 12px 20px rgba(15,23,42,.08);
+      font-size:16px;
+    }
+    .stat-icon.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .stat-icon.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .stat-icon.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .stat-icon.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .stat-label{
+      color:#667085;
+      font-size:13px;
+      font-weight:700;
+    }
+    .stat-value{
+      margin-top:4px;
+      font-size:20px;
+      font-weight:900;
+      color:#11162b;
+      white-space:nowrap;
+    }
+    .stat-sub{
+      margin-top:6px;
+      font-size:12px;
+      color:#667085;
+      white-space:nowrap;
+    }
+
+    .tabs-card{
+      padding:0 0 18px;
+      overflow:hidden;
+    }
+    .tabs{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:0 18px;
+      border-bottom:1px solid #edf0f8;
+      overflow:auto;
+      scrollbar-width:none;
+    }
+    .tabs::-webkit-scrollbar{display:none}
+    .tab{
+      position:relative;
+      border:0;
+      background:transparent;
+      color:#667085;
+      height:52px;
+      padding:0 12px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .tab.active{
+      color:#6f49ff;
+    }
+    .tab.active::after{
+      content:"";
+      position:absolute;
+      left:10px;right:10px;bottom:-1px;
+      height:3px;border-radius:999px;
+      background:#6f49ff;
+    }
+
+    .info-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .about-card,.activity-card,.badge-card,.social-card,.profile-type-card{
+      padding:18px;
+    }
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .section-head h3{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+      letter-spacing:-.02em;
+    }
+    .view-link{
+      color:#6f49ff;
+      font-size:13px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .about-text{
+      margin:0;
+      color:#4b5563;
+      font-size:14px;
+      line-height:1.7;
+      max-width:520px;
+    }
+
+    .details-list{
+      margin-top:20px;
+      display:grid;
+      gap:14px;
+    }
+    .detail-row{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:16px;
+      align-items:start;
+      font-size:14px;
+    }
+    .detail-label{
+      color:#11162b;
+      font-weight:700;
+    }
+    .detail-value{
+      color:#4b5563;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      height:26px;
+      padding:0 10px;
+      border-radius:8px;
+      font-weight:800;
+      font-size:12px;
+      color:#6f49ff;
+      background:linear-gradient(180deg,#efeaff,#e9e2ff);
+      white-space:nowrap;
+    }
+
+    .activity-list{
+      display:grid;
+      gap:10px;
+    }
+    .activity-row{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      padding:12px 0;
+      border-top:1px solid #f0f2f8;
+      align-items:center;
+    }
+    .activity-row:first-child{border-top:0;padding-top:0}
+    .activity-ico{
+      width:34px;height:34px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:14px;
+      box-shadow:0 10px 18px rgba(15,23,42,.08);
+      flex:0 0 auto;
+    }
+    .activity-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .activity-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .activity-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .activity-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .activity-title{
+      margin:0;
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.25;
+    }
+    .activity-sub{
+      margin-top:4px;
+      color:#667085;
+      font-size:12px;
+    }
+    .activity-time{
+      color:#667085;
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    .profile-right{
+      display:grid;
+      gap:14px;
+      align-content:start;
+    }
+
+    .profile-type{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      padding:12px 0 8px;
+    }
+    .type-badge{
+      width:68px;height:68px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:24px;
+      background:linear-gradient(135deg,#6f49ff,#5f39f7);
+      box-shadow:0 16px 28px rgba(111,73,255,.18);
+      flex:0 0 auto;
+    }
+    .type-title{
+      color:#6f49ff;
+      font-size:20px;
+      font-weight:900;
+      margin:0 0 6px;
+    }
+    .type-desc{
+      margin:0;
+      color:#4b5563;
+      font-size:14px;
+      line-height:1.6;
+      max-width:230px;
+    }
+    .learn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:12px;
+      color:#6f49ff;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .badge-wrap{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .badge-item{
+      text-align:center;
+      width:74px;
+    }
+    .badge-ico{
+      width:52px;height:52px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      margin:0 auto 10px;
+      box-shadow:0 14px 24px rgba(15,23,42,.08);
+      font-size:18px;
+    }
+    .badge-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .badge-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .badge-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .badge-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .badge-item span{
+      font-size:12px;
+      color:#344054;
+      font-weight:700;
+      line-height:1.3;
+    }
+
+    .social-list{
+      display:grid;
+      gap:12px;
+    }
+    .social-row{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:12px;
+      padding:10px 0;
+      border-top:1px solid #f0f2f8;
+    }
+    .social-row:first-child{border-top:0;padding-top:0}
+    .social-ico{
+      width:30px;height:30px;border-radius:10px;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:14px;
+      box-shadow:0 10px 18px rgba(15,23,42,.08);
+    }
+    .instagram{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)}
+    .twitter{background:linear-gradient(135deg,#1da1f2,#0d8bd9)}
+    .tiktok{background:linear-gradient(135deg,#111,#444)}
+    .youtube{background:linear-gradient(135deg,#ff0000,#df0f0f)}
+    .social-name{
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+    }
+    .social-handle{
+      color:#667085;
+      font-size:13px;
+      margin-left:auto;
+      white-space:nowrap;
+      padding-right:10px;
+    }
+    .social-arrow{
+      color:#8b93a8;
+      font-size:14px;
+    }
+
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:40px;border-radius:12px;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    @media (max-width: 1360px){
+      .dashboard{grid-template-columns:minmax(0,1fr) 340px}
+      .hero-grid{grid-template-columns:1fr}
+      .profile-main{padding-left:210px}
+    }
+
+    @media (max-width: 1200px){
+      .stats-strip{grid-template-columns:repeat(2,1fr)}
+      .info-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 980px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .topbar{padding:0 16px}
+      .main{padding:16px}
+      .dashboard{grid-template-columns:1fr}
+      .profile-right{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width: 760px){
+      .topbar-right{gap:12px}
+      .profile .text{display:none}
+      .chev{display:none}
+      .search{display:none}
+      .page-title{font-size:24px}
+      .page-sub{font-size:14px}
+      .main{padding:10px}
+      .about-card,.activity-card,.badge-card,.social-card,.profile-type-card{padding:14px}
+      .section-head h3{font-size:16px}
+
+      .hero-banner{height:160px}
+      .avatar-wrap{
+        width:160px;height:160px;
+        left:16px;top:-82px;
+      }
+      .hero-body{padding:0 14px 14px}
+      .profile-main{padding-left:178px}
+      .display-name{font-size:24px}
+      .meta{font-size:13px}
+      .profile-desc{font-size:13px}
+      .hero-actions{margin-top:-18px}
+
+      .stats-strip{grid-template-columns:1fr}
+      .stat{
+        border-right:0;
+        border-bottom:1px solid #edf0f8;
+      }
+      .stat:last-child{border-bottom:0}
+
+      .tabs{padding:0 14px}
+      .tab{height:48px}
+
+      .profile-right{grid-template-columns:1fr}
+      .detail-row{
+        grid-template-columns:1fr;
+        gap:6px;
+      }
+      .activity-row,.social-row{
+        grid-template-columns:auto 1fr;
+      }
+      .activity-time,.social-arrow{grid-column:2 / 3; justify-self:end}
+      .social-handle{grid-column:2 / 3; margin-left:0; padding-right:0}
+      .hero-grid{
+        text-align:center;
+      }
+      .name-line,.meta,.chips,.links-row{
+        justify-content:center;
+      }
+      .profile-desc{max-width:none;margin-left:auto;margin-right:auto}
+      .hero-actions{justify-content:center}
+      .profile-main{padding-left:0;padding-top:92px}
+      .avatar-wrap{
+        left:50%;
+        transform:translateX(-50%);
+      }
+    }
+
+    @media (max-width: 520px){
+      .topbar{padding:0 12px}
+      .topbar-right{gap:10px}
+      .main{padding:8px}
+      .page-title{font-size:22px}
+      .page-sub{font-size:13px}
+      .hero-banner{height:140px}
+      .avatar-wrap{
+        width:140px;height:140px;
+        top:-70px;
+      }
+      .profile-main{padding-top:78px}
+      .display-name{font-size:21px}
+      .hero-actions{
+        flex-direction:column;
+        width:100%;
+      }
+      .ghost-btn,.primary-btn{width:100%;justify-content:center}
+      .links-row{
+        justify-content:center;
+        text-align:center;
+      }
+      .social-icons{gap:12px}
+      .badge-wrap{justify-content:center}
+      .type-desc{max-width:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+     <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item active" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+          <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item active" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+            <p style="margin:6px 0 0;">Get help & support</p>
+          </div>
+          <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-regular fa-user"></i> <span>Profile</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search..." />
+          </div>
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img id="topAvatar" src="https://i.pravatar.cc/80?img=47" alt="Profile photo">
+            <div class="text">
+              <div class="name" id="topName">Adeola M.</div>
+              <div class="role" id="topRole">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="dashboard">
+          <div class="left-col">
+            <section class="panel hero-card">
+              <div class="hero-banner"></div>
+              <div class="hero-body">
+                <div class="avatar-wrap">
+                  <img class="avatar" id="avatar" src="https://i.pravatar.cc/300?img=47" alt="Adeola M.">
+                  <span class="online"></span>
+                </div>
+
+                <div class="hero-actions">
+                  <button class="ghost-btn"><i class="fa-regular fa-pen-to-square"></i> Edit Profile</button>
+                  <button class="primary-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i> Share Profile</button>
+                </div>
+
+                <div class="hero-grid">
+                  <div class="profile-main">
+                    <div class="name-line">
+                      <h1 class="display-name" id="name">Adeola M.</h1>
+                      <i class="fa-solid fa-circle-check verified"></i>
+                    </div>
+                    <div class="meta">
+                      <span id="handle">@adeolam</span>
+                      <span class="dot-sep"></span>
+                      <span id="joined">Joined March 2024</span>
+                    </div>
+
+                    <div class="chips">
+                      <span class="chip purple"><i class="fa-solid fa-crown"></i> <span id="type">Publisher</span></span>
+                      <span class="chip" id="roleChip">Publisher Plan</span>
+                    </div>
+
+                    <p class="profile-desc" id="bio">
+                      Content creator and digital marketer. Helping brands grow with authentic engagement and creative content.
+                    </p>
+
+                    <div class="links-row">
+                      <span><i class="fa-solid fa-location-dot"></i> <span id="location">Lagos, Nigeria</span></span>
+                      <span><i class="fa-solid fa-link"></i> <a href="#" id="website">adeolam.com</a></span>
+                      <div class="social-icons">
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-twitter"></i>
+                        <i class="fa-brands fa-tiktok"></i>
+                        <i class="fa-brands fa-youtube"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel stats-strip" id="statsStrip"></section>
+
+            <section class="panel tabs-card">
+              <div class="tabs">
+                <button class="tab active">Overview</button>
+                <button class="tab">Campaigns</button>
+                <button class="tab">Tasks</button>
+                <button class="tab">Earnings</button>
+                <button class="tab">Referrals</button>
+                <button class="tab">Badges</button>
+                <button class="tab">Settings</button>
+              </div>
+
+              <div class="info-grid" style="padding:18px;">
+                <section class="panel about-card" style="box-shadow:none;border:1px solid #f0f2f8;">
+                  <div class="section-head">
+                    <h3>About Me</h3>
+                  </div>
+
+                  <p class="about-text" id="aboutText">
+                    I am a passionate content creator and digital marketer with over 3 years of experience. I specialize in creating engaging content that drives real results for brands and businesses.
+                  </p>
+
+                  <div class="details-list">
+                    <div class="detail-row">
+                      <div class="detail-label">Niche</div>
+                      <div class="detail-value"><span class="tag">Social Media Marketing</span></div>
+                    </div>
+                    <div class="detail-row">
+                      <div class="detail-label">Languages</div>
+                      <div class="detail-value">English, Yoruba</div>
+                    </div>
+                    <div class="detail-row">
+                      <div class="detail-label">Timezone</div>
+                      <div class="detail-value">West Africa Time (WAT)</div>
+                    </div>
+                    <div class="detail-row">
+                      <div class="detail-label">Available For</div>
+                      <div class="detail-value">Sponsored Posts, Reviews, Collaborations</div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="panel activity-card" style="box-shadow:none;border:1px solid #f0f2f8;">
+                  <div class="section-head">
+                    <h3>Recent Activity</h3>
+                    <a class="view-link" href="#">View All</a>
+                  </div>
+
+                  <div class="activity-list" id="activityList"></div>
+                </section>
+              </div>
+            </section>
+          </div>
+
+          <aside class="profile-right">
+            <section class="panel profile-type-card">
+              <div class="section-head">
+                <h3>Profile Type</h3>
+              </div>
+
+              <div class="profile-type">
+                <div class="type-badge"><i class="fa-solid fa-bullhorn"></i></div>
+                <div>
+                  <div class="type-title" id="typeTitle">Publisher</div>
+                  <p class="type-desc" id="typeDesc">
+                    You create and manage campaigns to reach and engage your audience.
+                  </p>
+                  <a class="learn" href="#">Learn more about publisher <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+              </div>
+
+              <div style="border-top:1px solid #f0f2f8;margin-top:14px;padding-top:14px;">
+                <div class="detail-row" style="grid-template-columns:90px 1fr;margin-bottom:12px;">
+                  <div class="detail-label">Member ID</div>
+                  <div class="detail-value" style="text-align:right;color:#11162b;" id="memberId">SMB-78452</div>
+                </div>
+                <div class="detail-row" style="grid-template-columns:90px 1fr;margin-bottom:12px;">
+                  <div class="detail-label">Email</div>
+                  <div class="detail-value" style="text-align:right;color:#11162b;" id="email">adeola.m@example.com</div>
+                </div>
+                <div class="detail-row" style="grid-template-columns:90px 1fr;margin-bottom:12px;">
+                  <div class="detail-label">Phone</div>
+                  <div class="detail-value" style="text-align:right;color:#11162b;" id="phone">+234 801 234 5678</div>
+                </div>
+                <div class="detail-row" style="grid-template-columns:90px 1fr;margin-bottom:12px;">
+                  <div class="detail-label">Country</div>
+                  <div class="detail-value" style="text-align:right;color:#11162b;">
+                    <span style="color:#16a34a;font-weight:800;">▮▮</span> <span id="country">Nigeria</span>
+                  </div>
+                </div>
+                <div class="detail-row" style="grid-template-columns:90px 1fr;">
+                  <div class="detail-label">Account Status</div>
+                  <div class="detail-value" style="text-align:right;color:#11162b;"><span class="tag" style="background:#e8faf0;color:#16a34a;">Verified ✓</span></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel badge-card">
+              <div class="section-head">
+                <h3>Badges Earned</h3>
+                <a class="view-link" href="#">View All</a>
+              </div>
+
+              <div class="badge-wrap" id="badgeWrap"></div>
+            </section>
+
+            <section class="panel social-card">
+              <div class="section-head">
+                <h3>Social Links</h3>
+                <a class="view-link" href="#">Edit</a>
+              </div>
+
+              <div class="social-list" id="socialList"></div>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('profile-data').textContent);
+
+    // Top header
+    document.getElementById('topAvatar').src = data.profile.topAvatar;
+    document.getElementById('topName').textContent = data.profile.name;
+    document.getElementById('topRole').textContent = data.profile.role;
+
+    // Hero
+    document.getElementById('avatar').src = data.profile.avatar;
+    document.getElementById('name').textContent = data.profile.name;
+    document.getElementById('handle').textContent = data.profile.handle;
+    document.getElementById('joined').textContent = data.profile.joined;
+    document.getElementById('type').textContent = data.profile.type;
+    document.getElementById('typeTitle').textContent = data.profile.type;
+    document.getElementById('typeDesc').textContent = data.profile.typeDescription;
+    document.getElementById('bio').textContent = data.profile.bio;
+    document.getElementById('location').textContent = data.profile.location;
+    document.getElementById('website').textContent = data.profile.website;
+    document.getElementById('website').href = `https://${data.profile.website}`;
+    document.getElementById('aboutText').textContent = data.profile.about;
+    document.getElementById('memberId').textContent = data.profile.memberId;
+    document.getElementById('email').textContent = data.profile.email;
+    document.getElementById('phone').textContent = data.profile.phone;
+    document.getElementById('country').textContent = data.profile.country;
+
+    // Stats
+    const statsStrip = document.getElementById('statsStrip');
+    statsStrip.innerHTML = data.stats.map(stat => `
+      <div class="stat">
+        <div class="stat-icon ${stat.color}">
+          <i class="fa-solid ${stat.icon}"></i>
+        </div>
+        <div>
+          <div class="stat-label">${stat.label}</div>
+          <div class="stat-value">${stat.value}</div>
+          <div class="stat-sub"><span style="color:var(--green);font-weight:800;">↑ ${stat.sub.split(' ')[0]}</span> ${stat.sub.replace(stat.sub.split(' ')[0] + ' ', '')}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Badge cards
+    const badgeWrap = document.getElementById('badgeWrap');
+    badgeWrap.innerHTML = data.badges.map(b => `
+      <div class="badge-item">
+        <div class="badge-ico ${b.color}">
+          <i class="fa-solid ${b.icon}"></i>
+        </div>
+        <span>${b.label}</span>
+      </div>
+    `).join('');
+
+    // Activity
+    const activityList = document.getElementById('activityList');
+    activityList.innerHTML = data.activity.map(item => `
+      <div class="activity-row">
+        <div class="activity-ico ${item.color}">
+          <i class="fa-solid ${item.icon}"></i>
+        </div>
+        <div>
+          <p class="activity-title">${item.title}</p>
+          <div class="activity-sub">${item.sub}</div>
+        </div>
+        <div class="activity-time">${item.time}</div>
+      </div>
+    `).join('');
+
+    // Social links
+    const socialList = document.getElementById('socialList');
+    socialList.innerHTML = data.socialLinks.map(s => `
+      <div class="social-row">
+        <div class="social-ico ${s.brand}">
+          <i class="fa-brands ${s.icon}"></i>
+        </div>
+        <div class="social-name">${s.name}</div>
+        <div class="social-handle">${s.handle}</div>
+        <div class="social-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+      </div>
+    `).join('');
+
+    // Mobile drawer
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>

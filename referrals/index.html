@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Referrals</title>
+  <meta name="theme-color" content="#07112b" />
+  <link rel="icon" href="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SMBoostly Referrals",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Referrals dashboard for SMBoostly with referral stats, referral link sharing, rewards tiers, performance chart, and recent referrals."
+  }
+  </script>
+
+  <script type="application/json" id="referral-data">
+  {
+    "profile": {
+      "name": "Adeola M.",
+      "role": "Publisher Plan",
+      "avatar": "https://i.pravatar.cc/80?img=5"
+    },
+    "stats": [
+      {
+        "label": "Total Referrals",
+        "value": "156",
+        "sub": "+12 this month",
+        "icon": "fa-user-group",
+        "accent": "purple"
+      },
+      {
+        "label": "Active Referrals",
+        "value": "98",
+        "sub": "62.8% of total",
+        "icon": "fa-users",
+        "accent": "blue"
+      },
+      {
+        "label": "Total Earnings",
+        "value": "₦125,600.00",
+        "sub": "+23% vs last 30 days",
+        "icon": "fa-sack-dollar",
+        "accent": "green"
+      },
+      {
+        "label": "Pending Earnings",
+        "value": "₦18,400.00",
+        "sub": "From 24 referrals",
+        "icon": "fa-clock",
+        "accent": "orange"
+      }
+    ],
+    "tiers": [
+      {
+        "tier": "Tier 1",
+        "range": "Invite 0 – 10 friends",
+        "reward": "Earn 5%",
+        "subReward": "per referral",
+        "icon": "fa-medal",
+        "accent": "gray"
+      },
+      {
+        "tier": "Tier 2",
+        "range": "Invite 11 – 30 friends",
+        "reward": "Earn 10%",
+        "subReward": "per referral",
+        "icon": "fa-medal",
+        "accent": "purple"
+      },
+      {
+        "tier": "Tier 3",
+        "range": "Invite 31 – 100 friends",
+        "reward": "Earn 15%",
+        "subReward": "per referral",
+        "icon": "fa-medal",
+        "accent": "blue"
+      },
+      {
+        "tier": "Tier 4",
+        "range": "Invite 101+ friends",
+        "reward": "Earn 20%",
+        "subReward": "per referral",
+        "icon": "fa-crown",
+        "accent": "orange"
+      }
+    ],
+    "currentTier": {
+      "label": "You are on Tier 3",
+      "sub": "Invite 23 more friends to unlock Tier 4 and earn 20% per referral.",
+      "progress": 77
+    },
+    "performance": {
+      "labels": ["May 1", "May 3", "May 5", "May 7", "May 9", "May 11", "May 13", "May 15", "May 17", "May 19", "May 21", "May 23", "May 25", "May 27", "May 29", "May 31"],
+      "values": [18, 28, 31, 23, 42, 38, 29, 22, 36, 47, 39, 31, 58, 48, 66, 44]
+    },
+    "recent": [
+      {
+        "name": "James Carter",
+        "handle": "@james_c",
+        "date": "Joined May 28, 2025",
+        "status": "Completed",
+        "amount": "+₦2,500.00",
+        "avatar": "https://i.pravatar.cc/40?img=11",
+        "statusClass": "completed"
+      },
+      {
+        "name": "Maria Ude",
+        "handle": "@maria_u",
+        "date": "Joined May 27, 2025",
+        "status": "Completed",
+        "amount": "+₦2,500.00",
+        "avatar": "https://i.pravatar.cc/40?img=12",
+        "statusClass": "completed"
+      },
+      {
+        "name": "Daniel Okafor",
+        "handle": "@daniel_o",
+        "date": "Joined May 26, 2025",
+        "status": "Pending",
+        "amount": "+₦2,500.00",
+        "avatar": "https://i.pravatar.cc/40?img=13",
+        "statusClass": "pending"
+      },
+      {
+        "name": "Faith Johnson",
+        "handle": "@faith_j",
+        "date": "Joined May 25, 2025",
+        "status": "Pending",
+        "amount": "+₦2,500.00",
+        "avatar": "https://i.pravatar.cc/40?img=14",
+        "statusClass": "pending"
+      },
+      {
+        "name": "Chris Martin",
+        "handle": "@chris_m",
+        "date": "Joined May 24, 2025",
+        "status": "Completed",
+        "amount": "+₦2,500.00",
+        "avatar": "https://i.pravatar.cc/40?img=15",
+        "statusClass": "completed"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f7f8ff;
+      --card:#fff;
+      --line:#edf0f8;
+      --text:#11162b;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --gray:#98a0b3;
+      --shadow:0 18px 42px rgba(18,24,43,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 7% 0%, rgba(107,57,255,.10), transparent 14%),
+        radial-gradient(circle at 92% 2%, rgba(245,158,11,.08), transparent 14%),
+        linear-gradient(180deg,#fafbff 0%, #eef2ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
+    img{max-width:100%;display:block}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:6px 8px 18px;
+      margin-bottom:12px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:linear-gradient(135deg, rgba(107,57,255,.95), rgba(79,32,216,.95));
+      box-shadow:0 18px 34px rgba(107,57,255,.20);
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.66);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;
+      font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(107,57,255,.96),rgba(70,58,214,.86));
+      box-shadow:0 16px 28px rgba(107,57,255,.16);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .content{min-width:0}
+
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .menu-btn{
+      border:0;
+      background:transparent;
+      color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .top-title{
+      font-size:16px;
+      font-weight:800;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .top-icon{
+      color:#344054;
+      position:relative;
+      font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;
+      top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff4a5d;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .profile img{
+      width:44px;height:44px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{
+      font-size:15px;
+      font-weight:700;
+      color:#11162b;
+      line-height:1.1;
+    }
+    .profile .role{
+      margin-top:4px;
+      font-size:12px;
+      color:#6d7590;
+    }
+    .chev{color:#6d7590;font-size:14px;margin-left:6px}
+
+    .main{
+      padding:22px 24px 28px;
+    }
+
+    .page-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .heading h2{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .heading p{
+      margin:8px 0 0;
+      font-size:15px;
+      color:#6d7590;
+    }
+    .help-btn{
+      height:42px;
+      border:1px solid #e2e6f1;
+      border-radius:12px;
+      padding:0 16px;
+      background:#fff;
+      color:#6f49ff;
+      font-size:13px;
+      font-weight:800;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      white-space:nowrap;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-bottom:16px;
+    }
+    .stat-card{
+      background:var(--card);
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:18px 18px 16px;
+      min-height:120px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .stat-ico{
+      width:54px;height:54px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:19px;
+      flex:0 0 auto;
+      box-shadow:0 14px 24px rgba(15,23,42,.08);
+    }
+    .stat-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .stat-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .stat-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .stat-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .stat-body .label{font-size:14px;color:#1d2939;font-weight:500;margin-top:2px}
+    .stat-body .value{
+      margin-top:4px;
+      font-size:28px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .stat-body .sub{
+      margin-top:8px;
+      font-size:13px;
+      color:#6d7590;
+    }
+
+    .content-grid{
+      display:grid;
+      grid-template-columns:1.35fr .75fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .ref-link-card{
+      grid-column:1 / 2;
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+      min-height:268px;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(107,57,255,.10), transparent 24%),
+        linear-gradient(180deg,#f8f4ff 0%, #fbf8ff 100%);
+    }
+    .ref-link-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .section-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#11162b;
+    }
+    .section-sub{
+      margin:6px 0 0;
+      color:#667085;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .gift-illustration{
+      position:absolute;
+      right:28px;
+      top:78px;
+      width:190px;
+      height:190px;
+      opacity:.98;
+      pointer-events:none;
+      filter:drop-shadow(0 18px 20px rgba(111,73,255,.12));
+    }
+
+    .ref-controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      position:relative;
+      z-index:1;
+      max-width:480px;
+      margin-top:6px;
+    }
+    .ref-input{
+      flex:1;
+      height:54px;
+      border:1px solid #e5e8f3;
+      border-radius:12px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:0 14px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      min-width:0;
+    }
+    .ref-input .link-ico{
+      width:32px;height:32px;border-radius:50%;
+      display:grid;place-items:center;
+      background:rgba(111,73,255,.10);
+      color:#6f49ff;
+      flex:0 0 auto;
+    }
+    .ref-input input{
+      width:100%;
+      border:0;
+      outline:0;
+      background:transparent;
+      font-size:14px;
+      color:#11162b;
+      min-width:0;
+    }
+    .copy-btn{
+      height:54px;
+      padding:0 18px;
+      border:0;
+      border-radius:12px;
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+      cursor:pointer;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 14px 24px rgba(111,73,255,.22);
+    }
+
+    .share-block{
+      position:relative;
+      z-index:1;
+      margin-top:18px;
+    }
+    .share-label{
+      font-size:13px;
+      color:#11162b;
+      font-weight:700;
+      margin-bottom:12px;
+    }
+    .share-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .share-btn{
+      height:38px;
+      border-radius:10px;
+      border:1px solid #edf0f8;
+      background:#fff;
+      padding:0 12px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:#344054;
+      font-size:13px;
+      font-weight:700;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .share-btn i{font-size:16px}
+    .wa{color:#25D366}
+    .fb{color:#1877F2}
+    .tw{color:#1DA1F2}
+    .tg{color:#2AABEE}
+    .more{color:#667085}
+
+    .rewards-card{
+      grid-column:2 / 3;
+      padding:18px;
+      min-height:268px;
+    }
+    .rewards-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:8px;
+    }
+    .view-link{
+      color:#6f49ff;
+      font-size:13px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .tier-list{
+      display:grid;
+      gap:2px;
+    }
+    .tier{
+      display:grid;
+      grid-template-columns:46px 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:14px 0;
+      border-top:1px solid #f0f2f8;
+    }
+    .tier:first-child{border-top:0;padding-top:10px}
+    .tier-ico{
+      width:44px;height:44px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:17px;
+      flex:0 0 auto;
+      box-shadow:0 12px 20px rgba(15,23,42,.08);
+    }
+    .tier-ico.gray{background:linear-gradient(135deg,#b9beca,#959cad)}
+    .tier-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .tier-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .tier-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+
+    .tier-name{
+      font-size:13px;
+      font-weight:900;
+      color:#11162b;
+      margin:0;
+    }
+    .tier-range{
+      margin-top:4px;
+      color:#667085;
+      font-size:12px;
+      line-height:1.4;
+    }
+    .tier-reward{
+      text-align:right;
+      font-size:13px;
+      font-weight:900;
+      color:#11162b;
+      white-space:nowrap;
+    }
+    .tier-reward span{
+      display:block;
+      margin-top:3px;
+      color:#667085;
+      font-size:12px;
+      font-weight:600;
+    }
+    .current-tier{
+      margin-top:10px;
+      border-radius:14px;
+      padding:14px;
+      background:linear-gradient(180deg, #f5f0ff 0%, #f7f4ff 100%);
+      border:1px solid #ece4ff;
+    }
+    .current-tier h4{
+      margin:0 0 4px;
+      color:#6f49ff;
+      font-size:13px;
+      font-weight:900;
+    }
+    .current-tier p{
+      margin:0;
+      color:#4b5563;
+      font-size:13px;
+      line-height:1.5;
+    }
+    .progress{
+      margin-top:12px;
+      height:6px;
+      border-radius:999px;
+      background:#e6dafd;
+      overflow:hidden;
+      position:relative;
+    }
+    .progress span{
+      display:block;
+      height:100%;
+      width:77%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#6f49ff,#5f39f7);
+    }
+    .progress-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:8px;
+      font-size:12px;
+      color:#667085;
+      font-weight:700;
+    }
+
+    .performance-card{
+      grid-column:1 / 2;
+      padding:18px;
+      min-height:365px;
+    }
+    .performance-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .month-select{
+      height:36px;
+      border:1px solid #dde3ef;
+      background:#fff;
+      border-radius:12px;
+      padding:0 12px;
+      font-size:13px;
+      font-weight:700;
+      color:#344054;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-top:10px;
+      margin-bottom:8px;
+    }
+    .metric{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .metric-ico{
+      width:40px;height:40px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:15px;
+      flex:0 0 auto;
+      box-shadow:0 12px 18px rgba(15,23,42,.08);
+    }
+    .metric-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .metric-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .metric-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .metric-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .metric-label{
+      color:#667085;
+      font-size:12px;
+      font-weight:700;
+    }
+    .metric-value{
+      margin-top:4px;
+      color:#11162b;
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .chart-wrap{
+      position:relative;
+      margin-top:12px;
+      border-top:1px solid #f0f2f8;
+      padding-top:10px;
+    }
+    .chart{
+      width:100%;
+      height:250px;
+      display:block;
+      overflow:visible;
+    }
+    .axis-label{
+      fill:#667085;
+      font-size:11px;
+      font-weight:700;
+    }
+    .grid-line{
+      stroke:#edf0f8;
+      stroke-width:1;
+    }
+    .line{
+      fill:none;
+      stroke:#6f49ff;
+      stroke-width:3.5;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      filter:drop-shadow(0 10px 18px rgba(111,73,255,.16));
+    }
+    .area{
+      fill:url(#areaGrad);
+    }
+    .point{
+      fill:#fff;
+      stroke:#6f49ff;
+      stroke-width:2.5;
+      filter:drop-shadow(0 8px 12px rgba(111,73,255,.18));
+    }
+
+    .tooltip{
+      position:absolute;
+      pointer-events:none;
+      display:none;
+      background:#fff;
+      border:1px solid #e8ebf4;
+      border-radius:12px;
+      box-shadow:0 14px 30px rgba(15,23,42,.10);
+      padding:8px 10px;
+      font-size:12px;
+      color:#11162b;
+      transform:translate(-50%, -120%);
+      white-space:nowrap;
+      z-index:4;
+    }
+    .tooltip strong{display:block;font-size:12px;margin-bottom:2px}
+
+    .recent-card{
+      grid-column:2 / 3;
+      padding:18px;
+      min-height:365px;
+    }
+    .ref-list{
+      display:grid;
+      gap:8px;
+      margin-top:8px;
+    }
+    .ref-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0;
+      border-top:1px solid #f0f2f8;
+    }
+    .ref-row:first-child{border-top:0}
+    .ref-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .ref-avatar{
+      width:28px;height:28px;border-radius:50%;
+      object-fit:cover;
+      flex:0 0 auto;
+      box-shadow:0 8px 18px rgba(15,23,42,.10);
+    }
+    .ref-name{
+      font-size:13px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.2;
+    }
+    .ref-handle{
+      margin-top:3px;
+      font-size:12px;
+      color:#667085;
+    }
+    .ref-date{
+      font-size:12px;
+      color:#667085;
+      white-space:nowrap;
+      margin-left:8px;
+    }
+    .ref-status{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:24px;
+      padding:0 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .ref-status.completed{background:rgba(25,195,125,.12);color:#16a34a}
+    .ref-status.pending{background:rgba(245,158,11,.14);color:#ea7b00}
+    .ref-amount{
+      color:#6f49ff;
+      font-size:13px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .bottom-cta{
+      grid-column:1 / -1;
+      margin-top:14px;
+      padding:16px 18px;
+      border-radius:18px;
+      background:linear-gradient(90deg,#f5f0ff,#f7f2ff 60%, #f2ecff);
+      border:1px solid #ece4ff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      box-shadow:var(--shadow);
+    }
+    .cta-left{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+    .cta-badge{
+      width:38px;height:38px;border-radius:50%;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      box-shadow:0 12px 18px rgba(111,73,255,.18);
+      flex:0 0 auto;
+    }
+    .cta-title{
+      font-size:16px;
+      font-weight:900;
+      color:#11162b;
+      margin:0 0 4px;
+    }
+    .cta-sub{
+      color:#667085;
+      font-size:13px;
+      line-height:1.5;
+      margin:0;
+    }
+    .invite-btn{
+      height:42px;
+      padding:0 18px;
+      border:0;
+      border-radius:12px;
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+      cursor:pointer;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(111,73,255,.22);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+    }
+
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:40px;border-radius:12px;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    @media (max-width: 1320px){
+      .content-grid{
+        grid-template-columns:1fr;
+      }
+      .ref-link-card,.rewards-card,.performance-card,.recent-card{
+        grid-column:auto;
+      }
+      .bottom-cta{
+        grid-column:auto;
+      }
+      .recent-card{
+        min-height:auto;
+      }
+      .performance-card{
+        min-height:auto;
+      }
+    }
+
+    @media (max-width: 1080px){
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+
+    @media (max-width: 980px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .main{padding:16px}
+      .topbar{padding:0 16px}
+      .page-head{flex-direction:column}
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .bottom-cta{flex-direction:column;align-items:flex-start}
+      .invite-btn{width:100%;justify-content:center}
+    }
+
+    @media (max-width: 720px){
+      .topbar-right{gap:12px}
+      .profile .text{display:none}
+      .chev{display:none}
+      .heading h2{font-size:24px}
+      .heading p{font-size:14px}
+      .stats-grid{grid-template-columns:1fr}
+      .stat-card{padding:16px}
+      .stat-body .value{font-size:24px}
+      .page-head{gap:12px}
+      .help-btn{width:100%;justify-content:center}
+      .ref-link-card{
+        min-height:auto;
+        padding-bottom:24px;
+      }
+      .gift-illustration{
+        display:none;
+      }
+      .ref-controls{
+        flex-direction:column;
+        max-width:none;
+      }
+      .copy-btn{
+        width:100%;
+      }
+      .tier{
+        grid-template-columns:44px 1fr;
+      }
+      .tier-reward{
+        grid-column:1 / -1;
+        text-align:left;
+        margin-left:56px;
+      }
+      .metrics{grid-template-columns:1fr 1fr}
+      .bottom-cta{
+        padding:14px;
+      }
+      .cta-left{align-items:flex-start}
+      .ref-row{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .ref-date{
+        margin-left:0;
+      }
+      .ref-amount{
+        margin-top:6px;
+      }
+      .stats-grid,.metrics{gap:12px}
+      .share-btn{
+        height:36px;
+        font-size:12px;
+      }
+      .month-select{
+        font-size:12px;
+      }
+      .section-title{font-size:16px}
+    }
+
+    @media (max-width: 520px){
+      .topbar-right{gap:10px}
+      .heading h2{font-size:22px}
+      .main{padding:12px}
+      .section-title{font-size:16px}
+      .ref-link-card,.rewards-card,.performance-card,.recent-card{
+        padding:14px;
+      }
+      .metrics{grid-template-columns:1fr}
+      .chart{height:220px}
+      .cta-title{font-size:15px}
+      .cta-sub{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+     <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item active" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+          <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item active" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+            <p style="margin:6px 0 0;">Get help & support</p>
+          </div>
+          <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-regular fa-user-group"></i> <span>Referrals</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img id="profileAvatar" src="https://i.pravatar.cc/80?img=5" alt="Profile photo">
+            <div class="text">
+              <div class="name" id="profileNameTop">Adeola M.</div>
+              <div class="role" id="profileRole">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="page-head">
+          <div class="heading">
+            <h2>Refer &amp; Earn</h2>
+            <p>Invite friends, grow your network and earn amazing rewards.</p>
+          </div>
+          <button class="help-btn"><i class="fa-regular fa-circle-question"></i> How it works</button>
+        </div>
+
+        <section class="stats-grid" id="statsGrid"></section>
+
+        <section class="content-grid">
+          <article class="panel ref-link-card">
+            <div class="ref-link-head">
+              <div>
+                <h3 class="section-title">Your Referral Link</h3>
+                <p class="section-sub">Share your unique link and start earning</p>
+              </div>
+            </div>
+
+            <div class="ref-controls">
+              <div class="ref-input">
+                <div class="link-ico"><i class="fa-solid fa-link"></i></div>
+                <input id="refLink" type="text" value="https://smboostly.com/ref/adeolam" readonly />
+              </div>
+              <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+            </div>
+
+            <div class="share-block">
+              <div class="share-label">Share via</div>
+              <div class="share-list">
+                <button class="share-btn" type="button"><i class="fa-brands fa-whatsapp wa"></i> WhatsApp</button>
+                <button class="share-btn" type="button"><i class="fa-brands fa-facebook fb"></i> Facebook</button>
+                <button class="share-btn" type="button"><i class="fa-brands fa-twitter tw"></i> Twitter</button>
+                <button class="share-btn" type="button"><i class="fa-brands fa-telegram tg"></i> Telegram</button>
+                <button class="share-btn" type="button"><i class="fa-solid fa-share-nodes more"></i> More</button>
+              </div>
+            </div>
+
+            <img
+              class="gift-illustration"
+              alt="Gift illustration"
+              src="https://cdn3d.iconscout.com/3d/premium/thumb/refer-earn-3d-icon-png-download-9437339.png"
+            />
+          </article>
+
+          <article class="panel rewards-card">
+            <div class="rewards-head">
+              <div>
+                <h3 class="section-title">Referral Rewards</h3>
+              </div>
+              <a href="#" class="view-link">View all tiers</a>
+            </div>
+
+            <div class="tier-list" id="tierList"></div>
+
+            <div class="current-tier">
+              <h4 id="currentTierLabel">You are on Tier 3</h4>
+              <p id="currentTierSub">Invite 23 more friends to unlock Tier 4 and earn 20% per referral.</p>
+              <div class="progress"><span id="tierProgress"></span></div>
+              <div class="progress-row">
+                <span>77/100</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel performance-card">
+            <div class="performance-head">
+              <div>
+                <h3 class="section-title">Referral Performance</h3>
+              </div>
+              <div class="month-select">This Month <i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+
+            <div class="metrics" id="metrics"></div>
+
+            <div class="chart-wrap">
+              <div class="tooltip" id="tooltip"></div>
+              <svg class="chart" id="chart" viewBox="0 0 820 250" preserveAspectRatio="none" aria-label="Referral performance chart">
+                <defs>
+                  <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#6f49ff" stop-opacity="0.20"/>
+                    <stop offset="100%" stop-color="#6f49ff" stop-opacity="0.02"/>
+                  </linearGradient>
+                </defs>
+                <g id="grid"></g>
+                <path id="area" class="area"></path>
+                <path id="line" class="line"></path>
+                <g id="points"></g>
+                <g id="labels"></g>
+              </svg>
+            </div>
+          </article>
+
+          <article class="panel recent-card">
+            <div class="rewards-head">
+              <div>
+                <h3 class="section-title">Recent Referrals</h3>
+              </div>
+              <a href="#" class="view-link">View all</a>
+            </div>
+
+            <div class="ref-list" id="recentList"></div>
+
+            <div style="text-align:center;margin-top:12px;">
+              <a href="#" class="view-link" style="display:inline-flex;align-items:center;gap:10px;">View all referrals <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </article>
+
+          <div class="bottom-cta">
+            <div class="cta-left">
+              <div class="cta-badge"><i class="fa-solid fa-award"></i></div>
+              <div>
+                <p class="cta-title">Earn More, Unlock More!</p>
+                <p class="cta-sub">The more friends you invite, the more you earn. Unlock higher tiers and enjoy bigger rewards.</p>
+              </div>
+            </div>
+            <button class="invite-btn"><i class="fa-solid fa-user-plus"></i> Invite Friends Now</button>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('referral-data').textContent);
+
+    document.getElementById('profileAvatar').src = data.profile.avatar;
+    document.getElementById('profileNameTop').textContent = data.profile.name;
+    document.getElementById('profileRole').textContent = data.profile.role;
+
+    const statsGrid = document.getElementById('statsGrid');
+    statsGrid.innerHTML = data.stats.map(stat => `
+      <article class="stat-card">
+        <div class="stat-ico ${stat.accent}">
+          <i class="fa-solid ${stat.icon}"></i>
+        </div>
+        <div class="stat-body">
+          <div class="label">${stat.label}</div>
+          <div class="value">${stat.value}</div>
+          <div class="sub">${stat.sub}</div>
+        </div>
+      </article>
+    `).join('');
+
+    const tierList = document.getElementById('tierList');
+    tierList.innerHTML = data.tiers.map(t => `
+      <div class="tier">
+        <div class="tier-ico ${t.accent}">
+          <i class="fa-solid ${t.icon}"></i>
+        </div>
+        <div>
+          <div class="tier-name">${t.tier}</div>
+          <div class="tier-range">${t.range}</div>
+        </div>
+        <div class="tier-reward">${t.reward}<span>${t.subReward}</span></div>
+      </div>
+    `).join('');
+
+    document.getElementById('currentTierLabel').textContent = data.currentTier.label;
+    document.getElementById('currentTierSub').textContent = data.currentTier.sub;
+    document.getElementById('tierProgress').style.width = `${data.currentTier.progress}%`;
+
+    const metrics = document.getElementById('metrics');
+    metrics.innerHTML = `
+      <div class="metric">
+        <div class="metric-ico purple"><i class="fa-solid fa-link"></i></div>
+        <div>
+          <div class="metric-label">Clicks</div>
+          <div class="metric-value">1,245</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-ico blue"><i class="fa-solid fa-user-plus"></i></div>
+        <div>
+          <div class="metric-label">Signups</div>
+          <div class="metric-value">198</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-ico green"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+        <div>
+          <div class="metric-label">Conversions</div>
+          <div class="metric-value">98</div>
+        </div>
+      </div>
+      <div class="metric">
+        <div class="metric-ico orange"><i class="fa-regular fa-clock"></i></div>
+        <div>
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-value">49.5%</div>
+        </div>
+      </div>
+    `;
+
+    const recentList = document.getElementById('recentList');
+    recentList.innerHTML = data.recent.map(r => `
+      <div class="ref-row">
+        <div class="ref-left">
+          <img class="ref-avatar" src="${r.avatar}" alt="${r.name}">
+          <div>
+            <div class="ref-name">${r.name}</div>
+            <div class="ref-handle">${r.handle}</div>
+          </div>
+        </div>
+        <div class="ref-date">${r.date}</div>
+        <span class="ref-status ${r.statusClass}">${r.status}</span>
+        <div class="ref-amount">${r.amount}</div>
+      </div>
+    `).join('');
+
+    const labels = data.performance.labels;
+    const values = data.performance.values;
+
+    const svg = document.getElementById('chart');
+    const grid = document.getElementById('grid');
+    const area = document.getElementById('area');
+    const line = document.getElementById('line');
+    const points = document.getElementById('points');
+    const labelsGroup = document.getElementById('labels');
+    const tooltip = document.getElementById('tooltip');
+
+    function drawChart() {
+      const width = 820;
+      const height = 250;
+      const padL = 44;
+      const padR = 20;
+      const padT = 18;
+      const padB = 36;
+
+      const chartH = height - padT - padB;
+      const max = Math.max(...values) * 1.15;
+      const min = Math.min(...values) * 0.80;
+      const stepX = (width - padL - padR) / (values.length - 1);
+
+      grid.innerHTML = '';
+      labelsGroup.innerHTML = '';
+
+      for (let i = 0; i <= 4; i++) {
+        const y = padT + (chartH / 4) * i;
+        grid.insertAdjacentHTML('beforeend', `<line class="grid-line" x1="${padL}" y1="${y}" x2="${width - padR}" y2="${y}"></line>`);
+        const val = Math.round(max - (max - min) * (i / 4));
+        grid.insertAdjacentHTML('beforeend', `<text class="axis-label" x="8" y="${y + 4}">${val}</text>`);
+      }
+
+      const coords = values.map((v, i) => {
+        const x = padL + i * stepX;
+        const y = padT + chartH - ((v - min) / (max - min)) * chartH;
+        return { x, y, v, label: labels[i] };
+      });
+
+      let d = `M ${coords[0].x} ${coords[0].y}`;
+      for (let i = 1; i < coords.length; i++) {
+        const prev = coords[i - 1];
+        const cur = coords[i];
+        const c1x = prev.x + stepX / 2;
+        const c1y = prev.y;
+        const c2x = cur.x - stepX / 2;
+        const c2y = cur.y;
+        d += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${cur.x} ${cur.y}`;
+      }
+      const areaPath = `${d} L ${coords[coords.length - 1].x} ${height - padB} L ${coords[0].x} ${height - padB} Z`;
+
+      line.setAttribute('d', d);
+      area.setAttribute('d', areaPath);
+
+      points.innerHTML = coords.map((p, idx) => `
+        <circle class="point" cx="${p.x}" cy="${p.y}" r="4.4" data-label="${p.label}" data-value="${p.v}"></circle>
+      `).join('');
+
+      labelsGroup.innerHTML = coords
+        .filter((_, idx) => idx % 2 === 0)
+        .map(p => `<text class="axis-label" x="${p.x}" y="${height - 12}" text-anchor="middle">${p.label}</text>`)
+        .join('');
+
+      const circles = points.querySelectorAll('circle');
+      circles.forEach((circle, idx) => {
+        circle.addEventListener('mouseenter', () => {
+          const p = coords[idx];
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `<strong>${p.label}</strong>${p.v} referrals`;
+          tooltip.style.left = `${(p.x / width) * svg.clientWidth}px`;
+          tooltip.style.top = `${(p.y / height) * svg.clientHeight}px`;
+        });
+        circle.addEventListener('mouseleave', () => {
+          tooltip.style.display = 'none';
+        });
+      });
+    }
+
+    drawChart();
+    window.addEventListener('resize', drawChart);
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const input = document.getElementById('refLink');
+      try {
+        await navigator.clipboard.writeText(input.value);
+        const btn = document.getElementById('copyBtn');
+        const prev = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(() => btn.textContent = prev, 1400);
+      } catch {
+        const btn = document.getElementById('copyBtn');
+        const prev = btn.textContent;
+        btn.textContent = 'Copy failed';
+        setTimeout(() => btn.textContent = prev, 1400);
+      }
+    });
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>

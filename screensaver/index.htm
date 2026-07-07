@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>iOS Lock Screen</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #000;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== iOS CONTAINER ===== */
+    .ios-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      max-width: 430px;
+      max-height: 932px;
+      background: #000;
+      overflow: hidden;
+      border-radius: 0;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+    }
+
+    @media (min-width: 431px) {
+      .ios-container {
+        border-radius: 40px;
+        max-width: 430px;
+        max-height: 932px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .ios-container {
+        border-radius: 0;
+        max-width: 100vw;
+        max-height: 100vh;
+      }
+    }
+
+    /* ===== LOCK SCREEN ===== */
+    .lock-screen {
+      position: absolute;
+      inset: 0;
+      z-index: 100;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 50px 24px 40px;
+      transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.6s ease;
+    }
+
+    .lock-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 0;
+    }
+
+    .lock-screen>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .lock-screen.hidden {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Time */
+    .lock-time {
+      text-align: center;
+      color: #fff;
+      padding-top: 20px;
+    }
+
+    .lock-time .time {
+      font-size: 72px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .lock-time .date {
+      font-size: 18px;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-top: 6px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Notifications */
+    .lock-notifications {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+
+    .notif-item {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .notif-item:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: scale(1.01);
+    }
+
+    .notif-item:active {
+      transform: scale(0.97);
+    }
+
+    .notif-item .notif-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .notif-item .notif-icon.blue {
+      background: linear-gradient(135deg, #5ac8fa, #007aff);
+    }
+    .notif-item .notif-icon.green {
+      background: linear-gradient(135deg, #34c759, #28a745);
+    }
+    .notif-item .notif-icon.orange {
+      background: linear-gradient(135deg, #ff9500, #e68a00);
+    }
+    .notif-item .notif-icon.purple {
+      background: linear-gradient(135deg, #af52de, #8944b8);
+    }
+
+    .notif-item .notif-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notif-item .notif-title {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .notif-item .notif-body {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 13px;
+      font-weight: 400;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    .notif-item .notif-time {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 11px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    /* Swipe up */
+    .swipe-area {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding-bottom: 8px;
+      cursor: pointer;
+      touch-action: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .swipe-area .swipe-icon {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 4px;
+      animation: bounceUp 2s ease-in-out infinite;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes bounceUp {
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translateY(-8px);
+        opacity: 1;
+      }
+    }
+
+    .swipe-area .swipe-label {
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    /* ===== PIN SET SCREEN ===== */
+    .pin-set-screen {
+      position: absolute;
+      inset: 0;
+      z-index: 120;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .pin-set-screen.active {
+      display: flex;
+    }
+
+    .pin-set-screen .pin-title {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .pin-set-screen .pin-sub {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 15px;
+      font-weight: 400;
+      margin-bottom: 30px;
+    }
+
+    .pin-dots {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .pin-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .pin-dot.filled {
+      background: #fff;
+      border-color: #fff;
+      transform: scale(1.05);
+    }
+
+    .pin-dot.active {
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.1);
+    }
+
+    .pin-numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 300px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .pin-key {
+      height: 64px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 28px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+      display: grid;
+      place-items: center;
+      touch-action: manipulation;
+    }
+
+    .pin-key:active {
+      background: rgba(255, 255, 255, 0.18);
+      transform: scale(0.92);
+    }
+
+    .pin-key.empty {
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .pin-key .fa-delete-left {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .pin-actions {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .pin-actions .btn-pin {
+      flex: 1;
+      height: 48px;
+      border-radius: 14px;
+      border: none;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-pin.save {
+      background: linear-gradient(135deg, #007aff, #0055b3);
+      color: #fff;
+      box-shadow: 0 8px 30px rgba(0, 122, 255, 0.3);
+    }
+
+    .btn-pin.save:active {
+      transform: scale(0.96);
+    }
+
+    .btn-pin.cancel {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn-pin.cancel:active {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(0.96);
+    }
+
+    .btn-pin:disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* ===== PIN ENTRY (for unlocking) ===== */
+    .pin-entry-screen {
+      position: absolute;
+      inset: 0;
+      z-index: 110;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+
+    .pin-entry-screen.active {
+      display: flex;
+    }
+
+    .pin-entry-screen .pin-title {
+      color: #fff;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .pin-entry-screen .pin-sub {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 30px;
+    }
+
+    .pin-entry-screen .pin-error {
+      color: #ff453a;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 8px;
+      min-height: 24px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .pin-entry-screen .pin-error.show {
+      opacity: 1;
+    }
+
+    .pin-entry-screen .pin-actions {
+      max-width: 300px;
+    }
+
+    /* ===== HOME SCREEN ===== */
+    .home-screen {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+      display: none;
+      flex-direction: column;
+      padding: 50px 20px 20px;
+      overflow: hidden;
+    }
+
+    .home-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 0;
+    }
+
+    .home-screen>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .home-screen.active {
+      display: flex;
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .status-bar .time {
+      font-weight: 700;
+    }
+
+    .status-bar .icons {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    /* Widgets */
+    .widgets {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .widget {
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 18px;
+      padding: 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #fff;
+      min-height: 110px;
+    }
+
+    .widget.weather {
+      grid-column: 1 / 2;
+    }
+
+    .widget.calendar {
+      grid-column: 2 / 3;
+    }
+
+    .widget .widget-label {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .widget .widget-value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 4px;
+      line-height: 1.1;
+    }
+
+    .widget .widget-sub {
+      font-size: 13px;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    .widget .widget-icon {
+      font-size: 24px;
+      margin-top: 4px;
+    }
+
+    .widget.calendar .cal-date {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .widget.calendar .cal-month {
+      font-size: 13px;
+      opacity: 0.6;
+      margin-top: 2px;
+    }
+
+    /* App Grid */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px 8px;
+      margin-top: 6px;
+      flex: 1;
+      align-content: start;
+    }
+
+    .app-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 4px 0;
+      touch-action: manipulation;
+    }
+
+    .app-icon:active {
+      transform: scale(0.88);
+    }
+
+    .app-icon .icon-wrap {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .app-icon .icon-wrap.spotify {
+      background: linear-gradient(135deg, #1ed760, #1aa34a);
+    }
+    .app-icon .icon-wrap.weather {
+      background: linear-gradient(135deg, #5ac8fa, #007aff);
+    }
+    .app-icon .icon-wrap.calendar {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    }
+    .app-icon .icon-wrap.photos {
+      background: linear-gradient(135deg, #ff9ff3, #f368e0);
+    }
+    .app-icon .icon-wrap.messages {
+      background: linear-gradient(135deg, #34c759, #28a745);
+    }
+    .app-icon .icon-wrap.settings {
+      background: linear-gradient(135deg, #8e8e93, #636366);
+    }
+    .app-icon .icon-wrap.safari {
+      background: linear-gradient(135deg, #5ac8fa, #007aff);
+    }
+    .app-icon .icon-wrap.music {
+      background: linear-gradient(135deg, #ff2d55, #d11a3b);
+    }
+    .app-icon .icon-wrap.clock {
+      background: linear-gradient(135deg, #5856d6, #3a38a8);
+    }
+    .app-icon .icon-wrap.maps {
+      background: linear-gradient(135deg, #34c759, #1a8a3a);
+    }
+    .app-icon .icon-wrap.notes {
+      background: linear-gradient(135deg, #ffcc00, #e6b800);
+    }
+    .app-icon .icon-wrap.appstore {
+      background: linear-gradient(135deg, #007aff, #0055b3);
+    }
+
+    .app-icon .app-label {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      line-height: 1.2;
+      max-width: 64px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Dock */
+    .dock {
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 28px;
+      padding: 12px 16px;
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .dock .app-icon .icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      font-size: 22px;
+    }
+
+    .dock .app-icon .app-label {
+      display: none;
+    }
+
+    /* ===== SPOTIFY APP ===== */
+    .spotify-app {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      background: #121212;
+      display: none;
+      flex-direction: column;
+      animation: slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    .spotify-app.active {
+      display: flex;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .spotify-app .spotify-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 8px;
+      background: #121212;
+    }
+
+    .spotify-app .spotify-header .back-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .spotify-app .spotify-header .title {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .spotify-app .spotify-header .actions {
+      display: flex;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 18px;
+    }
+
+    .spotify-app .spotify-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 20px 20px;
+    }
+
+    .spotify-app .spotify-body::-webkit-scrollbar {
+      width: 4px;
+    }
+    .spotify-app .spotify-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .spotify-app .spotify-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    /* Spotify Sidebar Navigation */
+    .spotify-nav {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 4px;
+    }
+
+    .spotify-nav .nav-btn {
+      flex: 1;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .spotify-nav .nav-btn.active {
+      background: #282828;
+      color: #fff;
+    }
+
+    .spotify-nav .nav-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Spotify Content */
+    .spotify-content {
+      flex: 1;
+    }
+
+    .spotify-content .page {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .spotify-content .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Home page - playlists */
+    .playlist-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .playlist-card {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .playlist-card:active {
+      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .playlist-card .pl-art {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1ed760, #1aa34a);
+      display: grid;
+      place-items: center;
+      font-size: 32px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .playlist-card .pl-art.purple {
+      background: linear-gradient(135deg, #af52de, #8944b8);
+    }
+    .playlist-card .pl-art.orange {
+      background: linear-gradient(135deg, #ff9500, #e68a00);
+    }
+    .playlist-card .pl-art.blue {
+      background: linear-gradient(135deg, #5ac8fa, #007aff);
+    }
+    .playlist-card .pl-art.red {
+      background: linear-gradient(135deg, #ff3b30, #d11a2a);
+    }
+
+    .playlist-card .pl-name {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .playlist-card .pl-sub {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    /* Search page */
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: background 0.2s ease;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    .search-input:focus {
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    .search-results {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .search-result {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .search-result:active {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .search-result .sr-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .search-result .sr-name {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .search-result .sr-artist {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+    }
+
+    /* Library page */
+    .library-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .lib-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .lib-item:active {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .lib-item .li-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .lib-item .li-name {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .lib-item .li-count {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 12px;
+      margin-left: auto;
+    }
+
+    /* File picker for audio */
+    .file-picker-area {
+      margin-top: 16px;
+      padding: 20px;
+      border: 2px dashed rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .file-picker-area:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .file-picker-area .fp-icon {
+      font-size: 32px;
+      color: #1ed760;
+      margin-bottom: 8px;
+    }
+
+    .file-picker-area .fp-text {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .file-picker-area .fp-sub {
+      font-size: 12px;
+      margin-top: 4px;
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Spotify Player Bar (bottom) */
+    .spotify-player-bar {
+      background: #181818;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .spotify-player-bar .pb-art {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #1ed760, #1aa34a);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .spotify-player-bar .pb-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .spotify-player-bar .pb-name {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .spotify-player-bar .pb-artist {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .spotify-player-bar .pb-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .spotify-player-bar .pb-controls button {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .spotify-player-bar .pb-controls button:active {
+      transform: scale(0.85);
+    }
+
+    .spotify-player-bar .pb-controls .play-btn {
+      font-size: 28px;
+      color: #fff;
+    }
+
+    /* Full player overlay */
+    .full-player {
+      position: absolute;
+      inset: 0;
+      z-index: 60;
+      background: #121212;
+      display: none;
+      flex-direction: column;
+      padding: 40px 24px 30px;
+      animation: slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    .full-player.active {
+      display: flex;
+    }
+
+    .full-player .fp-close {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 22px;
+      cursor: pointer;
+      padding: 4px 8px;
+      margin-bottom: 10px;
+    }
+
+    .full-player .fp-art {
+      width: 200px;
+      height: 200px;
+      border-radius: 16px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #1ed760, #1aa34a);
+      display: grid;
+      place-items: center;
+      font-size: 64px;
+      color: #fff;
+      box-shadow: 0 20px 60px rgba(30, 215, 96, 0.2);
+    }
+
+    .full-player .fp-name {
+      text-align: center;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .full-player .fp-artist {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .full-player .fp-progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .full-player .fp-progress .time {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 12px;
+      font-weight: 500;
+      min-width: 36px;
+    }
+
+    .full-player .fp-progress .bar {
+      flex: 1;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .full-player .fp-progress .bar .fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #1ed760, #1aa34a);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .full-player .fp-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      margin-top: 8px;
+    }
+
+    .full-player .fp-controls button {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 22px;
+      cursor: pointer;
+      padding: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .full-player .fp-controls button:active {
+      transform: scale(0.85);
+    }
+
+    .full-player .fp-controls .fp-play {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1ed760, #1aa34a);
+      color: #fff;
+      font-size: 28px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 30px rgba(30, 215, 96, 0.3);
+    }
+
+    .full-player .fp-controls .fp-play:active {
+      transform: scale(0.92);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 430px) {
+      .lock-time .time {
+        font-size: 56px;
+      }
+      .lock-notifications {
+        max-width: 100%;
+      }
+      .widgets {
+        grid-template-columns: 1fr;
+      }
+      .widget.weather {
+        grid-column: 1 / 2;
+      }
+      .widget.calendar {
+        grid-column: 1 / 2;
+      }
+      .app-grid {
+        gap: 10px 6px;
+      }
+      .app-icon .icon-wrap {
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+        border-radius: 14px;
+      }
+      .dock .app-icon .icon-wrap {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+      }
+      .pin-key {
+        height: 56px;
+        font-size: 24px;
+      }
+      .pin-dots {
+        gap: 12px;
+      }
+      .pin-dot {
+        width: 16px;
+        height: 16px;
+      }
+      .playlist-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .full-player .fp-art {
+        width: 160px;
+        height: 160px;
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .lock-time .time {
+        font-size: 44px;
+      }
+      .app-icon .icon-wrap {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+        border-radius: 12px;
+      }
+      .dock .app-icon .icon-wrap {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+      .app-icon .app-label {
+        font-size: 10px;
+      }
+      .pin-key {
+        height: 48px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ios-container" id="app">
+
+    <!-- ===== LOCK SCREEN ===== -->
+    <div class="lock-screen" id="lockScreen">
+      <!-- Time -->
+      <div class="lock-time">
+        <div class="time" id="lockTime">12:00</div>
+        <div class="date" id="lockDate">Monday, January 1</div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="lock-notifications">
+        <div class="notif-item" id="notifTakeBreak">
+          <div class="notif-icon green"><i class="fas fa-mug-saucer"></i></div>
+          <div class="notif-content">
+            <div class="notif-title">Take a break</div>
+            <div class="notif-body">Tap to relax and unwind 🧘</div>
+          </div>
+          <span class="notif-time">now</span>
+        </div>
+
+        <div class="notif-item" id="notifSetPin">
+          <div class="notif-icon orange"><i class="fas fa-lock"></i></div>
+          <div class="notif-content">
+            <div class="notif-title">Add PIN to lock screen</div>
+            <div class="notif-body">Secure your device with a passcode</div>
+          </div>
+          <span class="notif-time">now</span>
+        </div>
+
+        <div class="notif-item" id="notifWeather">
+          <div class="notif-icon blue"><i class="fas fa-cloud-sun"></i></div>
+          <div class="notif-content">
+            <div class="notif-title">Weather Update</div>
+            <div class="notif-body">Sunny, 24°C — Perfect day to go outside</div>
+          </div>
+          <span class="notif-time">2 min ago</span>
+        </div>
+      </div>
+
+      <!-- Swipe up -->
+      <div class="swipe-area" id="swipeArea">
+        <span class="swipe-icon"><i class="fas fa-chevron-up"></i></span>
+        <span class="swipe-label">Swipe up to unlock</span>
+      </div>
+    </div>
+
+    <!-- ===== PIN SET SCREEN ===== -->
+    <div class="pin-set-screen" id="pinSetScreen">
+      <div class="pin-title">Set Lock Screen PIN</div>
+      <div class="pin-sub">Enter a 4-digit passcode</div>
+
+      <div class="pin-dots" id="pinDots">
+        <span class="pin-dot" data-i="0"></span>
+        <span class="pin-dot" data-i="1"></span>
+        <span class="pin-dot" data-i="2"></span>
+        <span class="pin-dot" data-i="3"></span>
+      </div>
+
+      <div class="pin-numpad" id="pinNumpad">
+        <button class="pin-key" data-value="1">1</button>
+        <button class="pin-key" data-value="2">2</button>
+        <button class="pin-key" data-value="3">3</button>
+        <button class="pin-key" data-value="4">4</button>
+        <button class="pin-key" data-value="5">5</button>
+        <button class="pin-key" data-value="6">6</button>
+        <button class="pin-key" data-value="7">7</button>
+        <button class="pin-key" data-value="8">8</button>
+        <button class="pin-key" data-value="9">9</button>
+        <button class="pin-key empty"></button>
+        <button class="pin-key" data-value="0">0</button>
+        <button class="pin-key" data-value="delete"><i class="fas fa-delete-left"></i></button>
+      </div>
+
+      <div class="pin-actions">
+        <button class="btn-pin cancel" id="pinCancelBtn">Cancel</button>
+        <button class="btn-pin save" id="pinSaveBtn" disabled>Save</button>
+      </div>
+    </div>
+
+    <!-- ===== PIN ENTRY SCREEN (for unlocking) ===== -->
+    <div class="pin-entry-screen" id="pinEntryScreen">
+      <div class="pin-title">Enter Passcode</div>
+      <div class="pin-sub">Enter your 4-digit passcode to unlock</div>
+
+      <div class="pin-dots" id="pinEntryDots">
+        <span class="pin-dot" data-i="0"></span>
+        <span class="pin-dot" data-i="1"></span>
+        <span class="pin-dot" data-i="2"></span>
+        <span class="pin-dot" data-i="3"></span>
+      </div>
+
+      <div class="pin-error" id="pinError">Incorrect passcode. Try again.</div>
+
+      <div class="pin-numpad" id="pinEntryNumpad">
+        <button class="pin-key" data-value="1">1</button>
+        <button class="pin-key" data-value="2">2</button>
+        <button class="pin-key" data-value="3">3</button>
+        <button class="pin-key" data-value="4">4</button>
+        <button class="pin-key" data-value="5">5</button>
+        <button class="pin-key" data-value="6">6</button>
+        <button class="pin-key" data-value="7">7</button>
+        <button class="pin-key" data-value="8">8</button>
+        <button class="pin-key" data-value="9">9</button>
+        <button class="pin-key empty"></button>
+        <button class="pin-key" data-value="0">0</button>
+        <button class="pin-key" data-value="delete"><i class="fas fa-delete-left"></i></button>
+      </div>
+
+      <div class="pin-actions">
+        <button class="btn-pin cancel" id="pinEntryCancelBtn">Cancel</button>
+        <button class="btn-pin save" id="pinEntryUnlockBtn" disabled>Unlock</button>
+      </div>
+    </div>
+
+    <!-- ===== HOME SCREEN ===== -->
+    <div class="home-screen" id="homeScreen">
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span class="time" id="homeTime">12:00</span>
+        <span class="icons">
+          <i class="fas fa-signal"></i>
+          <i class="fas fa-wifi"></i>
+          <i class="fas fa-battery-three-quarters"></i>
+        </span>
+      </div>
+
+      <!-- Widgets -->
+      <div class="widgets">
+        <div class="widget weather">
+          <div class="widget-label">Weather</div>
+          <div class="widget-value">24°C</div>
+          <div class="widget-sub">Sunny • Lagos, NG</div>
+          <div class="widget-icon"><i class="fas fa-cloud-sun"></i></div>
+        </div>
+        <div class="widget calendar">
+          <div class="widget-label">Calendar</div>
+          <div class="cal-date" id="calDate">1</div>
+          <div class="cal-month" id="calMonth">January 2025</div>
+        </div>
+      </div>
+
+      <!-- App Grid -->
+      <div class="app-grid" id="appGrid">
+        <div class="app-icon" data-app="spotify">
+          <div class="icon-wrap spotify"><i class="fab fa-spotify"></i></div>
+          <span class="app-label">Spotify</span>
+        </div>
+        <div class="app-icon" data-app="weather">
+          <div class="icon-wrap weather"><i class="fas fa-cloud-sun"></i></div>
+          <span class="app-label">Weather</span>
+        </div>
+        <div class="app-icon" data-app="calendar">
+          <div class="icon-wrap calendar"><i class="fas fa-calendar-days"></i></div>
+          <span class="app-label">Calendar</span>
+        </div>
+        <div class="app-icon" data-app="photos">
+          <div class="icon-wrap photos"><i class="fas fa-images"></i></div>
+          <span class="app-label">Photos</span>
+        </div>
+        <div class="app-icon" data-app="messages">
+          <div class="icon-wrap messages"><i class="fas fa-message"></i></div>
+          <span class="app-label">Messages</span>
+        </div>
+        <div class="app-icon" data-app="safari">
+          <div class="icon-wrap safari"><i class="fas fa-compass"></i></div>
+          <span class="app-label">Safari</span>
+        </div>
+        <div class="app-icon" data-app="music">
+          <div class="icon-wrap music"><i class="fas fa-music"></i></div>
+          <span class="app-label">Music</span>
+        </div>
+        <div class="app-icon" data-app="settings">
+          <div class="icon-wrap settings"><i class="fas fa-gear"></i></div>
+          <span class="app-label">Settings</span>
+        </div>
+        <div class="app-icon" data-app="clock">
+          <div class="icon-wrap clock"><i class="fas fa-clock"></i></div>
+          <span class="app-label">Clock</span>
+        </div>
+        <div class="app-icon" data-app="maps">
+          <div class="icon-wrap maps"><i class="fas fa-map-location-dot"></i></div>
+          <span class="app-label">Maps</span>
+        </div>
+        <div class="app-icon" data-app="notes">
+          <div class="icon-wrap notes"><i class="fas fa-note-sticky"></i></div>
+          <span class="app-label">Notes</span>
+        </div>
+        <div class="app-icon" data-app="appstore">
+          <div class="icon-wrap appstore"><i class="fas fa-app-store"></i></div>
+          <span class="app-label">App Store</span>
+        </div>
+      </div>
+
+      <!-- Dock -->
+      <div class="dock">
+        <div class="app-icon" data-app="phone">
+          <div class="icon-wrap" style="background:linear-gradient(135deg,#34c759,#28a745);"><i class="fas fa-phone"></i></div>
+          <span class="app-label">Phone</span>
+        </div>
+        <div class="app-icon" data-app="safari">
+          <div class="icon-wrap safari"><i class="fas fa-compass"></i></div>
+          <span class="app-label">Safari</span>
+        </div>
+        <div class="app-icon" data-app="messages">
+          <div class="icon-wrap messages"><i class="fas fa-message"></i></div>
+          <span class="app-label">Messages</span>
+        </div>
+        <div class="app-icon" data-app="spotify">
+          <div class="icon-wrap spotify"><i class="fab fa-spotify"></i></div>
+          <span class="app-label">Music</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SPOTIFY APP ===== -->
+    <div class="spotify-app" id="spotifyApp">
+      <div class="spotify-header">
+        <button class="back-btn" id="spotifyBack"><i class="fas fa-chevron-left"></i></button>
+        <span class="title">Spotify</span>
+        <span class="actions">
+          <i class="fas fa-search"></i>
+          <i class="fas fa-ellipsis-vertical"></i>
+        </span>
+      </div>
+
+      <div class="spotify-body">
+        <!-- Nav -->
+        <div class="spotify-nav">
+          <button class="nav-btn active" data-page="home">Home</button>
+          <button class="nav-btn" data-page="search">Search</button>
+          <button class="nav-btn" data-page="library">Library</button>
+        </div>
+
+        <!-- Content -->
+        <div class="spotify-content">
+          <!-- Home -->
+          <div class="page active" id="spHome">
+            <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:#fff;font-size:16px;font-weight:700;">Made for You</span>
+              <span style="color:rgba(255,255,255,0.3);font-size:13px;font-weight:600;cursor:pointer;">See all</span>
+            </div>
+            <div class="playlist-grid">
+              <div class="playlist-card" data-playlist="Liked Songs">
+                <div class="pl-art"><i class="fas fa-heart"></i></div>
+                <div class="pl-name">Liked Songs</div>
+                <div class="pl-sub">Your favorite tracks</div>
+              </div>
+              <div class="playlist-card" data-playlist="Daily Mix 1">
+                <div class="pl-art purple"><i class="fas fa-music"></i></div>
+                <div class="pl-name">Daily Mix 1</div>
+                <div class="pl-sub">Pop, Dance, Indie</div>
+              </div>
+              <div class="playlist-card" data-playlist="Chill Vibes">
+                <div class="pl-art orange"><i class="fas fa-cloud-moon"></i></div>
+                <div class="pl-name">Chill Vibes</div>
+                <div class="pl-sub">Relaxing & ambient</div>
+              </div>
+              <div class="playlist-card" data-playlist="Workout Mix">
+                <div class="pl-art red"><i class="fas fa-dumbbell"></i></div>
+                <div class="pl-name">Workout Mix</div>
+                <div class="pl-sub">High energy beats</div>
+              </div>
+            </div>
+
+            <div style="margin:20px 0 12px;display:flex;justify-content:space-between;align-items:center;">
+              <span style="color:#fff;font-size:16px;font-weight:700;">Recently Played</span>
+              <span style="color:rgba(255,255,255,0.3);font-size:13px;font-weight:600;cursor:pointer;">See all</span>
+            </div>
+            <div class="playlist-grid">
+              <div class="playlist-card" data-playlist="Summer Hits">
+                <div class="pl-art blue"><i class="fas fa-sun"></i></div>
+                <div class="pl-name">Summer Hits</div>
+                <div class="pl-sub">Sunny day vibes</div>
+              </div>
+              <div class="playlist-card" data-playlist="Focus Flow">
+                <div class="pl-art purple"><i class="fas fa-brain"></i></div>
+                <div class="pl-name">Focus Flow</div>
+                <div class="pl-sub">Study & concentration</div>
+              </div>
+            </div>
+
+            <!-- File picker -->
+            <div class="file-picker-area" id="filePicker">
+              <div class="fp-icon"><i class="fas fa-headphones"></i></div>
+              <div class="fp-text">Browse audio files</div>
+              <div class="fp-sub">Tap to select MP3, WAV, or other audio from your device</div>
+              <input type="file" id="audioFileInput" accept="audio/*" multiple style="display:none;" />
+            </div>
+          </div>
+
+          <!-- Search -->
+          <div class="page" id="spSearch">
+            <input class="search-input" placeholder="Search for songs, artists, playlists..." id="searchInput" />
+            <div class="search-results" id="searchResults">
+              <div class="search-result">
+                <div class="sr-icon" style="background:linear-gradient(135deg,#1ed760,#1aa34a);"><i class="fas fa-music"></i></div>
+                <div><div class="sr-name">Blinding Lights</div><div class="sr-artist">The Weeknd</div></div>
+              </div>
+              <div class="search-result">
+                <div class="sr-icon" style="background:linear-gradient(135deg,#af52de,#8944b8);"><i class="fas fa-music"></i></div>
+                <div><div class="sr-name">Starboy</div><div class="sr-artist">The Weeknd</div></div>
+              </div>
+              <div class="search-result">
+                <div class="sr-icon" style="background:linear-gradient(135deg,#ff9500,#e68a00);"><i class="fas fa-music"></i></div>
+                <div><div class="sr-name">Save Your Tears</div><div class="sr-artist">The Weeknd</div></div>
+              </div>
+              <div class="search-result">
+                <div class="sr-icon" style="background:linear-gradient(135deg,#5ac8fa,#007aff);"><i class="fas fa-music"></i></div>
+                <div><div class="sr-name">Levitating</div><div class="sr-artist">Dua Lipa</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Library -->
+          <div class="page" id="spLibrary">
+            <div class="library-list">
+              <div class="lib-item">
+                <div class="li-icon" style="background:linear-gradient(135deg,#1ed760,#1aa34a);"><i class="fas fa-heart"></i></div>
+                <div class="li-name">Liked Songs</div>
+                <div class="li-count">32 songs</div>
+              </div>
+              <div class="lib-item">
+                <div class="li-icon" style="background:linear-gradient(135deg,#af52de,#8944b8);"><i class="fas fa-list"></i></div>
+                <div class="li-name">My Playlist #1</div>
+                <div class="li-count">18 songs</div>
+              </div>
+              <div class="lib-item">
+                <div class="li-icon" style="background:linear-gradient(135deg,#ff9500,#e68a00);"><i class="fas fa-list"></i></div>
+                <div class="li-name">Chill Vibes</div>
+                <div class="li-count">24 songs</div>
+              </div>
+              <div class="lib-item">
+                <div class="li-icon" style="background:linear-gradient(135deg,#ff3b30,#d11a2a);"><i class="fas fa-list"></i></div>
+                <div class="li-name">Workout Mix</div>
+                <div class="li-count">15 songs</div>
+              </div>
+              <div class="lib-item">
+                <div class="li-icon" style="background:linear-gradient(135deg,#5ac8fa,#007aff);"><i class="fas fa-list"></i></div>
+                <div class="li-name">Summer Hits</div>
+                <div class="li-count">20 songs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player Bar -->
+      <div class="spotify-player-bar" id="playerBar">
+        <div class="pb-art"><i class="fas fa-music"></i></div>
+        <div class="pb-info">
+          <div class="pb-name" id="pbName">No song playing</div>
+          <div class="pb-artist" id="pbArtist">Select a track</div>
+        </div>
+        <div class="pb-controls">
+          <button id="pbPrev"><i class="fas fa-backward-step"></i></button>
+          <button class="play-btn" id="pbPlay"><i class="fas fa-play"></i></button>
+          <button id="pbNext"><i class="fas fa-forward-step"></i></button>
+          <button id="pbExpand"><i class="fas fa-expand"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FULL PLAYER (Spotify expanded) ===== -->
+    <div class="full-player" id="fullPlayer">
+      <button class="fp-close" id="fpClose"><i class="fas fa-chevron-down"></i></button>
+      <div class="fp-art" id="fpArt"><i class="fas fa-music"></i></div>
+      <div class="fp-name" id="fpName">No song playing</div>
+      <div class="fp-artist" id="fpArtist">Select a track</div>
+      <div class="fp-progress">
+        <span class="time" id="fpCurrentTime">0:00</span>
+        <div class="bar" id="fpProgressBar"><div class="fill" id="fpProgressFill"></div></div>
+        <span class="time" id="fpDuration">0:00</span>
+      </div>
+      <div class="fp-controls">
+        <button id="fpShuffle"><i class="fas fa-shuffle"></i></button>
+        <button id="fpPrev"><i class="fas fa-backward-step"></i></button>
+        <button class="fp-play" id="fpPlayBtn"><i class="fas fa-play"></i></button>
+        <button id="fpNext"><i class="fas fa-forward-step"></i></button>
+        <button id="fpRepeat"><i class="fas fa-repeat"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ===== STATE =====
+      let storedPin = localStorage.getItem('iosLockPin') || '';
+      let isLocked = true;
+      let isPinSet = storedPin.length === 4;
+
+      // PIN set state
+      let pinTemp = '';
+
+      // PIN entry state
+      let pinEntry = '';
+
+      // Audio player state
+      let audioFiles = [];
+      let currentTrackIndex = 0;
+      let isPlaying = false;
+      let audioElement = null;
+      let currentPlaylist = [];
+
+      // ===== DOM REFS =====
+      const lockScreen = document.getElementById('lockScreen');
+      const homeScreen = document.getElementById('homeScreen');
+      const pinSetScreen = document.getElementById('pinSetScreen');
+      const pinEntryScreen = document.getElementById('pinEntryScreen');
+      const spotifyApp = document.getElementById('spotifyApp');
+      const fullPlayer = document.getElementById('fullPlayer');
+
+      const lockTime = document.getElementById('lockTime');
+      const lockDate = document.getElementById('lockDate');
+      const homeTime = document.getElementById('homeTime');
+
+      const pinDots = document.querySelectorAll('#pinDots .pin-dot');
+      const pinEntryDots = document.querySelectorAll('#pinEntryDots .pin-dot');
+      const pinError = document.getElementById('pinError');
+
+      const pinSaveBtn = document.getElementById('pinSaveBtn');
+      const pinCancelBtn = document.getElementById('pinCancelBtn');
+      const pinEntryUnlockBtn = document.getElementById('pinEntryUnlockBtn');
+      const pinEntryCancelBtn = document.getElementById('pinEntryCancelBtn');
+
+      const swipeArea = document.getElementById('swipeArea');
+
+      const notifTakeBreak = document.getElementById('notifTakeBreak');
+      const notifSetPin = document.getElementById('notifSetPin');
+
+      // ===== CLOCK =====
+      function updateClock() {
+        const now = new Date();
+        const h = now.getHours().toString().padStart(2, '0');
+        const m = now.getMinutes().toString().padStart(2, '0');
+        const timeStr = h + ':' + m;
+        lockTime.textContent = timeStr;
+        homeTime.textContent = timeStr;
+
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+          'November', 'December'
+        ];
+        const day = days[now.getDay()];
+        const month = months[now.getMonth()];
+        const date = now.getDate();
+        const year = now.getFullYear();
+        lockDate.textContent = day + ', ' + month + ' ' + date;
+        document.getElementById('calDate').textContent = date;
+        document.getElementById('calMonth').textContent = month + ' ' + year;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // ===== UPDATE PIN DOTS =====
+      function updatePinDots(dots, value, maxLen) {
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('filled', i < value.length);
+          dot.classList.toggle('active', i === value.length && value.length < maxLen);
+        });
+      }
+
+      // ===== PIN SET LOGIC =====
+      document.querySelectorAll('#pinNumpad .pin-key').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const val = this.dataset.value;
+          if (val === 'delete') {
+            pinTemp = pinTemp.slice(0, -1);
+          } else if (pinTemp.length < 4) {
+            pinTemp += val;
+          }
+          updatePinDots(pinDots, pinTemp, 4);
+          pinSaveBtn.disabled = pinTemp.length !== 4;
+        });
+      });
+
+      pinCancelBtn.addEventListener('click', function() {
+        pinTemp = '';
+        updatePinDots(pinDots, pinTemp, 4);
+        pinSetScreen.classList.remove('active');
+        pinSaveBtn.disabled = true;
+      });
+
+      pinSaveBtn.addEventListener('click', function() {
+        if (pinTemp.length === 4) {
+          storedPin = pinTemp;
+          localStorage.setItem('iosLockPin', storedPin);
+          isPinSet = true;
+          pinTemp = '';
+          updatePinDots(pinDots, pinTemp, 4);
+          pinSetScreen.classList.remove('active');
+          pinSaveBtn.disabled = true;
+          // Update notification
+          document.querySelector('#notifSetPin .notif-body').textContent = 'PIN is set ✓';
+          document.querySelector('#notifSetPin .notif-icon').className = 'notif-icon green';
+          document.querySelector('#notifSetPin .notif-icon').innerHTML = '<i class="fas fa-check"></i>';
+        }
+      });
+
+      // ===== PIN ENTRY LOGIC =====
+      document.querySelectorAll('#pinEntryNumpad .pin-key').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const val = this.dataset.value;
+          if (val === 'delete') {
+            pinEntry = pinEntry.slice(0, -1);
+          } else if (pinEntry.length < 4) {
+            pinEntry += val;
+          }
+          updatePinDots(pinEntryDots, pinEntry, 4);
+          pinEntryUnlockBtn.disabled = pinEntry.length !== 4;
+          pinError.classList.remove('show');
+        });
+      });
+
+      pinEntryCancelBtn.addEventListener('click', function() {
+        pinEntry = '';
+        updatePinDots(pinEntryDots, pinEntry, 4);
+        pinEntryScreen.classList.remove('active');
+        pinEntryUnlockBtn.disabled = true;
+        pinError.classList.remove('show');
+        // Re-lock
+        isLocked = true;
+        lockScreen.classList.remove('hidden');
+        homeScreen.classList.remove('active');
+      });
+
+      pinEntryUnlockBtn.addEventListener('click', function() {
+        if (pinEntry.length === 4) {
+          if (pinEntry === storedPin) {
+            // Correct PIN
+            pinEntry = '';
+            updatePinDots(pinEntryDots, pinEntry, 4);
+            pinEntryScreen.classList.remove('active');
+            pinEntryUnlockBtn.disabled = true;
+            pinError.classList.remove('show');
+            unlockDevice();
+          } else {
+            pinError.classList.add('show');
+            pinEntry = '';
+            updatePinDots(pinEntryDots, pinEntry, 4);
+            pinEntryUnlockBtn.disabled = true;
+            // Shake animation
+            pinEntryScreen.querySelector('.pin-dots').style.animation = 'none';
+            setTimeout(() => {
+              pinEntryScreen.querySelector('.pin-dots').style.animation = 'shake 0.4s ease';
+            }, 10);
+            setTimeout(() => {
+              pinEntryScreen.querySelector('.pin-dots').style.animation = '';
+            }, 500);
+          }
+        }
+      });
+
+      // ===== UNLOCK DEVICE =====
+      function unlockDevice() {
+        isLocked = false;
+        lockScreen.classList.add('hidden');
+        homeScreen.classList.add('active');
+        // Close any open modals
+        pinSetScreen.classList.remove('active');
+        pinEntryScreen.classList.remove('active');
+        spotifyApp.classList.remove('active');
+        fullPlayer.classList.remove('active');
+      }
+
+      // ===== LOCK DEVICE =====
+      function lockDevice() {
+        isLocked = true;
+        lockScreen.classList.remove('hidden');
+        homeScreen.classList.remove('active');
+        spotifyApp.classList.remove('active');
+        fullPlayer.classList.remove('active');
+        // Reset PIN entry
+        pinEntry = '';
+        updatePinDots(pinEntryDots, pinEntry, 4);
+        pinEntryUnlockBtn.disabled = true;
+        pinError.classList.remove('show');
+        pinEntryScreen.classList.remove('active');
+        // Reset PIN set
+        pinTemp = '';
+        updatePinDots(pinDots, pinTemp, 4);
+        pinSetScreen.classList.remove('active');
+        pinSaveBtn.disabled = true;
+      }
+
+      // ===== SWIPE UP =====
+      let swipeStartY = 0;
+      let isSwiping = false;
+
+      function handleSwipeStart(y) {
+        swipeStartY = y;
+        isSwiping = true;
+      }
+
+      function handleSwipeMove(y) {
+        if (!isSwiping) return;
+        const diff = y - swipeStartY;
+        if (diff < -30) {
+          // Swipe up detected
+          isSwiping = false;
+          handleUnlockAttempt();
+        }
+      }
+
+      function handleSwipeEnd() {
+        isSwiping = false;
+      }
+
+      function handleUnlockAttempt() {
+        if (isPinSet) {
+          // Show PIN entry
+          pinEntry = '';
+          updatePinDots(pinEntryDots, pinEntry, 4);
+          pinEntryUnlockBtn.disabled = true;
+          pinError.classList.remove('show');
+          pinEntryScreen.classList.add('active');
+        } else {
+          // No PIN set, unlock immediately
+          unlockDevice();
+        }
+      }
+
+      // Touch events
+      swipeArea.addEventListener('touchstart', function(e) {
+        const touch = e.touches[0];
+        handleSwipeStart(touch.clientY);
+      }, { passive: true });
+
+      swipeArea.addEventListener('touchmove', function(e) {
+        const touch = e.touches[0];
+        handleSwipeMove(touch.clientY);
+      }, { passive: true });
+
+      swipeArea.addEventListener('touchend', handleSwipeEnd, { passive: true });
+
+      // Mouse events (for desktop)
+      let isMouseDown = false;
+      swipeArea.addEventListener('mousedown', function(e) {
+        isMouseDown = true;
+        handleSwipeStart(e.clientY);
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!isMouseDown) return;
+        handleSwipeMove(e.clientY);
+      });
+
+      document.addEventListener('mouseup', function() {
+        if (isMouseDown) {
+          isMouseDown = false;
+          handleSwipeEnd();
+        }
+      });
+
+      // Click on swipe area also triggers unlock (for simplicity)
+      swipeArea.addEventListener('click', function(e) {
+        if (!isSwiping) {
+          handleUnlockAttempt();
+        }
+      });
+
+      // ===== NOTIFICATIONS =====
+      notifTakeBreak.addEventListener('click', function() {
+        // Take a break - unlock and show home
+        if (isPinSet) {
+          pinEntry = '';
+          updatePinDots(pinEntryDots, pinEntry, 4);
+          pinEntryUnlockBtn.disabled = true;
+          pinError.classList.remove('show');
+          pinEntryScreen.classList.add('active');
+        } else {
+          unlockDevice();
+        }
+      });
+
+      notifSetPin.addEventListener('click', function() {
+        if (!isPinSet) {
+          pinTemp = '';
+          updatePinDots(pinDots, pinTemp, 4);
+          pinSaveBtn.disabled = true;
+          pinSetScreen.classList.add('active');
+        } else {
+          // If PIN already set, show entry to unlock
+          if (isLocked) {
+            pinEntry = '';
+            updatePinDots(pinEntryDots, pinEntry, 4);
+            pinEntryUnlockBtn.disabled = true;
+            pinError.classList.remove('show');
+            pinEntryScreen.classList.add('active');
+          }
+        }
+      });
+
+      // ===== HOME SCREEN APPS =====
+      document.querySelectorAll('.app-icon[data-app="spotify"]').forEach(el => {
+        el.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (!isLocked) {
+            spotifyApp.classList.add('active');
+            fullPlayer.classList.remove('active');
+          }
+        });
+      });
+
+      // ===== SPOTIFY BACK =====
+      document.getElementById('spotifyBack').addEventListener('click', function() {
+        spotifyApp.classList.remove('active');
+        fullPlayer.classList.remove('active');
+      });
+
+      // ===== SPOTIFY NAVIGATION =====
+      document.querySelectorAll('.spotify-nav .nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.spotify-nav .nav-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          const page = this.dataset.page;
+          document.querySelectorAll('.spotify-content .page').forEach(p => p.classList.remove('active'));
+          const target = document.getElementById('sp' + page.charAt(0).toUpperCase() + page.slice(1));
+          if (target) target.classList.add('active');
+        });
+      });
+
+      // ===== FILE PICKER =====
+      const filePicker = document.getElementById('filePicker');
+      const fileInput = document.getElementById('audioFileInput');
+
+      filePicker.addEventListener('click', function() {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', function(e) {
+        const files = e.target.files;
+        if (files.length > 0) {
+          const audioFilesList = [];
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (file.type.startsWith('audio/')) {
+              audioFilesList.push(file);
+            }
+          }
+          if (audioFilesList.length > 0) {
+            // Create a playlist from selected files
+            currentPlaylist = audioFilesList;
+            currentTrackIndex = 0;
+            playTrack(0);
+            // Update UI
+            document.querySelector('.file-picker-area .fp-text').textContent = audioFilesList.length + ' audio files loaded';
+            document.querySelector('.file-picker-area .fp-sub').textContent = 'Tap to add more';
+          } else {
+            alert('No audio files found. Please select MP3, WAV, or other audio files.');
+          }
+        }
+        // Reset input so same file can be selected again
+        fileInput.value = '';
+      });
+
+      // ===== AUDIO PLAYER =====
+      let audioCtx = null;
+      let audioSource = null;
+      let audioBuffer = null;
+
+      function playTrack(index) {
+        if (currentPlaylist.length === 0) return;
+        if (index < 0) index = currentPlaylist.length - 1;
+        if (index >= currentPlaylist.length) index = 0;
+        currentTrackIndex = index;
+
+        const file = currentPlaylist[currentTrackIndex];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const arrayBuffer = e.target.result;
+          if (!audioCtx) {
+            audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+          }
+          audioCtx.decodeAudioData(arrayBuffer, function(buffer) {
+            audioBuffer = buffer;
+            playBuffer();
+          }, function(err) {
+            console.error('Error decoding audio:', err);
+            alert('Could not play this audio file. Please try another.');
+          });
+        };
+        reader.readAsArrayBuffer(file);
+
+        // Update UI
+        const name = file.name.replace(/\.[^/.]+$/, '');
+        document.getElementById('pbName').textContent = name;
+        document.getElementById('pbArtist').textContent = 'Local file';
+        document.getElementById('fpName').textContent = name;
+        document.getElementById('fpArtist').textContent = 'Local file';
+        document.querySelector('.pb-art').innerHTML = '<i class="fas fa-music"></i>';
+        document.querySelector('.fp-art').innerHTML = '<i class="fas fa-music"></i>';
+        // Random color for art
+        const colors = ['#1ed760', '#af52de', '#ff9500', '#5ac8fa', '#ff3b30', '#34c759'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        document.querySelector('.pb-art').style.background = 'linear-gradient(135deg,' + color + ',' + color + 'cc)';
+        document.querySelector('.fp-art').style.background = 'linear-gradient(135deg,' + color + ',' + color + 'cc)';
+        // Reset progress
+        document.getElementById('fpProgressFill').style.width = '0%';
+        document.getElementById('fpCurrentTime').textContent = '0:00';
+        document.getElementById('fpDuration').textContent = '0:00';
+        isPlaying = false;
+        document.getElementById('pbPlay').innerHTML = '<i class="fas fa-play"></i>';
+        document.getElementById('fpPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+      }
+
+      function playBuffer() {
+        if (!audioCtx || !audioBuffer) return;
+        if (audioSource) {
+          try { audioSource.stop(); } catch (e) {}
+          audioSource.disconnect();
+        }
+        audioSource = audioCtx.createBufferSource();
+        audioSource.buffer = audioBuffer;
+        audioSource.connect(audioCtx.destination);
+        audioSource.onended = function() {
+          isPlaying = false;
+          document.getElementById('pbPlay').innerHTML = '<i class="fas fa-play"></i>';
+          document.getElementById('fpPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+          // Auto-advance to next track
+          if (currentPlaylist.length > 1) {
+            playTrack(currentTrackIndex + 1);
+          }
+        };
+        audioSource.start(0);
+        isPlaying = true;
+        document.getElementById('pbPlay').innerHTML = '<i class="fas fa-pause"></i>';
+        document.getElementById('fpPlayBtn').innerHTML = '<i class="fas fa-pause"></i>';
+        // Update duration
+        const duration = audioBuffer.duration;
+        const mins = Math.floor(duration / 60);
+        const secs = Math.floor(duration % 60);
+        document.getElementById('fpDuration').textContent = mins + ':' + secs.toString().padStart(2, '0');
+        // Start progress update
+        updateProgress();
+      }
+
+      let progressInterval = null;
+
+      function updateProgress() {
+        if (progressInterval) clearInterval(progressInterval);
+        progressInterval = setInterval(function() {
+          if (isPlaying && audioSource && audioBuffer) {
+            try {
+              const currentTime = audioCtx.currentTime;
+              const elapsed = currentTime - audioSource.context.currentTime + audioSource.context.currentTime;
+              // Actually we need to track the start time
+              // Simpler: use the buffer duration and a fake progress
+              // We'll use a simple approach with a time counter
+            } catch (e) {}
+          }
+        }, 100);
+      }
+
+      // Simplified progress: we'll use a counter that increments when playing
+      let progressCounter = 0;
+      let progressInterval2 = null;
+
+      // Override play/pause to handle progress
+      function togglePlay() {
+        if (!audioBuffer) {
+          if (currentPlaylist.length === 0) {
+            alert('Please load audio files first using the file picker.');
+            return;
+          }
+          playTrack(currentTrackIndex);
+          return;
+        }
+
+        if (isPlaying) {
+          // Pause
+          if (audioCtx && audioCtx.state === 'running') {
+            audioCtx.suspend();
+          }
+          isPlaying = false;
+          document.getElementById('pbPlay').innerHTML = '<i class="fas fa-play"></i>';
+          document.getElementById('fpPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+          if (progressInterval2) clearInterval(progressInterval2);
+        } else {
+          // Resume
+          if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          } else if (!audioCtx) {
+            audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+            playTrack(currentTrackIndex);
+            return;
+          }
+          isPlaying = true;
+          document.getElementById('pbPlay').innerHTML = '<i class="fas fa-pause"></i>';
+          document.getElementById('fpPlayBtn').innerHTML = '<i class="fas fa-pause"></i>';
+          // Start progress
+          if (progressInterval2) clearInterval(progressInterval2);
+          const totalDuration = audioBuffer ? audioBuffer.duration : 180;
+          let elapsed = 0;
+          progressInterval2 = setInterval(function() {
+            if (isPlaying) {
+              elapsed += 0.1;
+              if (elapsed >= totalDuration) {
+                elapsed = 0;
+                // Next track
+                if (currentPlaylist.length > 1) {
+                  playTrack(currentTrackIndex + 1);
+                } else {
+                  isPlaying = false;
+                  document.getElementById('pbPlay').innerHTML = '<i class="fas fa-play"></i>';
+                  document.getElementById('fpPlayBtn').innerHTML = '<i class="fas fa-play"></i>';
+                  clearInterval(progressInterval2);
+                }
+                return;
+              }
+              const pct = (elapsed / totalDuration) * 100;
+              document.getElementById('fpProgressFill').style.width = Math.min(pct, 100) + '%';
+              const mins = Math.floor(elapsed / 60);
+              const secs = Math.floor(elapsed % 60);
+              document.getElementById('fpCurrentTime').textContent = mins + ':' + secs.toString().padStart(2, '0');
+            }
+          }, 100);
+        }
+      }
+
+      // Play/Pause buttons
+      document.getElementById('pbPlay').addEventListener('click', togglePlay);
+      document.getElementById('fpPlayBtn').addEventListener('click', togglePlay);
+
+      // Next/Prev
+      document.getElementById('pbNext').addEventListener('click', function() {
+        if (currentPlaylist.length > 0) {
+          playTrack(currentTrackIndex + 1);
+        }
+      });
+      document.getElementById('fpNext').addEventListener('click', function() {
+        if (currentPlaylist.length > 0) {
+          playTrack(currentTrackIndex + 1);
+        }
+      });
+      document.getElementById('pbPrev').addEventListener('click', function() {
+        if (currentPlaylist.length > 0) {
+          playTrack(currentTrackIndex - 1);
+        }
+      });
+      document.getElementById('fpPrev').addEventListener('click', function() {
+        if (currentPlaylist.length > 0) {
+          playTrack(currentTrackIndex - 1);
+        }
+      });
+
+      // Expand player
+      document.getElementById('pbExpand').addEventListener('click', function() {
+        if (audioBuffer || currentPlaylist.length > 0) {
+          fullPlayer.classList.add('active');
+        }
+      });
+
+      // Close full player
+      document.getElementById('fpClose').addEventListener('click', function() {
+        fullPlayer.classList.remove('active');
+      });
+
+      // ===== PLAYLIST CARDS (Spotify) =====
+      document.querySelectorAll('.playlist-card').forEach(card => {
+        card.addEventListener('click', function() {
+          const name = this.dataset.playlist || 'Playlist';
+          // Simulate loading a playlist - just show a notification
+          alert('Loading playlist: ' + name + '\n(Add your own audio files using the "Browse audio files" button)');
+        });
+      });
+
+      // ===== SEARCH =====
+      document.getElementById('searchInput').addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        const results = document.getElementById('searchResults');
+        const items = results.querySelectorAll('.search-result');
+        items.forEach(item => {
+          const name = item.querySelector('.sr-name')?.textContent?.toLowerCase() || '';
+          const artist = item.querySelector('.sr-artist')?.textContent?.toLowerCase() || '';
+          const match = name.includes(query) || artist.includes(query) || query === '';
+          item.style.display = match ? 'flex' : 'none';
+        });
+      });
+
+      // ===== KEYBOARD SUPPORT =====
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          if (fullPlayer.classList.contains('active')) {
+            fullPlayer.classList.remove('active');
+          } else if (spotifyApp.classList.contains('active')) {
+            spotifyApp.classList.remove('active');
+          } else if (pinEntryScreen.classList.contains('active')) {
+            pinEntryCancelBtn.click();
+          } else if (pinSetScreen.classList.contains('active')) {
+            pinCancelBtn.click();
+          }
+        }
+        // Space to toggle play
+        if (e.key === ' ' && (spotifyApp.classList.contains('active') || fullPlayer.classList.contains('active'))) {
+          e.preventDefault();
+          togglePlay();
+        }
+      });
+
+      // ===== INIT =====
+      // Check if PIN is already set
+      if (isPinSet) {
+        document.querySelector('#notifSetPin .notif-body').textContent = 'PIN is set ✓';
+        document.querySelector('#notifSetPin .notif-icon').className = 'notif-icon green';
+        document.querySelector('#notifSetPin .notif-icon').innerHTML = '<i class="fas fa-check"></i>';
+      }
+
+      // Handle unlocking from home screen (double tap status bar to lock)
+      document.querySelector('.status-bar').addEventListener('dblclick', function() {
+        if (!isLocked) {
+          lockDevice();
+        }
+      });
+
+      // Also allow lock via clicking the lock icon in notifications
+      // And prevent accidental unlocks
+      console.log('iOS Lock Screen ready!');
+      console.log('PIN set:', isPinSet);
+      console.log('Swipe up to unlock, double-tap status bar to lock.');
+
+      // If no PIN is set, clicking the notification should show PIN set
+      // If PIN is set, clicking should show PIN entry
+
+      // Add shake animation
+      const styleShake = document.createElement('style');
+      styleShake.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          20% { transform: translateX(-8px); }
+          40% { transform: translateX(8px); }
+          60% { transform: translateX(-4px); }
+          80% { transform: translateX(4px); }
+        }
+      `;
+      document.head.appendChild(styleShake);
+
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Messages</title>
+  <meta name="theme-color" content="#07112b" />
+  <link rel="icon" href="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f7f8ff;
+      --card:#fff;
+      --line:#edf0f8;
+      --text:#11162b;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --shadow:0 18px 42px rgba(18,24,43,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 7% 0%, rgba(107,57,255,.10), transparent 14%),
+        radial-gradient(circle at 92% 2%, rgba(245,158,11,.08), transparent 14%),
+        linear-gradient(180deg,#fafbff 0%, #eef2ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    img{max-width:100%;display:block}
+    ::selection{background:rgba(111,73,255,.18)}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:6px 8px 18px;
+      margin-bottom:12px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:linear-gradient(135deg, rgba(107,57,255,.95), rgba(79,32,216,.95));
+      box-shadow:0 18px 34px rgba(107,57,255,.20);
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.66);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;
+      font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(107,57,255,.96),rgba(70,58,214,.86));
+      box-shadow:0 16px 28px rgba(107,57,255,.16);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    /* Main Content */
+    .content{
+      min-width:0;
+      display:grid;
+      grid-template-rows:68px 1fr;
+    }
+
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .menu-btn{
+      border:0;
+      background:transparent;
+      color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .top-title{
+      font-size:16px;
+      font-weight:800;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .search{
+      width:min(300px, 38vw);
+      height:40px;
+      border:1px solid #e2e6f1;
+      border-radius:12px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 14px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .search i{color:#6a728d;font-size:17px}
+    .search input{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:#11162b;
+      font-size:13px;
+    }
+    .top-icon{
+      color:#344054;
+      position:relative;
+      font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;
+      top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff4a5d;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+    }
+    .profile img{
+      width:44px;height:44px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{
+      font-size:15px;
+      font-weight:700;
+      color:#11162b;
+      line-height:1.1;
+    }
+    .profile .role{
+      margin-top:4px;
+      font-size:12px;
+      color:#6d7590;
+    }
+    .chev{color:#6d7590;font-size:14px;margin-left:6px}
+
+    .main{
+      min-width:0;
+      padding:16px 16px 18px;
+      height:calc(100vh - 68px);
+    }
+
+    .messages-shell{
+      height:100%;
+      display:grid;
+      grid-template-columns:320px minmax(0,1fr) 310px;
+      gap:14px;
+      min-height:0;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      min-width:0;
+      min-height:0;
+    }
+
+    /* Left chat list */
+    .list-panel{
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .panel-head{
+      padding:16px 18px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .section-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#11162b;
+    }
+    .compose-btn{
+      width:32px;height:32px;border-radius:10px;
+      border:0;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      box-shadow:0 12px 20px rgba(111,73,255,.18);
+      cursor:pointer;
+    }
+
+    .tabs{
+      padding:0 18px 12px;
+      display:flex;
+      gap:10px;
+    }
+    .tab{
+      height:34px;
+      border-radius:10px;
+      border:1px solid #eef1f8;
+      background:#f9faff;
+      padding:0 14px;
+      color:#344054;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .tab.active{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      border-color:transparent;
+    }
+    .badge{
+      min-width:20px;height:20px;border-radius:999px;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.18);
+      color:inherit;
+      font-size:11px;
+      font-weight:800;
+      padding:0 6px;
+    }
+
+    .chat-list{
+      overflow:auto;
+      padding:6px 8px 10px 8px;
+      display:grid;
+      gap:8px;
+    }
+
+    .chat-item{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:12px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      border:1px solid transparent;
+      transition:.2s ease;
+      position:relative;
+    }
+    .chat-item:hover{background:#fafbff}
+    .chat-item.active{
+      background:#f2ecff;
+      border-color:#e5d9ff;
+      box-shadow:inset 0 0 0 1px rgba(111,73,255,.04);
+    }
+    .chat-avatar{
+      width:46px;height:46px;border-radius:50%;
+      object-fit:cover;
+      flex:0 0 auto;
+      box-shadow:0 10px 18px rgba(15,23,42,.10);
+    }
+    .chat-avatar.group{
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,#e8ddff,#d5c4ff);
+      color:#6f49ff;
+      font-size:20px;
+    }
+    .chat-main{
+      min-width:0;
+      flex:1;
+    }
+    .chat-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:4px;
+    }
+    .chat-name{
+      font-size:14px;
+      font-weight:900;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .verified{
+      color:#1877f2;
+      font-size:13px;
+    }
+    .chat-time{
+      color:#667085;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .chat-preview{
+      color:#667085;
+      font-size:13px;
+      line-height:1.45;
+      min-height:38px;
+    }
+    .unread{
+      width:22px;height:22px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#6f49ff,#5f39f7);
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-size:11px;
+      font-weight:800;
+      margin-left:auto;
+      align-self:center;
+      flex:0 0 auto;
+    }
+
+    /* Center chat */
+    .chat-panel{
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .chat-head{
+      padding:14px 18px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid #f0f2f8;
+      background:linear-gradient(180deg,#ffffff 0%, #fefeff 100%);
+    }
+    .chat-user{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+      cursor:pointer;
+    }
+    .chat-user img{
+      width:52px;height:52px;border-radius:50%;
+      object-fit:cover;
+      box-shadow:0 10px 18px rgba(15,23,42,.10);
+    }
+    .chat-user .meta{
+      min-width:0;
+    }
+    .chat-user .meta .name{
+      font-size:15px;
+      font-weight:900;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .chat-user .meta .status{
+      margin-top:5px;
+      font-size:13px;
+      color:#4b5563;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .status-dot{
+      width:9px;height:9px;border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 4px rgba(27,191,114,.10);
+      display:inline-block;
+    }
+    .chat-actions{
+      display:flex;
+      gap:10px;
+    }
+    .chat-action{
+      width:40px;height:40px;
+      border:1px solid #eee7ff;
+      border-radius:12px;
+      background:#f6f1ff;
+      color:#6f49ff;
+      display:grid;
+      place-items:center;
+      font-size:16px;
+      cursor:pointer;
+      box-shadow:0 10px 18px rgba(15,23,42,.03);
+    }
+
+    .chat-body{
+      flex:1;
+      overflow:auto;
+      padding:16px 18px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.85)),
+        radial-gradient(circle at 20% 10%, rgba(111,73,255,.04), transparent 20%);
+    }
+
+    .date-label{
+      align-self:center;
+      font-size:13px;
+      color:#667085;
+      font-weight:700;
+      margin:2px 0;
+    }
+
+    .bubble-row{
+      display:flex;
+      gap:10px;
+      align-items:flex-end;
+    }
+    .bubble-row.me{justify-content:flex-end}
+    .bubble-row.other{justify-content:flex-start}
+
+    .bubble-avatar{
+      width:28px;height:28px;border-radius:50%;
+      object-fit:cover;
+      flex:0 0 auto;
+      box-shadow:0 8px 16px rgba(15,23,42,.10);
+      align-self:flex-end;
+    }
+
+    .bubble{
+      max-width:min(520px, 72%);
+      padding:14px 16px;
+      border-radius:16px;
+      font-size:14px;
+      line-height:1.55;
+      box-shadow:0 12px 26px rgba(18,24,43,.06);
+      position:relative;
+      word-break:break-word;
+    }
+    .bubble.me{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      border-bottom-right-radius:6px;
+    }
+    .bubble.other{
+      background:#f4f5f9;
+      color:#11162b;
+      border-bottom-left-radius:6px;
+    }
+    .bubble .time{
+      margin-top:8px;
+      font-size:12px;
+      opacity:.78;
+      text-align:right;
+      display:block;
+    }
+    .bubble.other .time{
+      color:#667085;
+      opacity:1;
+    }
+    .read{
+      color:#6f49ff;
+      font-size:12px;
+      margin-left:4px;
+    }
+
+    .file-card{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      border:1px solid #edf0f8;
+      border-radius:14px;
+      background:#fff;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      max-width:min(460px, 76%);
+    }
+    .file-icon{
+      width:34px;height:34px;border-radius:10px;
+      background:linear-gradient(135deg,#ff6a5f,#f43f5e);
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:13px;
+      flex:0 0 auto;
+    }
+    .file-meta{
+      min-width:0;
+      flex:1;
+    }
+    .file-meta .title{
+      font-size:13px;
+      font-weight:800;
+      color:#11162b;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      margin-bottom:3px;
+    }
+    .file-meta .size{
+      font-size:12px;
+      color:#667085;
+    }
+    .download-btn{
+      width:30px;height:30px;
+      border:0;
+      border-radius:10px;
+      background:#f6f1ff;
+      color:#6f49ff;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+
+    .composer{
+      border-top:1px solid #f0f2f8;
+      padding:12px 14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      background:#fff;
+    }
+    .attach-btn,.emoji-btn,.send-btn{
+      width:40px;height:40px;
+      border-radius:12px;
+      border:1px solid #edf0f8;
+      background:#fff;
+      color:#6f49ff;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      flex:0 0 auto;
+    }
+    .send-btn{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 16px 24px rgba(111,73,255,.18);
+    }
+    .composer-input{
+      flex:1;
+      height:42px;
+      border:1px solid #e2e6f1;
+      border-radius:12px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      padding:0 14px;
+      gap:10px;
+      min-width:0;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .composer-input input{
+      border:0;
+      outline:none;
+      flex:1;
+      min-width:0;
+      background:transparent;
+      color:#11162b;
+    }
+    .composer-input i{color:#6d7590}
+
+    /* Right info panel */
+    .info-panel{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      overflow:auto;
+    }
+    .info-card{
+      padding:18px;
+    }
+    .info-title{
+      margin:0 0 14px;
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+      letter-spacing:-.02em;
+    }
+
+    .contact-hero{
+      text-align:center;
+      padding-top:6px;
+    }
+    .contact-photo-wrap{
+      width:96px;height:96px;
+      border-radius:50%;
+      margin:0 auto 12px;
+      position:relative;
+      box-shadow:0 14px 28px rgba(15,23,42,.12);
+    }
+    .contact-photo{
+      width:100%;height:100%;
+      border-radius:50%;
+      object-fit:cover;
+      border:6px solid #fff;
+    }
+    .online-dot{
+      position:absolute;
+      right:6px;bottom:8px;
+      width:14px;height:14px;border-radius:50%;
+      background:var(--green);
+      border:2px solid #fff;
+      box-shadow:0 0 0 4px rgba(27,191,114,.12);
+    }
+    .contact-name{
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+      margin:8px 0 4px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+    }
+    .contact-handle{
+      font-size:13px;
+      color:#667085;
+      margin-bottom:8px;
+    }
+    .contact-role{
+      font-size:13px;
+      color:#4b5563;
+      margin-bottom:8px;
+    }
+    .contact-location{
+      font-size:13px;
+      color:#667085;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .contact-actions{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
+      margin-top:14px;
+    }
+    .small-action{
+      border:1px solid #edf0f8;
+      background:#fff;
+      border-radius:14px;
+      padding:12px 8px;
+      text-align:center;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      cursor:pointer;
+    }
+    .small-action i{
+      color:#6f49ff;
+      font-size:18px;
+      display:block;
+      margin-bottom:8px;
+    }
+    .small-action span{
+      font-size:12px;
+      color:#344054;
+      font-weight:700;
+      line-height:1.3;
+    }
+
+    .about-card{
+      padding:18px;
+    }
+    .about-text{
+      font-size:14px;
+      line-height:1.6;
+      color:#4b5563;
+      margin:0;
+    }
+
+    .media-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:8px;
+    }
+    .media-thumb{
+      aspect-ratio:1 / 1;
+      border-radius:10px;
+      overflow:hidden;
+      position:relative;
+      box-shadow:0 10px 20px rgba(15,23,42,.08);
+      background:linear-gradient(135deg,#5f39f7,#241366);
+    }
+    .media-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter:saturate(1.02);
+    }
+    .media-more{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background:rgba(7,17,43,.42);
+      color:#fff;
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .file-list{
+      display:grid;
+      gap:10px;
+    }
+    .file-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      justify-content:space-between;
+      padding:10px 12px;
+      border:1px solid #edf0f8;
+      background:#fff;
+      border-radius:14px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .file-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .file-type{
+      width:34px;height:34px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      flex:0 0 auto;
+      font-size:14px;
+      box-shadow:0 10px 18px rgba(15,23,42,.08);
+    }
+    .pdf{background:linear-gradient(135deg,#ff6a5f,#f43f5e)}
+    .xls{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .file-name{
+      font-size:13px;
+      color:#11162b;
+      font-weight:800;
+      line-height:1.2;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:150px;
+    }
+    .file-size{
+      font-size:12px;
+      color:#667085;
+      margin-top:3px;
+    }
+    .file-download{
+      width:30px;height:30px;
+      border:0;
+      border-radius:10px;
+      background:#f6f1ff;
+      color:#6f49ff;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+
+    /* Mobile flow steps */
+    .mobile-stepper{
+      display:none;
+      position:sticky;
+      top:68px;
+      z-index:15;
+      background:rgba(248,249,255,.92);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      padding:10px 12px 12px;
+    }
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      align-items:center;
+    }
+    .step{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid #edf0f8;
+      background:#fff;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      color:#64748b;
+      font-weight:800;
+      font-size:12px;
+      min-width:0;
+    }
+    .step .num{
+      width:26px;height:26px;border-radius:50%;
+      display:grid;place-items:center;
+      background:#eef1fb;
+      color:#6b7280;
+      font-size:12px;
+      flex:0 0 auto;
+    }
+    .step.active{
+      color:#6f49ff;
+      border-color:#e5d9ff;
+      background:linear-gradient(180deg,#f4efff,#ffffff);
+    }
+    .step.active .num{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+    }
+
+    .mobile-back{
+      display:none;
+      border:0;
+      background:#f6f1ff;
+      color:#6f49ff;
+      width:36px;height:36px;
+      border-radius:12px;
+      place-items:center;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      flex:0 0 auto;
+    }
+
+    /* Drawer */
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:40px;border-radius:12px;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    /* Responsive layout */
+    @media (max-width: 1360px){
+      .messages-shell{
+        grid-template-columns:300px minmax(0,1fr) 290px;
+      }
+    }
+
+    @media (max-width: 1180px){
+      .messages-shell{
+        grid-template-columns:280px minmax(0,1fr);
+      }
+      .info-panel{
+        display:none;
+      }
+    }
+
+    @media (max-width: 980px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .main{
+        padding:0;
+        height:auto;
+      }
+      .topbar{padding:0 16px}
+      .messages-shell{
+        display:block;
+        height:auto;
+        min-height:calc(100vh - 68px);
+      }
+      .mobile-stepper{
+        display:block;
+      }
+      .list-panel,
+      .chat-panel,
+      .info-panel{
+        height:auto;
+      }
+
+      /* default mobile mode = list */
+      .list-panel{display:flex}
+      .chat-panel,
+      .info-panel{display:none}
+
+      /* list -> chat */
+      .messages-shell.view-chat .list-panel{display:none}
+      .messages-shell.view-chat .chat-panel{display:flex}
+      .messages-shell.view-chat .info-panel{display:none}
+
+      /* profile view */
+      .messages-shell.view-profile .list-panel{display:none}
+      .messages-shell.view-profile .chat-panel{display:none}
+      .messages-shell.view-profile .info-panel{display:flex}
+      .mobile-back{display:grid}
+    }
+
+    @media (max-width: 720px){
+      .topbar-right{gap:12px}
+      .search{display:none}
+      .profile .text{display:none}
+      .chev{display:none}
+      .content{grid-template-rows:60px auto}
+      .topbar{height:60px}
+      .mobile-stepper{top:60px}
+      .panel{border-radius:16px}
+      .panel-head{padding:14px 14px 8px}
+      .section-title{font-size:16px}
+      .tabs{
+        padding:0 14px 10px;
+        overflow:auto;
+        scrollbar-width:none;
+      }
+      .tabs::-webkit-scrollbar{display:none}
+      .chat-item{
+        padding:12px 10px;
+      }
+      .chat-preview{
+        min-height:auto;
+        font-size:12px;
+      }
+      .chat-head{
+        padding:12px 14px;
+      }
+      .chat-body{
+        padding:14px;
+      }
+      .composer{
+        padding:10px 12px;
+      }
+      .bubble{
+        max-width:84%;
+        font-size:13px;
+        padding:12px 14px;
+      }
+      .file-card{
+        max-width:86%;
+      }
+      .contact-actions{
+        grid-template-columns:repeat(4,minmax(0,1fr));
+      }
+      .media-grid{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+      }
+      .info-card{
+        padding:14px;
+      }
+      .activity-row,.social-row{
+        grid-template-columns:auto 1fr;
+      }
+      .activity-time,.social-arrow{grid-column:2 / 3; justify-self:end}
+      .social-handle{grid-column:2 / 3; margin-left:0; padding-right:0}
+      .sec-row,.conn-row{
+        grid-template-columns:1fr auto;
+      }
+      .sec-action,.connected-badge{
+        justify-self:end;
+      }
+      .mobile-back{
+        display:grid;
+      }
+      .chat-head .chat-actions{
+        margin-left:auto;
+      }
+    }
+
+    @media (max-width: 520px){
+      .topbar-right{gap:10px}
+      .main{padding:0}
+      .mobile-stepper{padding:8px 10px 10px}
+      .steps{gap:8px}
+      .step{
+        padding:9px 10px;
+        font-size:11px;
+      }
+      .step .num{
+        width:24px;height:24px;
+      }
+      .panel-head{
+        padding:14px 12px 8px;
+      }
+      .tabs{padding:0 12px 10px}
+      .chat-head{padding:12px}
+      .chat-body{padding:12px}
+      .composer{padding:10px}
+      .contact-actions{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .media-grid{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+      }
+      .file-name{max-width:130px}
+      .bubble{
+        max-width:88%;
+      }
+      .chat-actions{
+        gap:8px;
+      }
+      .chat-action{
+        width:38px;height:38px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item active" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+          <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+       <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item active" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+            <p style="margin:6px 0 0;">Get help & support</p>
+          </div>
+          <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-regular fa-comment-dots"></i> <span>Messages</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search messages..." />
+          </div>
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img src="https://i.pravatar.cc/80?img=47" alt="Profile photo">
+            <div class="text">
+              <div class="name">Adeola M.</div>
+              <div class="role">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <div class="mobile-stepper">
+        <div class="steps">
+          <div class="step" id="step-list"><span class="num">1</span> Chats</div>
+          <div class="step" id="step-chat"><span class="num">2</span> Chat</div>
+          <div class="step" id="step-profile"><span class="num">3</span> Profile</div>
+        </div>
+      </div>
+
+      <main class="main">
+        <div class="messages-shell" id="shell">
+          <!-- Left list -->
+          <section class="panel list-panel">
+            <div class="panel-head">
+              <h3 class="section-title">Messages</h3>
+              <button class="compose-btn" aria-label="Compose"><i class="fa-regular fa-pen-to-square"></i></button>
+            </div>
+
+            <div class="tabs">
+              <button class="tab active">All</button>
+              <button class="tab">Unread <span class="badge">3</span></button>
+              <button class="tab">Groups</button>
+            </div>
+
+            <div class="chat-list" id="chatList"></div>
+          </section>
+
+          <!-- Chat room -->
+          <section class="panel chat-panel">
+            <div class="chat-head">
+              <button class="mobile-back" id="backToList" aria-label="Back to chats">
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+
+              <div class="chat-user" id="profileTrigger">
+                <img src="https://i.pravatar.cc/100?img=12" alt="James Carter">
+                <div class="meta">
+                  <div class="name">James Carter <i class="fa-solid fa-circle-check verified"></i></div>
+                  <div class="status"><span class="status-dot"></span> Active now</div>
+                </div>
+              </div>
+
+              <div class="chat-actions">
+                <button class="chat-action" aria-label="Call"><i class="fa-solid fa-phone"></i></button>
+                <button class="chat-action" aria-label="Video"><i class="fa-solid fa-video"></i></button>
+                <button class="chat-action" aria-label="More"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+              </div>
+            </div>
+
+            <div class="chat-body" id="chatBody"></div>
+
+            <div class="composer">
+              <button class="attach-btn" aria-label="Attach"><i class="fa-regular fa-paperclip"></i></button>
+              <div class="composer-input">
+                <input type="text" placeholder="Type a message..." />
+                <i class="fa-regular fa-face-smile"></i>
+              </div>
+              <button class="send-btn" aria-label="Send"><i class="fa-regular fa-paper-plane"></i></button>
+            </div>
+          </section>
+
+          <!-- Profile info -->
+          <aside class="panel info-panel" id="infoPanel">
+            <div class="info-card">
+              <h3 class="info-title">Contact Info</h3>
+
+              <div class="contact-hero">
+                <div class="contact-photo-wrap">
+                  <img class="contact-photo" src="https://i.pravatar.cc/160?img=12" alt="James Carter">
+                  <span class="online-dot"></span>
+                </div>
+                <div class="contact-name">James Carter <i class="fa-solid fa-circle-check verified"></i></div>
+                <div class="contact-handle">@james_carter</div>
+                <div class="contact-role">Campaign Manager at BrightAds</div>
+                <div class="contact-location"><i class="fa-solid fa-location-dot"></i> Lagos, Nigeria</div>
+
+                <div class="contact-actions">
+                  <button class="small-action" id="profileBackBtn" type="button"><i class="fa-regular fa-user"></i><span>Profile</span></button>
+                  <div class="small-action"><i class="fa-solid fa-phone"></i><span>Call</span></div>
+                  <div class="small-action"><i class="fa-solid fa-video"></i><span>Video</span></div>
+                  <div class="small-action"><i class="fa-solid fa-ellipsis"></i><span>More</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel info-card about-card">
+              <h3 class="info-title">About</h3>
+              <p class="about-text">Oversees influencer campaigns and brand partnerships. 5+ years of experience in digital marketing.</p>
+            </div>
+
+            <div class="panel info-card">
+              <div class="section-head" style="margin-bottom:10px;padding:0;">
+                <h3 class="info-title" style="margin:0;">Shared Media</h3>
+                <a href="#" class="view-link">View all</a>
+              </div>
+              <div class="media-grid">
+                <div class="media-thumb"><img src="https://i.pravatar.cc/300?img=31" alt=""></div>
+                <div class="media-thumb"><img src="https://i.pravatar.cc/300?img=32" alt=""></div>
+                <div class="media-thumb"><img src="https://i.pravatar.cc/300?img=33" alt=""></div>
+                <div class="media-thumb"><img src="https://i.pravatar.cc/300?img=34" alt=""></div>
+                <div class="media-thumb"><img src="https://i.pravatar.cc/300?img=35" alt=""></div>
+                <div class="media-thumb">
+                  <img src="https://i.pravatar.cc/300?img=36" alt="">
+                  <div class="media-more">+8</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel info-card">
+              <div class="section-head" style="margin-bottom:10px;padding:0;">
+                <h3 class="info-title" style="margin:0;">Shared Files</h3>
+                <a href="#" class="view-link">View all</a>
+              </div>
+
+              <div class="file-list">
+                <div class="file-row">
+                  <div class="file-left">
+                    <div class="file-type pdf"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div>
+                      <div class="file-name">Campaign_Brief.pdf</div>
+                      <div class="file-size">1.8 MB</div>
+                    </div>
+                  </div>
+                  <button class="file-download" aria-label="Download"><i class="fa-solid fa-download"></i></button>
+                </div>
+                <div class="file-row">
+                  <div class="file-left">
+                    <div class="file-type xls"><i class="fa-solid fa-file-excel"></i></div>
+                    <div>
+                      <div class="file-name">Content_Calendar.xlsx</div>
+                      <div class="file-size">980 KB</div>
+                    </div>
+                  </div>
+                  <button class="file-download" aria-label="Download"><i class="fa-solid fa-download"></i></button>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const chats = [
+      {
+        id: 1,
+        name: "James Carter",
+        avatar: "https://i.pravatar.cc/100?img=12",
+        preview: "Great! Let’s move forward with the campaign.",
+        time: "10:30 AM",
+        unread: 2,
+        verified: true,
+        active: true,
+        type: "direct"
+      },
+      {
+        id: 2,
+        name: "Maria Ude",
+        avatar: "https://i.pravatar.cc/100?img=45",
+        preview: "Thanks for the update. I’ll review it shortly.",
+        time: "9:15 AM",
+        unread: 1,
+        verified: false,
+        active: false,
+        type: "direct"
+      },
+      {
+        id: 3,
+        name: "Daniel Okafor",
+        avatar: "https://i.pravatar.cc/100?img=17",
+        preview: "Can we schedule a call tomorrow?",
+        time: "Yesterday",
+        unread: 0,
+        verified: false,
+        active: false,
+        type: "direct"
+      },
+      {
+        id: 4,
+        name: "Campaign Managers",
+        avatar: null,
+        preview: "Faith: Please check the latest report.",
+        time: "Yesterday",
+        unread: 3,
+        verified: false,
+        active: false,
+        type: "group"
+      },
+      {
+        id: 5,
+        name: "Faith Johnson",
+        avatar: "https://i.pravatar.cc/100?img=48",
+        preview: "The content looks amazing! Well done.",
+        time: "May 29",
+        unread: 0,
+        verified: false,
+        active: false,
+        type: "direct"
+      },
+      {
+        id: 6,
+        name: "Chris Martin",
+        avatar: "https://i.pravatar.cc/100?img=60",
+        preview: "Payment has been processed.",
+        time: "May 28",
+        unread: 0,
+        verified: false,
+        active: false,
+        type: "direct"
+      },
+      {
+        id: 7,
+        name: "SMBoostly Support",
+        avatar: "https://i.pravatar.cc/100?img=64",
+        preview: "Hi Adeola, how can we help you today?",
+        time: "May 28",
+        unread: 0,
+        verified: true,
+        active: false,
+        type: "direct"
+      },
+      {
+        id: 8,
+        name: "Linda Emmanuel",
+        avatar: "https://i.pravatar.cc/100?img=28",
+        preview: "I have a question about the new features.",
+        time: "May 27",
+        unread: 0,
+        verified: false,
+        active: false,
+        type: "direct"
+      }
+    ];
+
+    const messages = [
+      { side: "me", text: "Hi James! 👋\nJust checking in on the Summer Sale Boost campaign. How is everything going?", time: "10:28 AM", read: true },
+      { side: "other", avatar: "https://i.pravatar.cc/60?img=12", text: "Hi Adeola! 👋\nThings are going great so far. Engagement is higher than expected!", time: "10:29 AM" },
+      { side: "me", text: "That’s awesome to hear! 🔥\nCan you share the latest numbers?", time: "10:29 AM", read: true },
+      { side: "other", avatar: "https://i.pravatar.cc/60?img=12", text: "Sure! Here's the quick update 📊\n• Total Reach: 125,000\n• Clicks: 8,450\n• Conversions: 1,250\n• ROI: 320%", time: "10:30 AM" },
+      { side: "file", fileName: "Campaign_Report_May31.pdf", fileSize: "2.4 MB", time: "10:30 AM" },
+      { side: "me", text: "Amazing results! 🔥\nGreat! Let’s move forward with the campaign.", time: "10:30 AM", read: true }
+    ];
+
+    const chatListEl = document.getElementById('chatList');
+    const chatBodyEl = document.getElementById('chatBody');
+    const shell = document.getElementById('shell');
+    const infoPanel = document.getElementById('infoPanel');
+    const profileTrigger = document.getElementById('profileTrigger');
+    const backToList = document.getElementById('backToList');
+    const profileBackBtn = document.getElementById('profileBackBtn');
+
+    const stepList = document.getElementById('step-list');
+    const stepChat = document.getElementById('step-chat');
+    const stepProfile = document.getElementById('step-profile');
+
+    function setStep(step){
+      stepList.classList.toggle('active', step === 'list');
+      stepChat.classList.toggle('active', step === 'chat');
+      stepProfile.classList.toggle('active', step === 'profile');
+    }
+
+    function renderChatList() {
+      chatListEl.innerHTML = chats.map(chat => `
+        <div class="chat-item ${chat.active ? 'active' : ''}" data-chat="${chat.id}">
+          ${
+            chat.type === 'group'
+              ? `<div class="chat-avatar group"><i class="fa-solid fa-user-group"></i></div>`
+              : `<img class="chat-avatar" src="${chat.avatar}" alt="${chat.name}">`
+          }
+          <div class="chat-main">
+            <div class="chat-top">
+              <div class="chat-name">
+                ${chat.name}
+                ${chat.verified ? `<i class="fa-solid fa-circle-check verified"></i>` : ``}
+              </div>
+              <div class="chat-time">${chat.time}</div>
+            </div>
+            <div class="chat-preview">${chat.preview}</div>
+          </div>
+          ${chat.unread ? `<div class="unread">${chat.unread}</div>` : ``}
+        </div>
+      `).join('');
+    }
+
+    function renderMessages() {
+      chatBodyEl.innerHTML = messages.map(m => {
+        if (m.side === 'me') {
+          return `
+            <div class="bubble-row me">
+              <div class="bubble me">
+                ${m.text.replace(/\n/g, '<br>')}
+                <span class="time">${m.time} <i class="fa-solid fa-check-double read"></i></span>
+              </div>
+            </div>
+          `;
+        }
+        if (m.side === 'file') {
+          return `
+            <div class="bubble-row other">
+              <div class="file-card">
+                <div class="file-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                <div class="file-meta">
+                  <div class="title">${m.fileName}</div>
+                  <div class="size">${m.fileSize}</div>
+                </div>
+                <button class="download-btn" aria-label="Download file"><i class="fa-solid fa-download"></i></button>
+              </div>
+            </div>
+            <div class="bubble-row other" style="margin-top:-8px;">
+              <span class="time" style="color:#667085;font-size:12px;">${m.time}</span>
+            </div>
+          `;
+        }
+        return `
+          <div class="bubble-row other">
+            <img class="bubble-avatar" src="${m.avatar}" alt="Sender">
+            <div class="bubble other">
+              ${m.text.replace(/\n/g, '<br>')}
+              <span class="time">${m.time}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function activateChat(id) {
+      chats.forEach(c => c.active = c.id === id);
+      renderChatList();
+      const chat = chats.find(c => c.id === id) || chats[0];
+
+      document.querySelector('.chat-user .meta .name').innerHTML =
+        `${chat.name}${chat.verified ? ' <i class="fa-solid fa-circle-check verified"></i>' : ''}`;
+      document.querySelector('.chat-user img').src = chat.avatar || "https://i.pravatar.cc/100?img=12";
+      document.querySelector('.chat-user .status').innerHTML = `<span class="status-dot"></span> Active now`;
+
+      if (window.innerWidth <= 980) {
+        shell.classList.add('view-chat');
+        shell.classList.remove('view-profile');
+        setStep('chat');
+      }
+    }
+
+    renderChatList();
+    renderMessages();
+
+    chatListEl.addEventListener('click', (e) => {
+      const item = e.target.closest('.chat-item');
+      if (!item) return;
+      activateChat(Number(item.dataset.chat));
+    });
+
+    profileTrigger.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        shell.classList.remove('view-chat');
+        shell.classList.add('view-profile');
+        setStep('profile');
+      }
+    });
+
+    backToList.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        shell.classList.remove('view-chat', 'view-profile');
+        setStep('list');
+      }
+    });
+
+    profileBackBtn.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        shell.classList.remove('view-profile');
+        shell.classList.add('view-chat');
+        setStep('chat');
+      }
+    });
+
+    stepList.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        shell.classList.remove('view-chat', 'view-profile');
+        setStep('list');
+      }
+    });
+    stepChat.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        shell.classList.add('view-chat');
+        shell.classList.remove('view-profile');
+        setStep('chat');
+      }
+    });
+    stepProfile.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        shell.classList.remove('view-chat');
+        shell.classList.add('view-profile');
+        setStep('profile');
+      }
+    });
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    function updateMode() {
+      if (window.innerWidth <= 980) {
+        shell.classList.add('view-chat');
+        shell.classList.remove('view-profile');
+        setStep('chat');
+      } else {
+        shell.classList.remove('view-chat', 'view-profile');
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+      updateMode();
+    });
+
+    updateMode();
+  </script>
+</body>
+</html>

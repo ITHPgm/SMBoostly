@@ -1,0 +1,2390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMBoostly — Create Account</title>
+
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind + config -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        glow: '0 20px 80px rgba(99,102,241,0.25)',
+                        'card': '0 25px 80px rgba(15,23,42,0.12)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ---------- Base ---------- */
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(99, 102, 241, .18), transparent 30%),
+                radial-gradient(circle at top right, rgba(236, 72, 153, .14), transparent 26%),
+                linear-gradient(180deg, #eef2ff 0%, #f8fafc 48%, #eef2ff 100%);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ---------- Register Wrapper (flex container for image + card) ---------- */
+        .register-wrapper {
+            display: flex;
+            position: relative;
+            width: 100%;
+            max-width: 940px;
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            min-height: 600px;
+        }
+        .register-wrapper:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        }
+
+        /* Glow orbs behind wrapper */
+        .register-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 30%;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .register-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: 20%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217, 70, 239, 0.10), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .register-wrapper>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- Image Panel (left) ---------- */
+        .image-panel {
+            flex: 1;
+            min-width: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+            transform: translateX(-100%);
+            transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2.5rem 0 0 2.5rem;
+        }
+        .image-panel.open {
+            transform: translateX(0);
+        }
+
+        .image-panel .image-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.6), rgba(241, 245, 249, 0.4));
+        }
+
+        .image-panel .image-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s ease;
+        }
+
+        .image-panel.open .image-inner img {
+            transform: scale(1);
+        }
+
+        .image-panel .image-inner .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(217, 70, 239, 0.05));
+            pointer-events: none;
+        }
+
+        /* Decorative handle (now on the right side of the image panel) */
+        .image-panel .door-handle {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.4), rgba(217, 70, 239, 0.4));
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.4s;
+        }
+        .image-panel.open .door-handle {
+            opacity: 1;
+        }
+
+        /* Shadow on the right edge */
+        .image-panel::before {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15), rgba(217, 70, 239, 0.10));
+            z-index: 3;
+            border-radius: 2px 0 0 2px;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+        }
+        .image-panel.open::before {
+            opacity: 1;
+        }
+
+        /* ---------- Register Card (right) ---------- */
+        .register-card {
+            width: 100%;
+            max-width: 480px;
+            flex-shrink: 0;
+            padding: 2.25rem 2rem 2.5rem;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            overflow-y: auto;
+            max-height: 700px;
+        }
+
+        /* ---------- Logo ---------- */
+        .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            display: flex;
+            height: 48px;
+            width: 48px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+            transition: transform 0.3s ease;
+        }
+        .logo-icon:hover {
+            transform: scale(1.05);
+        }
+        .logo-text {
+            font-size: 1.65rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+        }
+        .logo-text span {
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ---------- Form ---------- */
+        .form-group {
+            margin-bottom: 1.1rem;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #475569;
+            margin-bottom: 5px;
+        }
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            transition: all 0.25s ease;
+            overflow: hidden;
+        }
+        .input-wrap:focus-within {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.10);
+            background: rgba(255, 255, 255, 0.85);
+        }
+        .input-wrap .input-icon {
+            flex-shrink: 0;
+            width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1rem;
+            transition: color 0.25s ease;
+        }
+        .input-wrap:focus-within .input-icon {
+            color: #4f46e5;
+        }
+        .input-wrap input,
+        .input-wrap select {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 13px 16px 13px 0;
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            width: 100%;
+            min-width: 0;
+            appearance: none;
+        }
+        .input-wrap select {
+            cursor: pointer;
+        }
+        .input-wrap input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+        .input-wrap .toggle-password {
+            flex-shrink: 0;
+            width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .input-wrap .toggle-password:hover {
+            color: #4f46e5;
+        }
+
+        /* Shake animation */
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            10% {
+                transform: translateX(-10px);
+            }
+            30% {
+                transform: translateX(10px);
+            }
+            50% {
+                transform: translateX(-8px);
+            }
+            70% {
+                transform: translateX(8px);
+            }
+            90% {
+                transform: translateX(-4px);
+            }
+        }
+        .input-wrap.shake {
+            animation: shake 0.5s ease forwards;
+        }
+        .input-wrap.shake {
+            border-color: #f87171;
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.12);
+        }
+        .input-wrap.shake .input-icon {
+            color: #f87171;
+        }
+
+        /* Error state (persistent) */
+        .input-wrap.error {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.04);
+        }
+        .input-wrap.error .input-icon {
+            color: #f87171;
+        }
+        .input-wrap.error:focus-within {
+            border-color: #f87171;
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.10);
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px 24px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 16px 48px rgba(99, 102, 241, 0.35);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-primary:disabled {
+            opacity: 0.7;
+            pointer-events: none;
+            transform: scale(0.98);
+        }
+        .btn-primary .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-primary.loading .spinner {
+            display: inline-block;
+        }
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+        .btn-primary.loading .btn-icon {
+            display: none;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-secondary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1.5px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.5);
+            color: #475569;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            flex: 1;
+        }
+        .btn-secondary:hover {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+        }
+        .btn-secondary.active {
+            border-color: #4f46e5;
+            background: rgba(99, 102, 241, 0.08);
+            color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.10);
+        }
+        .btn-secondary .fas {
+            font-size: 1.1rem;
+        }
+
+        /* ---------- Role Selection ---------- */
+        .role-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 18px 0 22px;
+        }
+        .role-card {
+            padding: 24px 16px;
+            border-radius: 18px;
+            border: 2px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .role-card:hover {
+            border-color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.7);
+            transform: translateY(-3px);
+        }
+        .role-card.selected {
+            border-color: #4f46e5;
+            background: rgba(99, 102, 241, 0.06);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.08);
+        }
+        .role-card .role-icon {
+            font-size: 2.2rem;
+            color: #4f46e5;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .role-card .role-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #0f172a;
+        }
+        .role-card .role-desc {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .role-card .role-check {
+            display: none;
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: #4f46e5;
+        }
+        .role-card.selected .role-check {
+            display: block;
+        }
+
+        /* ---------- Progress Steps ---------- */
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        .progress-step .step-num {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #94a3b8;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .progress-step.active .step-num {
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
+        }
+        .progress-step.active {
+            color: #4f46e5;
+        }
+        .progress-step.done .step-num {
+            background: #34d399;
+            color: #fff;
+        }
+        .progress-step.done {
+            color: #34d399;
+        }
+        .progress-line {
+            width: 40px;
+            height: 2px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: background 0.3s ease;
+        }
+        .progress-line.done {
+            background: #34d399;
+        }
+
+        /* ---------- iOS Notification ---------- */
+        .ios-notification {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(30, 30, 40, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 18px;
+            padding: 14px 20px 14px 18px;
+            min-width: 300px;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .ios-notification.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0px);
+        }
+        .ios-notification .notif-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #fff;
+            overflow: hidden;
+        }
+        .ios-notification .notif-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .ios-notification .notif-icon.success {
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+        .ios-notification .notif-icon.error {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
+        .ios-notification .notif-icon.warning {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+        .ios-notification .notif-icon.info {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+        .ios-notification .notif-icon.profile {
+            background: transparent;
+            padding: 0;
+        }
+        .ios-notification .notif-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .ios-notification .notif-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+        }
+        .ios-notification .notif-message {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1px;
+            line-height: 1.3;
+        }
+        .ios-notification .notif-time {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            transition: color 0.2s;
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .ios-notification .notif-close:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .ios-notification .notif-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 10px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            font-size: 0.7rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 6px;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .ios-notification .notif-action:hover {
+            background: rgba(99, 102, 241, 0.35);
+            transform: scale(1.02);
+        }
+        .ios-notification .notif-action.verify {
+            background: rgba(251, 191, 36, 0.15);
+            color: #d97706;
+        }
+        .ios-notification .notif-action.verify:hover {
+            background: rgba(251, 191, 36, 0.25);
+        }
+
+        @media (max-width: 480px) {
+            .ios-notification {
+                min-width: 0;
+                width: calc(100% - 32px);
+                padding: 12px 16px;
+                top: 16px;
+                border-radius: 14px;
+            }
+            .ios-notification .notif-icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+            .ios-notification .notif-title {
+                font-size: 0.78rem;
+            }
+            .ios-notification .notif-message {
+                font-size: 0.68rem;
+            }
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 480px) {
+            .register-card {
+                padding: 1.75rem 1.25rem 2rem;
+            }
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            .logo-icon {
+                height: 42px;
+                width: 42px;
+                font-size: 1.3rem;
+            }
+            .role-grid {
+                gap: 10px;
+            }
+            .role-card {
+                padding: 18px 12px;
+            }
+            .role-card .role-icon {
+                font-size: 1.8rem;
+            }
+            .progress-line {
+                width: 20px;
+            }
+            .progress-step {
+                font-size: 0.6rem;
+            }
+            .progress-step .step-num {
+                width: 24px;
+                height: 24px;
+                font-size: 0.6rem;
+            }
+        }
+
+        /* ---------- Background decoration ---------- */
+        .bg-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .bg-blob-1 {
+            top: -10%;
+            right: -8%;
+            width: 500px;
+            height: 500px;
+            background: rgba(99, 102, 241, 0.12);
+        }
+        .bg-blob-2 {
+            bottom: -12%;
+            left: -6%;
+            width: 450px;
+            height: 450px;
+            background: rgba(217, 70, 239, 0.08);
+        }
+        @media (max-width: 640px) {
+            .bg-blob-1 {
+                width: 300px;
+                height: 300px;
+                top: -5%;
+            }
+            .bg-blob-2 {
+                width: 280px;
+                height: 280px;
+                bottom: -5%;
+            }
+        }
+
+        /* ---------- Form transition ---------- */
+        .form-step {
+            display: none;
+            animation: fadeSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .form-step.active {
+            display: block;
+        }
+        @keyframes fadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------- Misc ---------- */
+        .text-muted {
+            color: #94a3b8;
+        }
+        .text-small {
+            font-size: 0.78rem;
+        }
+        .gap-1\.5 {
+            gap: 0.375rem;
+        }
+        .mt-1\.5 {
+            margin-top: 0.375rem;
+        }
+
+        /* Back button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            padding: 4px 0;
+        }
+        .back-btn:hover {
+            color: #4f46e5;
+        }
+
+        /* Notification with profile pic */
+        .notif-profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* ---------- Custom Checkbox ---------- */
+        .custom-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .custom-checkbox input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            margin-top: 1px;
+            position: relative;
+        }
+        .custom-checkbox input[type="checkbox"]:checked {
+            background: linear-gradient(135deg, #4f46e5, #d946ef);
+            border-color: transparent;
+        }
+        .custom-checkbox input[type="checkbox"]:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 0.6rem;
+        }
+        .custom-checkbox label {
+            color: #475569;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+        .custom-checkbox label a {
+            color: #4f46e5;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .custom-checkbox label a:hover {
+            color: #4338ca;
+            text-decoration: underline;
+        }
+        .custom-checkbox .error-msg {
+            font-size: 0.7rem;
+            color: #f87171;
+            display: none;
+            margin-top: 4px;
+        }
+        .custom-checkbox .error-msg.show {
+            display: block;
+        }
+
+        /* ---------- Summary ---------- */
+        .summary-grid {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .summary-grid .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .summary-grid .row:last-child {
+            border-bottom: none;
+        }
+        .summary-grid .label {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .summary-grid .value {
+            color: #0f172a;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* ---------- Custom Social Select ---------- */
+        .social-select-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 8px 0 12px;
+            border-right: 1.5px solid #e2e8f0;
+            flex-shrink: 0;
+            height: 100%;
+            min-width: 120px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 14px 0 0 14px;
+            transition: border-color 0.25s ease;
+        }
+        .input-wrap:focus-within .social-select-container {
+            border-color: #4f46e5;
+        }
+        .social-select-container .social-icon {
+            font-size: 1.1rem;
+            color: #4f46e5;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .social-select-container select {
+            border: none;
+            background: transparent;
+            padding: 13px 20px 13px 4px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 2px center;
+            background-size: 10px;
+            min-width: 80px;
+        }
+        .social-select-container select option {
+            padding: 8px;
+            background: #fff;
+            color: #0f172a;
+        }
+
+        .input-wrap .social-handle-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 13px 16px 13px 12px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            min-width: 0;
+        }
+        .input-wrap .social-handle-input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        /* ---------- Country Code Select ---------- */
+        .country-select-container {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0 4px 0 12px;
+            border-right: 1.5px solid #e2e8f0;
+            flex-shrink: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 14px 0 0 14px;
+            transition: border-color 0.25s ease;
+        }
+        .input-wrap:focus-within .country-select-container {
+            border-color: #4f46e5;
+        }
+        .country-select-container .country-flag {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        .country-select-container select {
+            border: none;
+            background: transparent;
+            padding: 13px 20px 13px 2px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 2px center;
+            background-size: 10px;
+            min-width: 70px;
+        }
+        .country-select-container select option {
+            padding: 8px;
+            background: #fff;
+            color: #0f172a;
+        }
+        .input-wrap .phone-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 13px 16px 13px 12px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            min-width: 0;
+            letter-spacing: 0.5px;
+        }
+        .input-wrap .phone-input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        /* ---------- Brand Name Input (Publisher) ---------- */
+        .input-wrap .brand-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 13px 16px 13px 0;
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: #0f172a;
+            outline: none;
+            font-family: 'Inter', system-ui, sans-serif;
+            min-width: 0;
+        }
+        .input-wrap .brand-input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        /* ---------- Dynamic field toggle ---------- */
+        .dynamic-field-hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 480px) {
+            .social-select-container {
+                min-width: 90px;
+                padding: 0 4px 0 8px;
+            }
+            .social-select-container select {
+                font-size: 0.7rem;
+                padding: 13px 16px 13px 2px;
+                min-width: 60px;
+            }
+            .country-select-container {
+                padding: 0 4px 0 8px;
+            }
+            .country-select-container select {
+                font-size: 0.7rem;
+                padding: 13px 16px 13px 2px;
+                min-width: 55px;
+            }
+            .social-select-container .social-icon {
+                font-size: 0.9rem;
+            }
+            .country-select-container .country-flag {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ---------- iOS Notification action buttons ---------- */
+        .notif-action-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+        .notif-action-group .notif-action {
+            margin-top: 0;
+        }
+
+        /* ---------- SSO Section ---------- */
+        .sso-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 18px 0 16px;
+        }
+        .sso-divider::before,
+        .sso-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        .sso-divider span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+
+        .sso-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+        .sso-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1.5px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.5);
+            color: #475569;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', system-ui, sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+        .sso-btn:hover {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+        }
+        .sso-btn .fab {
+            font-size: 1.1rem;
+        }
+        .sso-btn.google:hover .fab {
+            color: #ea4335;
+        }
+        .sso-btn.sso-coming {
+            cursor: default;
+            opacity: 0.7;
+        }
+        .sso-btn.sso-coming:hover {
+            transform: none;
+            box-shadow: none;
+            background: rgba(255, 255, 255, 0.5);
+            border-color: #e2e8f0;
+        }
+        .sso-btn.sso-coming .fas {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .sso-btn {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+                gap: 4px;
+            }
+            .sso-btn .fab {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ---------- Desktop: both panels visible ---------- */
+        @media (min-width: 769px) {
+            .register-wrapper {
+                min-height: 600px;
+            }
+            .image-panel {
+                flex: 1;
+                min-width: 0;
+                display: block;
+            }
+            .register-card {
+                max-width: 480px;
+            }
+            .sso-btn {
+                padding: 10px 24px;
+            }
+        }
+
+        /* ---------- Mobile: image panel hidden ---------- */
+        @media (max-width: 768px) {
+            .register-wrapper {
+                max-width: 520px;
+                min-height: auto;
+                border-radius: 2.5rem;
+                overflow: hidden;
+            }
+            .image-panel {
+                display: none !important;
+            }
+            .register-card {
+                max-width: 100%;
+                padding: 1.75rem 1.25rem 2rem;
+                max-height: none;
+                overflow-y: visible;
+            }
+            .register-wrapper::before,
+            .register-wrapper::after {
+                display: none;
+            }
+            .sso-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- iOS NOTIFICATION CONTAINER -->
+    <!-- ============================================================ -->
+    <div id="iosNotif" class="ios-notification" role="alert">
+        <div class="notif-icon" id="notifIcon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notif-content">
+            <div class="notif-title" id="notifTitle">Success</div>
+            <div class="notif-message" id="notifMessage">Action completed successfully.</div>
+            <div id="notifActionWrap" style="display:none; margin-top: 4px;"></div>
+        </div>
+        <span class="notif-time" id="notifTime">now</span>
+        <button class="notif-close" id="notifClose" aria-label="Dismiss notification">
+            <i class="fas fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- BACKGROUND BLOBS -->
+    <!-- ============================================================ -->
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+
+    <!-- ============================================================ -->
+    <!-- REGISTER WRAPPER (image panel + register card) -->
+    <!-- ============================================================ -->
+    <div class="register-wrapper" id="registerWrapper">
+
+        <!-- ============================================================ -->
+        <!-- IMAGE PANEL (left) - slides in like a door -->
+        <!-- ============================================================ -->
+        <div class="image-panel" id="imagePanel">
+            <div class="door-handle"></div>
+            <div class="image-inner">
+                <img
+                src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783281502/blog/SMBoostly_Register_img_1783281500.jpg"
+                alt="SMBoostly Register Illustration"
+                loading="lazy"
+                />
+                <div class="img-overlay"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- REGISTER CARD (right) -->
+        <!-- ============================================================ -->
+        <div class="register-card" id="registerCard">
+
+            <!-- Logo — centered -->
+            <div class="flex justify-center mb-5">
+                <a href="#" class="logo-link">
+                    <div class="logo-icon">S</div>
+                    <div class="logo-text">SM<span>Boostly</span></div>
+                </a>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- STEP 0: ROLE CHOICE -->
+            <!-- ============================================================ -->
+            <div class="form-step active" id="stepRole">
+                <div class="text-center mb-4">
+                    <h2 class="text-xl font-black tracking-tight text-slate-900">Choose Your Role</h2>
+                    <p class="text-sm text-slate-500 mt-1">How do you want to use SMBoostly?</p>
+                </div>
+
+                <div class="role-grid">
+                    <!-- Earner -->
+                    <div class="role-card" data-role="earner" id="roleEarner">
+                        <span class="role-icon"><i class="fas fa-hand-holding-heart"></i></span>
+                        <div class="role-name">Earner</div>
+                        <div class="role-desc">Complete tasks &amp; earn rewards</div>
+                        <div class="role-check"><i class="fas fa-check-circle"></i></div>
+                    </div>
+                    <!-- Publisher -->
+                    <div class="role-card" data-role="publisher" id="rolePublisher">
+                        <span class="role-icon"><i class="fas fa-bullhorn"></i></span>
+                        <div class="role-name">Publisher</div>
+                        <div class="role-desc">Create campaigns &amp; grow your brand</div>
+                        <div class="role-check"><i class="fas fa-check-circle"></i></div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="roleContinueBtn" disabled>
+                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                    <span class="btn-text">Continue</span>
+                    <span class="spinner"></span>
+                </button>
+
+                <div class="text-center mt-4">
+                    <p class="text-xs text-slate-400">
+                        <i class="fas fa-lock text-indigo-300 mr-1"></i>
+                        Already have an account? <a href="../../auth/login/" class="text-indigo-600 font-semibold hover:underline">Sign in</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- STEP 1: PERSONAL INFORMATION -->
+            <!-- ============================================================ -->
+            <div class="form-step" id="stepPersonal">
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-step active" id="prog1">
+                        <span class="step-num">1</span> Personal
+                    </div>
+                    <div class="progress-line" id="progLine1"></div>
+                    <div class="progress-step" id="prog2">
+                        <span class="step-num">2</span> Profile
+                    </div>
+                    <div class="progress-line" id="progLine2"></div>
+                    <div class="progress-step" id="prog3">
+                        <span class="step-num">3</span> Confirm
+                    </div>
+                </div>
+
+                <button class="back-btn" id="backToRole">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+
+                <div class="mt-3">
+                    <h2 class="text-xl font-black tracking-tight text-slate-900">Personal Information</h2>
+                    <p class="text-sm text-slate-500">Tell us about yourself</p>
+                </div>
+
+                <form id="formPersonal" novalidate>
+                    <!-- Full Name -->
+                    <div class="form-group mt-4">
+                        <label class="form-label" for="fullName">
+                            <i class="fas fa-user text-indigo-400 mr-1.5"></i> Full Name
+                        </label>
+                        <div class="input-wrap" id="nameWrap">
+                            <span class="input-icon"><i class="fas fa-user"></i></span>
+                            <input type="text" id="fullName" placeholder="Enter your full name" autocomplete="name" />
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="form-label" for="regEmail">
+                            <i class="fas fa-envelope text-indigo-400 mr-1.5"></i> Email Address
+                        </label>
+                        <div class="input-wrap" id="emailWrap">
+                            <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                            <input type="email" id="regEmail" placeholder="Enter your email" autocomplete="email" />
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label class="form-label" for="regPassword">
+                            <i class="fas fa-lock text-indigo-400 mr-1.5"></i> Password
+                        </label>
+                        <div class="input-wrap" id="passwordWrap">
+                            <span class="input-icon"><i class="fas fa-key"></i></span>
+                            <input type="password" id="regPassword" placeholder="Create a password" autocomplete="new-password" />
+                            <button type="button" class="toggle-password" id="toggleRegPassword" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye" id="regEyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPassword">
+                            <i class="fas fa-check-circle text-indigo-400 mr-1.5"></i> Confirm Password
+                        </label>
+                        <div class="input-wrap" id="confirmWrap">
+                            <span class="input-icon"><i class="fas fa-check-double"></i></span>
+                            <input type="password" id="confirmPassword" placeholder="Confirm your password" autocomplete="new-password" />
+                            <button type="button" class="toggle-password" id="toggleConfirmPassword" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye" id="confirmEyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="btn-group" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px;">
+                        <button type="button" class="btn-secondary" onclick="goToStep(0)">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="submit" class="btn-primary" id="personalContinueBtn">
+                            <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                            <span class="btn-text">Continue</span>
+                            <span class="spinner"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- STEP 2: PROFILE DETAILS -->
+            <!-- ============================================================ -->
+            <div class="form-step" id="stepProfile">
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-step done" id="prog1b">
+                        <span class="step-num"><i class="fas fa-check"></i></span> Personal
+                    </div>
+                    <div class="progress-line done" id="progLine1b"></div>
+                    <div class="progress-step active" id="prog2b">
+                        <span class="step-num">2</span> Profile
+                    </div>
+                    <div class="progress-line" id="progLine2b"></div>
+                    <div class="progress-step" id="prog3b">
+                        <span class="step-num">3</span> Confirm
+                    </div>
+                </div>
+
+                <button class="back-btn" id="backToPersonal">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+
+                <div class="mt-3">
+                    <h2 class="text-xl font-black tracking-tight text-slate-900">Profile Details</h2>
+                    <p class="text-sm text-slate-500">Customize your account</p>
+                </div>
+
+                <form id="formProfile" novalidate>
+                    <!-- Username -->
+                    <div class="form-group mt-4">
+                        <label class="form-label" for="username">
+                            <i class="fas fa-at text-indigo-400 mr-1.5"></i> Username
+                        </label>
+                        <div class="input-wrap" id="usernameWrap">
+                            <span class="input-icon"><i class="fas fa-at"></i></span>
+                            <input type="text" id="username" placeholder="Choose a username" autocomplete="username" />
+                        </div>
+                    </div>
+
+                    <!-- Phone with Country Code -->
+                    <div class="form-group">
+                        <label class="form-label" for="phone">
+                            <i class="fas fa-phone text-indigo-400 mr-1.5"></i> Phone Number
+                        </label>
+                        <div class="input-wrap" id="phoneWrap">
+                            <div class="country-select-container">
+                                <span class="country-flag" id="countryFlag">🇺🇸</span>
+                                <select id="countryCode" aria-label="Country code">
+                                    <option value="+1" data-flag="🇺🇸">+1</option>
+                                    <option value="+44" data-flag="🇬🇧">+44</option>
+                                    <option value="+234" data-flag="🇳🇬">+234</option>
+                                    <option value="+91" data-flag="🇮🇳">+91</option>
+                                    <option value="+61" data-flag="🇦🇺">+61</option>
+                                    <option value="+81" data-flag="🇯🇵">+81</option>
+                                    <option value="+86" data-flag="🇨🇳">+86</option>
+                                    <option value="+49" data-flag="🇩🇪">+49</option>
+                                    <option value="+33" data-flag="🇫🇷">+33</option>
+                                    <option value="+39" data-flag="🇮🇹">+39</option>
+                                    <option value="+55" data-flag="🇧🇷">+55</option>
+                                    <option value="+7" data-flag="🇷🇺">+7</option>
+                                    <option value="+82" data-flag="🇰🇷">+82</option>
+                                    <option value="+27" data-flag="🇿🇦">+27</option>
+                                    <option value="+52" data-flag="🇲🇽">+52</option>
+                                    <option value="+45" data-flag="🇩🇰">+45</option>
+                                    <option value="+46" data-flag="🇸🇪">+46</option>
+                                    <option value="+47" data-flag="🇳🇴">+47</option>
+                                    <option value="+31" data-flag="🇳🇱">+31</option>
+                                    <option value="+32" data-flag="🇧🇪">+32</option>
+                                    <option value="+41" data-flag="🇨🇭">+41</option>
+                                    <option value="+34" data-flag="🇪🇸">+34</option>
+                                    <option value="+351" data-flag="🇵🇹">+351</option>
+                                    <option value="+353" data-flag="🇮🇪">+353</option>
+                                    <option value="+64" data-flag="🇳🇿">+64</option>
+                                    <option value="+60" data-flag="🇲🇾">+60</option>
+                                    <option value="+65" data-flag="🇸🇬">+65</option>
+                                    <option value="+63" data-flag="🇵🇭">+63</option>
+                                    <option value="+62" data-flag="🇮🇩">+62</option>
+                                    <option value="+66" data-flag="🇹🇭">+66</option>
+                                    <option value="+84" data-flag="🇻🇳">+84</option>
+                                    <option value="+971" data-flag="🇦🇪">+971</option>
+                                    <option value="+966" data-flag="🇸🇦">+966</option>
+                                    <option value="+972" data-flag="🇮🇱">+972</option>
+                                    <option value="+20" data-flag="🇪🇬">+20</option>
+                                    <option value="+27" data-flag="🇿🇦">+27</option>
+                                    <option value="+30" data-flag="🇬🇷">+30</option>
+                                    <option value="+90" data-flag="🇹🇷">+90</option>
+                                    <option value="+48" data-flag="🇵🇱">+48</option>
+                                    <option value="+420" data-flag="🇨🇿">+420</option>
+                                    <option value="+36" data-flag="🇭🇺">+36</option>
+                                    <option value="+385" data-flag="🇭🇷">+385</option>
+                                    <option value="+387" data-flag="🇧🇦">+387</option>
+                                    <option value="+381" data-flag="🇷🇸">+381</option>
+                                    <option value="+359" data-flag="🇧🇬">+359</option>
+                                    <option value="+40" data-flag="🇷🇴">+40</option>
+                                    <option value="+421" data-flag="🇸🇰">+421</option>
+                                    <option value="+386" data-flag="🇸🇮">+386</option>
+                                    <option value="+372" data-flag="🇪🇪">+372</option>
+                                    <option value="+371" data-flag="🇱🇻">+371</option>
+                                    <option value="+370" data-flag="🇱🇹">+370</option>
+                                    <option value="+373" data-flag="🇲🇩">+373</option>
+                                    <option value="+374" data-flag="🇦🇲">+374</option>
+                                    <option value="+994" data-flag="🇦🇿">+994</option>
+                                    <option value="+995" data-flag="🇬🇪">+995</option>
+                                    <option value="+976" data-flag="🇲🇳">+976</option>
+                                    <option value="+996" data-flag="🇰🇬">+996</option>
+                                    <option value="+7" data-flag="🇰🇿">+7</option>
+                                    <option value="+998" data-flag="🇺🇿">+998</option>
+                                    <option value="+992" data-flag="🇹🇯">+992</option>
+                                    <option value="+993" data-flag="🇹🇲">+993</option>
+                                    <option value="+850" data-flag="🇰🇵">+850</option>
+                                </select>
+                            </div>
+                            <input type="tel" id="phone" placeholder="704 657 3814" class="phone-input" autocomplete="tel" />
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Field: Social Handle (Earner) or Brand Name (Publisher) -->
+                    <!-- Social Handle for Earners -->
+                    <div class="form-group" id="socialHandleGroup">
+                        <label class="form-label" for="socialHandle">
+                            <i class="fas fa-hashtag text-indigo-400 mr-1.5"></i> Social Media Handle
+                        </label>
+                        <div class="input-wrap" id="socialWrap">
+                            <div class="social-select-container">
+                                <span class="social-icon" id="socialIcon"><i class="fab fa-instagram"></i></span>
+                                <select id="socialPlatform" aria-label="Social media platform">
+                                    <option value="instagram" data-icon="fa-instagram">Instagram</option>
+                                    <option value="tiktok" data-icon="fa-tiktok">TikTok</option>
+                                    <option value="youtube" data-icon="fa-youtube">YouTube</option>
+                                    <option value="twitter" data-icon="fa-twitter">Twitter / X</option>
+                                    <option value="facebook" data-icon="fa-facebook">Facebook</option>
+                                    <option value="linkedin" data-icon="fa-linkedin">LinkedIn</option>
+                                    <option value="snapchat" data-icon="fa-snapchat">Snapchat</option>
+                                    <option value="pinterest" data-icon="fa-pinterest">Pinterest</option>
+                                    <option value="reddit" data-icon="fa-reddit">Reddit</option>
+                                    <option value="twitch" data-icon="fa-twitch">Twitch</option>
+                                    <option value="discord" data-icon="fa-discord">Discord</option>
+                                    <option value="whatsapp" data-icon="fa-whatsapp">WhatsApp</option>
+                                    <option value="telegram" data-icon="fa-telegram">Telegram</option>
+                                    <option value="other" data-icon="fa-link">Other</option>
+                                </select>
+                            </div>
+                            <input type="text" id="socialHandle" class="social-handle-input" placeholder="Enter your handle or link" />
+                        </div>
+                    </div>
+
+                    <!-- Brand Name for Publishers -->
+                    <div class="form-group dynamic-field-hidden" id="brandNameGroup">
+                        <label class="form-label" for="brandName">
+                            <i class="fas fa-building text-indigo-400 mr-1.5"></i> Brand / Business Name
+                        </label>
+                        <div class="input-wrap" id="brandWrap">
+                            <span class="input-icon"><i class="fas fa-building"></i></span>
+                            <input type="text" id="brandName" class="brand-input" placeholder="Enter your brand or business name" />
+                        </div>
+                    </div>
+
+                    <div class="btn-group" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px;">
+                        <button type="button" class="btn-secondary" onclick="goToStep(1)">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="submit" class="btn-primary" id="profileContinueBtn">
+                            <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                            <span class="btn-text">Continue</span>
+                            <span class="spinner"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- STEP 3: CONFIRM & FINISH -->
+            <!-- ============================================================ -->
+            <div class="form-step" id="stepConfirm">
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-step done" id="prog1c">
+                        <span class="step-num"><i class="fas fa-check"></i></span> Personal
+                    </div>
+                    <div class="progress-line done" id="progLine1c"></div>
+                    <div class="progress-step done" id="prog2c">
+                        <span class="step-num"><i class="fas fa-check"></i></span> Profile
+                    </div>
+                    <div class="progress-line done" id="progLine2c"></div>
+                    <div class="progress-step active" id="prog3c">
+                        <span class="step-num">3</span> Confirm
+                    </div>
+                </div>
+
+                <button class="back-btn" id="backToProfile">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+
+                <div class="mt-3">
+                    <h2 class="text-xl font-black tracking-tight text-slate-900">Almost there!</h2>
+                    <p class="text-sm text-slate-500">Review your details and complete registration</p>
+                </div>
+
+                <!-- Summary -->
+                <div class="summary-grid" id="summaryGrid">
+                    <div class="row">
+                        <span class="label">Role</span>
+                        <span class="value" id="summaryRole">—</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Full Name</span>
+                        <span class="value" id="summaryName">—</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Email</span>
+                        <span class="value" id="summaryEmail">—</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Username</span>
+                        <span class="value" id="summaryUsername">—</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Phone</span>
+                        <span class="value" id="summaryPhone">—</span>
+                    </div>
+                    <div class="row">
+                        <span class="label" id="summaryDynamicLabel">Social Handle</span>
+                        <span class="value" id="summaryDynamic">—</span>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="termsCheck" />
+                    <label for="termsCheck">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+                        <span class="error-msg" id="termsError">You must agree to the terms</span>
+                    </label>
+                </div>
+
+                <div class="btn-group" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px;">
+                    <button type="button" class="btn-secondary" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button type="button" class="btn-primary" id="registerBtn">
+                        <span class="btn-icon"><i class="fas fa-rocket"></i></span>
+                        <span class="btn-text">Register</span>
+                        <span class="spinner"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- STEP 4: SUCCESS (hidden, shown after registration) -->
+            <!-- ============================================================ -->
+            <div class="form-step" id="stepSuccess">
+                <div class="text-center py-4">
+                    <div class="flex justify-center mb-4">
+                        <div class="h-20 w-20 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-4xl shadow-lg shadow-emerald-400/20">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-2xl font-black tracking-tight text-slate-900">Account Created!</h2>
+                    <p class="text-sm text-slate-500 mt-1">Your SMBoostly account is ready.</p>
+                    <div class="mt-4 text-xs text-slate-400 flex items-center justify-center gap-1.5">
+                        <i class="fas fa-arrow-right text-indigo-400"></i>
+                        Redirecting to verification page <span id="countdownTimer" class="font-bold text-indigo-600">5</span>s
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- SSO SECTION (Outside form steps) -->
+            <!-- ============================================================ -->
+            <div class="sso-divider">
+                <span>or sign up with</span>
+            </div>
+            <div class="sso-buttons">
+                <button class="sso-btn google" data-notif="info" data-title="Google Sign-Up" data-msg="Google authentication is coming soon!">
+                    <i class="fab fa-google"></i> Google
+                </button>
+                <button class="sso-btn sso-coming" data-notif="info" data-title="SSO Coming Soon" data-msg="Single Sign-On (SSO) will be available soon.">
+                    <i class="fas fa-shield-alt"></i> SSO
+                </button>
+            </div>
+
+        </div>
+        <!-- End Register Card -->
+
+    </div>
+    <!-- End Register Wrapper -->
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // IMAGE PANEL SLIDE-IN (on desktop)
+            // ============================================================
+            const imagePanel = document.getElementById('imagePanel');
+
+            function openPanel() {
+                if (window.innerWidth > 768 && imagePanel) {
+                    setTimeout(function() {
+                        imagePanel.classList.add('open');
+                    }, 400);
+                }
+            }
+
+            window.addEventListener('load', openPanel);
+
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (window.innerWidth > 768 && imagePanel && !imagePanel.classList.contains('open')) {
+                        imagePanel.classList.add('open');
+                    }
+                }, 300);
+            });
+
+            // ============================================================
+            // iOS NOTIFICATION SYSTEM
+            // ============================================================
+            const notifEl = document.getElementById('iosNotif');
+            const notifIcon = document.getElementById('notifIcon');
+            const notifTitle = document.getElementById('notifTitle');
+            const notifMessage = document.getElementById('notifMessage');
+            const notifTime = document.getElementById('notifTime');
+            const notifClose = document.getElementById('notifClose');
+            const notifActionWrap = document.getElementById('notifActionWrap');
+
+            let notifTimeout = null;
+            let notifRedirectTimer = null;
+
+            function showNotification(type, title, message, actionHtml) {
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+
+                const iconMap = {
+                    success: { icon: 'fa-check-circle', cls: 'success' },
+                    error: { icon: 'fa-exclamation-circle', cls: 'error' },
+                    warning: { icon: 'fa-triangle-exclamation', cls: 'warning' },
+                    info: { icon: 'fa-info-circle', cls: 'info' },
+                    profile: { icon: '', cls: 'profile' }
+                };
+                const config = iconMap[type] || iconMap.info;
+
+                if (type === 'profile') {
+                    notifIcon.className = 'notif-icon profile';
+                    const avatarUrl = 'https://i.pravatar.cc/150?img=' + (Math.floor(Math.random() * 70) + 1);
+                    notifIcon.innerHTML = '<img src="' + avatarUrl + '" alt="Profile" class="notif-profile-pic" />';
+                } else {
+                    notifIcon.className = 'notif-icon ' + config.cls;
+                    notifIcon.innerHTML = '<i class="fas ' + config.icon + '"></i>';
+                }
+
+                notifTitle.textContent = title || 'Notification';
+                notifMessage.textContent = message || '';
+
+                if (actionHtml) {
+                    notifActionWrap.style.display = 'block';
+                    notifActionWrap.innerHTML = actionHtml;
+                } else {
+                    notifActionWrap.style.display = 'none';
+                    notifActionWrap.innerHTML = '';
+                }
+
+                const now = new Date();
+                const timeStr = now.getHours().toString().padStart(2, '0') + ':' +
+                    now.getMinutes().toString().padStart(2, '0');
+                notifTime.textContent = timeStr;
+
+                notifEl.classList.add('show');
+
+                const duration = type === 'profile' || type === 'success' ? 7000 : 5000;
+                notifTimeout = setTimeout(function() {
+                    notifEl.classList.remove('show');
+                    notifTimeout = null;
+                }, duration);
+            }
+
+            notifClose.addEventListener('click', function() {
+                notifEl.classList.remove('show');
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+                if (notifRedirectTimer) {
+                    clearTimeout(notifRedirectTimer);
+                    notifRedirectTimer = null;
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (notifEl.classList.contains('show') && !notifEl.contains(e.target)) {
+                    notifEl.classList.remove('show');
+                    if (notifTimeout) {
+                        clearTimeout(notifTimeout);
+                        notifTimeout = null;
+                    }
+                }
+            });
+
+            // Attach to elements with data-notif (for SSO buttons)
+            document.querySelectorAll('[data-notif]').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    const type = this.dataset.notif || 'info';
+                    const title = this.dataset.title || 'Notification';
+                    const msg = this.dataset.msg || '';
+                    showNotification(type, title, msg);
+                });
+            });
+
+            // ============================================================
+            // STEP MANAGEMENT
+            // ============================================================
+            const steps = {
+                role: document.getElementById('stepRole'),
+                personal: document.getElementById('stepPersonal'),
+                profile: document.getElementById('stepProfile'),
+                confirm: document.getElementById('stepConfirm'),
+                success: document.getElementById('stepSuccess'),
+            };
+
+            let currentStep = 'role';
+            let selectedRole = null;
+            let userData = {};
+
+            window.goToStep = function(stepIndex) {
+                const stepMap = ['role', 'personal', 'profile', 'confirm', 'success'];
+                const stepId = stepMap[stepIndex];
+                if (!stepId) return;
+                Object.keys(steps).forEach(key => {
+                    steps[key].classList.remove('active');
+                });
+                if (steps[stepId]) {
+                    steps[stepId].classList.add('active');
+                }
+                currentStep = stepId;
+                // Update progress bars
+                updateProgress(stepIndex);
+                // Populate summary if going to confirm
+                if (stepId === 'confirm') {
+                    populateSummary();
+                }
+                // Update dynamic fields
+                updateDynamicFields();
+                document.getElementById('registerCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            };
+
+            function updateProgress(stepIndex) {
+                const activeStep = document.querySelector('.form-step.active');
+                if (!activeStep) return;
+                const dots = activeStep.querySelectorAll('.progress-step');
+                const lines = activeStep.querySelectorAll('.progress-line');
+                const localIdx = stepIndex - 1;
+                if (stepIndex >= 1 && stepIndex <= 3) {
+                    dots.forEach((dot, i) => {
+                        dot.classList.remove('active', 'done');
+                        if (i < localIdx) dot.classList.add('done');
+                        else if (i === localIdx) dot.classList.add('active');
+                    });
+                    lines.forEach((line, i) => {
+                        if (i < localIdx) line.classList.add('done');
+                        else line.classList.remove('done');
+                    });
+                }
+            }
+
+            // ============================================================
+            // ROLE SELECTION
+            // ============================================================
+            const roleCards = document.querySelectorAll('.role-card');
+            const roleContinueBtn = document.getElementById('roleContinueBtn');
+
+            roleCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    roleCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedRole = this.dataset.role;
+                    roleContinueBtn.disabled = false;
+                    // Update dynamic fields
+                    updateDynamicFields();
+                });
+            });
+
+            roleContinueBtn.addEventListener('click', function() {
+                if (!selectedRole) return;
+                userData.role = selectedRole;
+                goToStep(1);
+            });
+
+            // ============================================================
+            // DYNAMIC FIELDS - Toggle based on role
+            // ============================================================
+            const socialHandleGroup = document.getElementById('socialHandleGroup');
+            const brandNameGroup = document.getElementById('brandNameGroup');
+            const socialPlatform = document.getElementById('socialPlatform');
+            const socialHandle = document.getElementById('socialHandle');
+            const brandName = document.getElementById('brandName');
+            const socialIcon = document.getElementById('socialIcon');
+
+            function updateDynamicFields() {
+                const isEarner = selectedRole === 'earner';
+                if (isEarner) {
+                    socialHandleGroup.classList.remove('dynamic-field-hidden');
+                    brandNameGroup.classList.add('dynamic-field-hidden');
+                    // Update label
+                    const label = socialHandleGroup.querySelector('.form-label');
+                    label.innerHTML = '<i class="fas fa-hashtag text-indigo-400 mr-1.5"></i> Social Media Handle';
+                } else {
+                    socialHandleGroup.classList.add('dynamic-field-hidden');
+                    brandNameGroup.classList.remove('dynamic-field-hidden');
+                }
+            }
+
+            // Update social icon when platform changes
+            socialPlatform.addEventListener('change', function() {
+                const selected = this.options[this.selectedIndex];
+                const iconClass = selected.dataset.icon || 'fa-link';
+                socialIcon.innerHTML = '<i class="fab ' + iconClass + '"></i>';
+            });
+
+            // Update country flag when country code changes
+            const countryCode = document.getElementById('countryCode');
+            const countryFlag = document.getElementById('countryFlag');
+
+            countryCode.addEventListener('change', function() {
+                const selected = this.options[this.selectedIndex];
+                const flag = selected.dataset.flag || '🇺🇸';
+                countryFlag.textContent = flag;
+            });
+
+            // ============================================================
+            // STEP 1: PERSONAL INFO
+            // ============================================================
+            const personalForm = document.getElementById('formPersonal');
+            const fullName = document.getElementById('fullName');
+            const regEmail = document.getElementById('regEmail');
+            const regPassword = document.getElementById('regPassword');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const nameWrap = document.getElementById('nameWrap');
+            const emailWrap = document.getElementById('emailWrap');
+            const passwordWrap = document.getElementById('passwordWrap');
+            const confirmWrap = document.getElementById('confirmWrap');
+
+            // Toggle password visibility
+            document.getElementById('toggleRegPassword').addEventListener('click', function() {
+                const isPassword = regPassword.type === 'password';
+                regPassword.type = isPassword ? 'text' : 'password';
+                document.getElementById('regEyeIcon').className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+            });
+            document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+                const isPassword = confirmPassword.type === 'password';
+                confirmPassword.type = isPassword ? 'text' : 'password';
+                document.getElementById('confirmEyeIcon').className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+            });
+
+            function shakeElement(wrap) {
+                wrap.classList.remove('shake');
+                void wrap.offsetWidth;
+                wrap.classList.add('shake');
+                setTimeout(function() {
+                    wrap.classList.remove('shake');
+                }, 600);
+            }
+
+            function setError(wrap, isError) {
+                if (isError) {
+                    wrap.classList.add('error');
+                } else {
+                    wrap.classList.remove('error');
+                }
+            }
+
+            // Clear errors on input
+            fullName.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(nameWrap, false);
+            });
+            regEmail.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(emailWrap, false);
+            });
+            regPassword.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(passwordWrap, false);
+            });
+            confirmPassword.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(confirmWrap, false);
+            });
+
+            personalForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = fullName.value.trim();
+                const email = regEmail.value.trim();
+                const pass = regPassword.value.trim();
+                const confirm = confirmPassword.value.trim();
+                let hasError = false;
+
+                if (name === '') {
+                    setError(nameWrap, true);
+                    shakeElement(nameWrap);
+                    hasError = true;
+                } else {
+                    setError(nameWrap, false);
+                }
+
+                if (email === '') {
+                    setError(emailWrap, true);
+                    shakeElement(emailWrap);
+                    hasError = true;
+                } else if (!email.includes('@') || !email.includes('.')) {
+                    setError(emailWrap, true);
+                    shakeElement(emailWrap);
+                    hasError = true;
+                    showNotification('error', 'Invalid Email', 'Please enter a valid email address.');
+                } else {
+                    setError(emailWrap, false);
+                }
+
+                if (pass === '') {
+                    setError(passwordWrap, true);
+                    shakeElement(passwordWrap);
+                    hasError = true;
+                } else if (pass.length < 6) {
+                    setError(passwordWrap, true);
+                    shakeElement(passwordWrap);
+                    hasError = true;
+                    showNotification('error', 'Password too short', 'Password must be at least 6 characters.');
+                } else {
+                    setError(passwordWrap, false);
+                }
+
+                if (confirm === '') {
+                    setError(confirmWrap, true);
+                    shakeElement(confirmWrap);
+                    hasError = true;
+                } else if (confirm !== pass) {
+                    setError(confirmWrap, true);
+                    shakeElement(confirmWrap);
+                    hasError = true;
+                    showNotification('error', 'Passwords do not match', 'Please make sure both passwords match.');
+                } else {
+                    setError(confirmWrap, false);
+                }
+
+                if (hasError) {
+                    if (name === '' || email === '' || pass === '' || confirm === '') {
+                        showNotification('error', 'Please fill in all fields', 'All fields are required.');
+                    }
+                    return;
+                }
+
+                userData.fullName = name;
+                userData.email = email;
+                userData.password = pass;
+                goToStep(2);
+            });
+
+            // ============================================================
+            // STEP 2: PROFILE
+            // ============================================================
+            const profileForm = document.getElementById('formProfile');
+            const username = document.getElementById('username');
+            const phone = document.getElementById('phone');
+            const usernameWrap = document.getElementById('usernameWrap');
+            const phoneWrap = document.getElementById('phoneWrap');
+            const socialWrap = document.getElementById('socialWrap');
+            const brandWrap = document.getElementById('brandWrap');
+
+            // Clear errors on input
+            username.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(usernameWrap, false);
+            });
+            phone.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(phoneWrap, false);
+            });
+            socialHandle.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(socialWrap, false);
+            });
+            brandName.addEventListener('input', function() {
+                if (this.value.trim() !== '') setError(brandWrap, false);
+            });
+
+            // Phone formatting: add spaces for readability (704 657 3814)
+            phone.addEventListener('input', function() {
+                let raw = this.value.replace(/\s/g, '');
+                // Only allow digits
+                raw = raw.replace(/\D/g, '');
+                let formatted = '';
+                if (raw.length > 0) {
+                    formatted = raw.substring(0, 3);
+                    if (raw.length >= 4) formatted += ' ' + raw.substring(3, 6);
+                    if (raw.length >= 7) formatted += ' ' + raw.substring(6, 10);
+                    if (raw.length >= 10) formatted += ' ' + raw.substring(10, 14);
+                }
+                this.value = formatted;
+            });
+
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const uname = username.value.trim();
+                const pnum = phone.value.trim();
+                let hasError = false;
+
+                if (uname === '') {
+                    setError(usernameWrap, true);
+                    shakeElement(usernameWrap);
+                    hasError = true;
+                } else if (uname.length < 3) {
+                    setError(usernameWrap, true);
+                    shakeElement(usernameWrap);
+                    hasError = true;
+                    showNotification('error', 'Username too short', 'Username must be at least 3 characters.');
+                } else {
+                    setError(usernameWrap, false);
+                }
+
+                if (pnum === '') {
+                    setError(phoneWrap, true);
+                    shakeElement(phoneWrap);
+                    hasError = true;
+                } else {
+                    setError(phoneWrap, false);
+                }
+
+                // Validate based on role
+                const isEarner = selectedRole === 'earner';
+                if (isEarner) {
+                    const handle = socialHandle.value.trim();
+                    if (handle === '') {
+                        setError(socialWrap, true);
+                        shakeElement(socialWrap);
+                        hasError = true;
+                    } else {
+                        setError(socialWrap, false);
+                    }
+                    if (handle !== '') userData.dynamic = handle;
+                } else {
+                    const brand = brandName.value.trim();
+                    if (brand === '') {
+                        setError(brandWrap, true);
+                        shakeElement(brandWrap);
+                        hasError = true;
+                    } else {
+                        setError(brandWrap, false);
+                    }
+                    if (brand !== '') userData.dynamic = brand;
+                }
+
+                if (hasError) {
+                    showNotification('error', 'Please fill in all fields', 'All fields are required.');
+                    return;
+                }
+
+                userData.username = uname;
+                userData.phone = pnum;
+                userData.countryCode = countryCode.value;
+                userData.socialPlatform = isEarner ? socialPlatform.value : null;
+                goToStep(3);
+            });
+
+            // ============================================================
+            // STEP 3: CONFIRM
+            // ============================================================
+            function populateSummary() {
+                const isEarner = selectedRole === 'earner';
+                document.getElementById('summaryRole').textContent = isEarner ? 'Earner' : 'Publisher';
+                document.getElementById('summaryName').textContent = userData.fullName || '—';
+                document.getElementById('summaryEmail').textContent = userData.email || '—';
+                document.getElementById('summaryUsername').textContent = userData.username || '—';
+                const phoneDisplay = userData.countryCode ? userData.countryCode + ' ' : '';
+                document.getElementById('summaryPhone').textContent = phoneDisplay + (userData.phone || '—');
+                const dynamicLabel = document.getElementById('summaryDynamicLabel');
+                if (isEarner) {
+                    dynamicLabel.textContent = 'Social Handle';
+                    const platform = socialPlatform.options[socialPlatform.selectedIndex]?.text || '';
+                    document.getElementById('summaryDynamic').textContent = platform ? platform + ': ' + (userData
+                        .dynamic || '—') : (userData.dynamic || '—');
+                } else {
+                    dynamicLabel.textContent = 'Brand / Business';
+                    document.getElementById('summaryDynamic').textContent = userData.dynamic || '—';
+                }
+            }
+
+            const registerBtn = document.getElementById('registerBtn');
+            const termsCheck = document.getElementById('termsCheck');
+            const termsError = document.getElementById('termsError');
+
+            registerBtn.addEventListener('click', function() {
+                if (!termsCheck.checked) {
+                    termsError.classList.add('show');
+                    shakeElement(termsCheck.parentElement);
+                    showNotification('warning', 'Terms Required', 'Please agree to the Terms of Service and Privacy Policy.');
+                    return;
+                } else {
+                    termsError.classList.remove('show');
+                }
+                registerUser();
+            });
+
+            // ============================================================
+            // REGISTRATION
+            // ============================================================
+            function registerUser() {
+                registerBtn.classList.add('loading');
+                registerBtn.disabled = true;
+
+                setTimeout(function() {
+                    registerBtn.classList.remove('loading');
+                    registerBtn.disabled = false;
+
+                    const avatarUrl = 'https://i.pravatar.cc/150?img=' + (Math.floor(Math.random() * 70) + 1);
+                    const successTitle = 'Welcome, ' + userData.fullName.split(' ')[0] + '! 🎉';
+                    const successMsg = 'Your account has been created successfully.';
+                    showNotification('profile', successTitle, successMsg);
+
+                    setTimeout(function() {
+                        const verifyHtml = `
+                                    <div class="notif-action-group">
+                                        <button class="notif-action verify" id="notifVerifyBtn" style="background:rgba(251,191,36,0.15); color:#d97706;">
+                                            <i class="fas fa-envelope"></i> Verify Email
+                                        </button>
+                                        <button class="notif-action" id="notifSkipBtn" style="background:rgba(99,102,241,0.2); color:#818cf8;">
+                                            <i class="fas fa-check"></i> Done
+                                        </button>
+                                    </div>
+                                `;
+                        showNotification('warning', 'Action Required: Verify Your Email',
+                            'We\'ve sent a verification link to ' + userData.email +
+                            '. Please verify your account to start earning.',
+                            verifyHtml
+                        );
+
+                        setTimeout(function() {
+                            const verifyBtn = document.getElementById('notifVerifyBtn');
+                            const skipBtn = document.getElementById('notifSkipBtn');
+                            if (verifyBtn) {
+                                verifyBtn.addEventListener('click', function() {
+                                    window.location.href = '../../auth/verify/';
+                                });
+                            }
+                            if (skipBtn) {
+                                skipBtn.addEventListener('click', function() {
+                                    notifEl.classList.remove('show');
+                                    if (notifTimeout) {
+                                        clearTimeout(notifTimeout);
+                                        notifTimeout = null;
+                                    }
+                                    showSuccessStep();
+                                });
+                            }
+                        }, 300);
+
+                        let countdown = 5;
+                        const timerDisplay = document.getElementById('countdownTimer');
+                        if (timerDisplay) {
+                            timerDisplay.textContent = countdown;
+                            const countInterval = setInterval(function() {
+                                countdown--;
+                                if (countdown <= 0) {
+                                    clearInterval(countInterval);
+                                    if (notifEl.classList.contains('show')) {
+                                        notifEl.classList.remove('show');
+                                    }
+                                    showSuccessStep();
+                                } else {
+                                    timerDisplay.textContent = countdown;
+                                }
+                            }, 1000);
+                        }
+                    }, 2500);
+
+                }, 1800);
+            }
+
+            // ============================================================
+            // SUCCESS STEP
+            // ============================================================
+            function showSuccessStep() {
+                notifEl.classList.remove('show');
+                if (notifTimeout) {
+                    clearTimeout(notifTimeout);
+                    notifTimeout = null;
+                }
+                goToStep(4);
+                let countdown = 5;
+                const timerDisplay = document.getElementById('countdownTimer');
+                if (timerDisplay) {
+                    timerDisplay.textContent = countdown;
+                    const countInterval = setInterval(function() {
+                        countdown--;
+                        if (countdown <= 0) {
+                            clearInterval(countInterval);
+                            window.location.href = '../../auth/verify';
+                        } else {
+                            timerDisplay.textContent = countdown;
+                        }
+                    }, 1000);
+                }
+            }
+
+            // ============================================================
+            // BACK BUTTONS
+            // ============================================================
+            document.getElementById('backToRole').addEventListener('click', function() {
+                goToStep(0);
+            });
+            document.getElementById('backToPersonal').addEventListener('click', function() {
+                goToStep(1);
+            });
+            document.getElementById('backToProfile').addEventListener('click', function() {
+                goToStep(2);
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUT: Enter to submit
+            // ============================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const active = document.activeElement;
+                    if (active) {
+                        if (['fullName', 'regEmail', 'regPassword', 'confirmPassword'].includes(active.id)) {
+                            personalForm.dispatchEvent(new Event('submit'));
+                        } else if (['username', 'phone', 'socialHandle', 'brandName'].includes(active.id)) {
+                            profileForm.dispatchEvent(new Event('submit'));
+                        }
+                    }
+                }
+            });
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            roleContinueBtn.disabled = true;
+            // Show initial step
+            goToStep(0);
+            // Initialize dynamic fields
+            updateDynamicFields();
+
+        })();
+    </script>
+
+</body>
+</html>

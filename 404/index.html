@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — 404 Not Found</title>
+  <meta name="theme-color" content="#07112b" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #0b0f1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* ===== ANIMATED BACKGROUND ===== */
+    .bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.30) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(217, 70, 239, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+        #0b0f1a;
+    }
+
+    /* Floating orbs */
+    .bg-canvas .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: orbFloat 16s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    .bg-canvas .orb:nth-child(1) {
+      width: 500px;
+      height: 500px;
+      background: rgba(99, 102, 241, 0.30);
+      top: -10%;
+      left: -8%;
+      animation-duration: 18s;
+    }
+
+    .bg-canvas .orb:nth-child(2) {
+      width: 400px;
+      height: 400px;
+      background: rgba(217, 70, 239, 0.25);
+      bottom: -10%;
+      right: -8%;
+      animation-duration: 22s;
+      animation-delay: 2s;
+    }
+
+    .bg-canvas .orb:nth-child(3) {
+      width: 300px;
+      height: 300px;
+      background: rgba(6, 182, 212, 0.18);
+      top: 45%;
+      left: 45%;
+      animation-duration: 20s;
+      animation-delay: 4s;
+    }
+
+    @keyframes orbFloat {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(50px, -40px) scale(1.08);
+      }
+      66% {
+        transform: translate(-30px, 50px) scale(0.92);
+      }
+      100% {
+        transform: translate(30px, -30px) scale(1.04);
+      }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.10);
+      animation: particleFloat linear infinite;
+      will-change: transform, opacity;
+    }
+
+    .particle:nth-child(1) {
+      width: 6px;
+      height: 6px;
+      left: 10%;
+      top: 20%;
+      animation-duration: 22s;
+      animation-delay: 0s;
+    }
+    .particle:nth-child(2) {
+      width: 4px;
+      height: 4px;
+      left: 85%;
+      top: 15%;
+      animation-duration: 18s;
+      animation-delay: 3s;
+    }
+    .particle:nth-child(3) {
+      width: 5px;
+      height: 5px;
+      left: 20%;
+      top: 75%;
+      animation-duration: 25s;
+      animation-delay: 1s;
+    }
+    .particle:nth-child(4) {
+      width: 7px;
+      height: 7px;
+      left: 70%;
+      top: 80%;
+      animation-duration: 20s;
+      animation-delay: 5s;
+    }
+    .particle:nth-child(5) {
+      width: 3px;
+      height: 3px;
+      left: 45%;
+      top: 10%;
+      animation-duration: 28s;
+      animation-delay: 2s;
+    }
+    .particle:nth-child(6) {
+      width: 5px;
+      height: 5px;
+      left: 5%;
+      top: 50%;
+      animation-duration: 16s;
+      animation-delay: 4s;
+    }
+    .particle:nth-child(7) {
+      width: 4px;
+      height: 4px;
+      left: 92%;
+      top: 55%;
+      animation-duration: 24s;
+      animation-delay: 0s;
+    }
+    .particle:nth-child(8) {
+      width: 6px;
+      height: 6px;
+      left: 50%;
+      top: 92%;
+      animation-duration: 19s;
+      animation-delay: 3s;
+    }
+    .particle:nth-child(9) {
+      width: 3px;
+      height: 3px;
+      left: 30%;
+      top: 30%;
+      animation-duration: 21s;
+      animation-delay: 6s;
+    }
+    .particle:nth-child(10) {
+      width: 5px;
+      height: 5px;
+      left: 65%;
+      top: 40%;
+      animation-duration: 17s;
+      animation-delay: 8s;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.3;
+      }
+      25% {
+        transform: translate(40px, -70px) scale(1.6);
+        opacity: 0.9;
+      }
+      50% {
+        transform: translate(-30px, -140px) scale(0.7);
+        opacity: 0.4;
+      }
+      75% {
+        transform: translate(50px, -210px) scale(1.3);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(-20px, -280px) scale(1);
+        opacity: 0.2;
+      }
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+      max-width: 720px;
+      width: 100%;
+      animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== 404 ILLUSTRATION ===== */
+    .illustration {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto 32px;
+      aspect-ratio: 1 / 0.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* The 4 - 0 - 4 numbers with animation */
+    .num-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .num {
+      font-size: clamp(100px, 20vw, 200px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      background: linear-gradient(135deg, #818cf8, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      animation: numFloat 3s ease-in-out infinite alternate;
+      will-change: transform;
+      text-shadow: none;
+      filter: drop-shadow(0 20px 60px rgba(99, 102, 241, 0.20));
+    }
+
+    .num:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .num:nth-child(2) {
+      animation-delay: 0.4s;
+      font-size: clamp(70px, 14vw, 140px);
+      background: linear-gradient(135deg, #f472b6, #ec4899, #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .num:nth-child(3) {
+      animation-delay: 0.8s;
+    }
+
+    @keyframes numFloat {
+      0% {
+        transform: translateY(0px) rotate(0deg) scale(1);
+      }
+      100% {
+        transform: translateY(-16px) rotate(2deg) scale(1.04);
+      }
+    }
+
+    /* Floating shapes around the numbers */
+    .float-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(99, 102, 241, 0.10);
+      border: 2px solid rgba(99, 102, 241, 0.15);
+      animation: shapeFloat 6s ease-in-out infinite alternate;
+      will-change: transform;
+      pointer-events: none;
+    }
+
+    .float-shape:nth-child(4) {
+      width: 40px;
+      height: 40px;
+      top: 5%;
+      right: 5%;
+      animation-delay: 0s;
+      border-color: rgba(217, 70, 239, 0.20);
+      background: rgba(217, 70, 239, 0.06);
+    }
+
+    .float-shape:nth-child(5) {
+      width: 28px;
+      height: 28px;
+      bottom: 10%;
+      left: 3%;
+      animation-delay: 1.5s;
+      border-color: rgba(6, 182, 212, 0.20);
+      background: rgba(6, 182, 212, 0.06);
+      border-radius: 6px;
+      transform: rotate(45deg);
+    }
+
+    .float-shape:nth-child(6) {
+      width: 50px;
+      height: 50px;
+      top: 15%;
+      left: 5%;
+      animation-delay: 3s;
+      border-color: rgba(251, 191, 36, 0.15);
+      background: rgba(251, 191, 36, 0.04);
+    }
+
+    .float-shape:nth-child(7) {
+      width: 20px;
+      height: 20px;
+      bottom: 20%;
+      right: 8%;
+      animation-delay: 2s;
+      border-color: rgba(52, 211, 153, 0.20);
+      background: rgba(52, 211, 153, 0.06);
+      border-radius: 4px;
+    }
+
+    @keyframes shapeFloat {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+      }
+      100% {
+        transform: translate(20px, -20px) scale(1.2) rotate(30deg);
+      }
+    }
+
+    /* ===== TEXT ===== */
+    .title {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: clamp(14px, 1.5vw, 18px);
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 400;
+      max-width: 480px;
+      margin: 0 auto 28px;
+      line-height: 1.6;
+    }
+
+    /* ===== BUTTONS ===== */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #4f46e5, #d946ef);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Inter', system-ui, sans-serif;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.25);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent 60%);
+      pointer-events: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.96);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Inter', system-ui, sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.96);
+    }
+
+    /* ===== SEARCH BAR ===== */
+    .search-wrap {
+      margin-top: 32px;
+      position: relative;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Inter', system-ui, sans-serif;
+      outline: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .search-wrap input::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 400;
+    }
+
+    .search-wrap input:focus {
+      border-color: rgba(99, 102, 241, 0.3);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.06);
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 16px;
+      pointer-events: none;
+      transition: color 0.3s ease;
+    }
+
+    .search-wrap input:focus+.search-icon,
+    .search-wrap input:focus~.search-icon {
+      color: rgba(99, 102, 241, 0.5);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .illustration {
+        max-width: 320px;
+      }
+      .num {
+        font-size: clamp(72px, 18vw, 100px);
+      }
+      .num:nth-child(2) {
+        font-size: clamp(50px, 12vw, 80px);
+      }
+      .float-shape:nth-child(4),
+      .float-shape:nth-child(6) {
+        display: none;
+      }
+      .title {
+        font-size: 24px;
+      }
+      .subtitle {
+        font-size: 14px;
+      }
+      .actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+      .search-wrap {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .illustration {
+        max-width: 260px;
+      }
+      .num {
+        font-size: 56px;
+      }
+      .num:nth-child(2) {
+        font-size: 40px;
+      }
+      .float-shape:nth-child(5),
+      .float-shape:nth-child(7) {
+        display: none;
+      }
+      .content {
+        padding: 16px;
+      }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    /* ===== BRAND BADGE (optional) ===== */
+    .brand-badge {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 10px 20px;
+      border-radius: 60px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .brand-badge:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateX(-50%) scale(1.02);
+    }
+
+    .brand-badge .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #4f46e5, #d946ef);
+      color: #fff;
+      font-weight: 900;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .brand-badge .brand-text {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge .brand-text span {
+      background: linear-gradient(135deg, #818cf8, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @media (max-width: 480px) {
+      .brand-badge {
+        top: 16px;
+        padding: 8px 16px;
+      }
+      .brand-badge .brand-text {
+        font-size: 12px;
+      }
+      .brand-badge .logo-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ANIMATED BACKGROUND ===== -->
+  <div class="bg-canvas">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="particles">
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+      <span class="particle"></span>
+    </div>
+  </div>
+
+  <!-- ===== BRAND BADGE ===== -->
+  <a href="/" class="brand-badge">
+    <div class="logo-icon">S</div>
+    <div class="brand-text">SM<span>Boostly</span></div>
+  </a>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="content">
+
+    <!-- ===== 404 ILLUSTRATION ===== -->
+    <div class="illustration">
+      <div class="num-group">
+        <span class="num">4</span>
+        <span class="num">0</span>
+        <span class="num">4</span>
+
+        <!-- Floating shapes -->
+        <div class="float-shape"></div>
+        <div class="float-shape"></div>
+        <div class="float-shape"></div>
+        <div class="float-shape"></div>
+      </div>
+    </div>
+
+    <!-- ===== TEXT ===== -->
+    <h1 class="title">Oops! Page not found</h1>
+    <p class="subtitle">
+      The page you're looking for doesn't exist, has been moved, or is temporarily unavailable.
+    </p>
+
+    <!-- ===== ACTIONS ===== -->
+    <div class="actions">
+      <a href="../" class="btn-primary">
+        <i class="fas fa-house"></i> Back to Home
+      </a>
+      <a href="../login/" class="btn-secondary">
+        <i class="fas fa-arrow-right"></i> Go to Login
+      </a>
+    </div>
+
+    <!-- ===== SEARCH ===== -->
+    <div class="search-wrap">
+      <input type="text" placeholder="Search for what you're looking for..." />
+      <i class="fas fa-magnifying-glass search-icon"></i>
+    </div>
+
+  </div>
+
+  <!-- ===== SCRIPT: Subtle interactivity ===== -->
+  <script>
+    (function() {
+      'use strict';
+
+      // --- Parallax effect on mouse move ---
+      const illustration = document.querySelector('.illustration');
+      const numGroup = document.querySelector('.num-group');
+
+      document.addEventListener('mousemove', function(e) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        if (numGroup) {
+          numGroup.style.transform = `perspective(600px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
+        }
+      });
+
+      // --- Search input handler ---
+      const searchInput = document.querySelector('.search-wrap input');
+      const searchIcon = document.querySelector('.search-wrap .search-icon');
+
+      if (searchInput) {
+        searchInput.addEventListener('focus', function() {
+          this.parentElement.style.transform = 'scale(1.02)';
+          this.parentElement.style.transition = 'transform 0.3s ease';
+        });
+
+        searchInput.addEventListener('blur', function() {
+          this.parentElement.style.transform = 'scale(1)';
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && this.value.trim() !== '') {
+            window.location.href = '/search/?q=' + encodeURIComponent(this.value.trim());
+          }
+        });
+      }
+
+      // --- Number hover effect ---
+      document.querySelectorAll('.num').forEach((el, idx) => {
+        el.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.15) rotate(-4deg)';
+          this.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        });
+
+        el.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+        });
+      });
+
+      console.log('🚀 404 page loaded — SMBoostly');
+    })();
+  </script>
+
+</body>
+</html>

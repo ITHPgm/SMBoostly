@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Wallet</title>
+  <meta name="theme-color" content="#07112b" />
+  <link rel="icon" href="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SMBoostly Wallet",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Wallet dashboard for SMBoostly with balance overview, quick actions, recent transactions, payment methods, withdrawal limits, and earnings summary."
+  }
+  </script>
+
+  <script type="application/json" id="wallet-data">
+  {
+    "profile": {
+      "name": "Adeola M.",
+      "role": "Publisher Plan",
+      "avatar": "https://i.pravatar.cc/80?img=5"
+    },
+    "stats": [
+      {
+        "label": "Add Funds",
+        "sub": "Add money to your wallet",
+        "button": "Add Funds",
+        "icon": "fa-wallet",
+        "accent": "purple"
+      },
+      {
+        "label": "Withdraw",
+        "sub": "Withdraw your earnings",
+        "button": "Withdraw",
+        "icon": "fa-circle-down",
+        "accent": "blue"
+      },
+      {
+        "label": "Transfer",
+        "sub": "Transfer to another user",
+        "button": "Transfer",
+        "icon": "fa-right-left",
+        "accent": "green"
+      },
+      {
+        "label": "Payment Methods",
+        "sub": "Manage your payment methods",
+        "button": "Manage",
+        "icon": "fa-credit-card",
+        "accent": "orange"
+      }
+    ],
+    "transactions": [
+      {
+        "title": "Campaign Earnings",
+        "sub": "Instagram Followers Campaign",
+        "type": "Credit",
+        "amount": "+₦5,200.00",
+        "status": "Completed",
+        "date": "Jun 12, 2025",
+        "time": "10:30 AM",
+        "icon": "fa-download",
+        "accent": "green"
+      },
+      {
+        "title": "Withdrawal to Bank",
+        "sub": "GTBank •••• 5487",
+        "type": "Debit",
+        "amount": "-₦20,000.00",
+        "status": "Completed",
+        "date": "Jun 11, 2025",
+        "time": "04:15 PM",
+        "icon": "fa-upload",
+        "accent": "blue"
+      },
+      {
+        "title": "Wallet Top Up",
+        "sub": "Via Paystack",
+        "type": "Credit",
+        "amount": "+₦10,000.00",
+        "status": "Completed",
+        "date": "Jun 10, 2025",
+        "time": "11:20 AM",
+        "icon": "fa-wallet",
+        "accent": "purple"
+      },
+      {
+        "title": "Task Reward",
+        "sub": "TikTok Video Likes",
+        "type": "Credit",
+        "amount": "+₦1,500.00",
+        "status": "Completed",
+        "date": "Jun 10, 2025",
+        "time": "09:45 AM",
+        "icon": "fa-list-check",
+        "accent": "orange"
+      },
+      {
+        "title": "Service Charge",
+        "sub": "Withdrawal Fee",
+        "type": "Debit",
+        "amount": "-₦100.00",
+        "status": "Completed",
+        "date": "Jun 09, 2025",
+        "time": "03:10 PM",
+        "icon": "fa-circle-minus",
+        "accent": "rose"
+      }
+    ],
+    "payments": [
+      { "name": "GTBank", "masked": "•••• •••• 5487", "tag": "Primary", "color": "gtb" },
+      { "name": "PayPal", "masked": "•••• •••• 2548", "tag": "", "color": "paypal" },
+      { "name": "Opay", "masked": "0812 •••• •••• 4558", "tag": "", "color": "opay" }
+    ],
+    "limits": [
+      { "label": "Minimum Withdrawal", "value": "₦1,000.00" },
+      { "label": "Maximum Per Transaction", "value": "₦200,000.00" },
+      { "label": "Daily Limit", "value": "₦500,000.00" },
+      { "label": "Monthly Limit", "value": "₦2,000,000.00" }
+    ],
+    "earnings": [
+      { "label": "Total Earnings", "value": "₦125,600.00", "icon": "fa-download", "accent": "green" },
+      { "label": "Completed Tasks", "value": "320", "icon": "fa-list-check", "accent": "blue" },
+      { "label": "Referral Earnings", "value": "₦15,200.00", "icon": "fa-users", "accent": "purple" },
+      { "label": "Pending Balance", "value": "₦10,000.00", "icon": "fa-wallet", "accent": "orange" }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f7f8ff;
+      --card:#ffffff;
+      --line:#edf0f8;
+      --text:#101828;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --rose:#ff4e75;
+      --shadow:0 18px 42px rgba(18,24,43,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 7% 0%, rgba(107,57,255,.10), transparent 14%),
+        radial-gradient(circle at 92% 2%, rgba(245,158,11,.08), transparent 14%),
+        linear-gradient(180deg,#fafbff 0%, #eef2ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
+    img{max-width:100%;display:block}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:6px 8px 18px;
+      margin-bottom:12px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:linear-gradient(135deg, rgba(107,57,255,.95), rgba(79,32,216,.95));
+      box-shadow:0 18px 34px rgba(107,57,255,.20);
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.66);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;
+      font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(107,57,255,.96),rgba(70,58,214,.86));
+      box-shadow:0 16px 28px rgba(107,57,255,.16);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .content{
+      min-width:0;
+    }
+
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .menu-btn{
+      border:0;
+      background:transparent;
+      color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .top-title{
+      font-size:16px;
+      font-weight:800;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .top-icon{
+      color:#344054;
+      position:relative;
+      font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;
+      top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff4a5d;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .profile img{
+      width:44px;height:44px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{
+      font-size:15px;
+      font-weight:700;
+      color:#11162b;
+      line-height:1.1;
+    }
+    .profile .role{
+      margin-top:4px;
+      font-size:12px;
+      color:#6d7590;
+    }
+    .chev{color:#6d7590;font-size:14px;margin-left:6px}
+
+    .main{
+      padding:22px 24px 28px;
+    }
+
+    .page-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .heading h2{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .heading p{
+      margin:8px 0 0;
+      font-size:15px;
+      color:#6d7590;
+    }
+    .wallet-id{
+      height:42px;
+      border:1px solid #e2e6f1;
+      border-radius:12px;
+      padding:0 16px;
+      background:#fff;
+      color:#344054;
+      font-size:13px;
+      font-weight:700;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      white-space:nowrap;
+    }
+
+    .top-row{
+      display:grid;
+      grid-template-columns:1.35fr 1fr;
+      gap:14px;
+      margin-bottom:16px;
+      align-items:start;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .balance-card{
+      position:relative;
+      overflow:hidden;
+      min-height:206px;
+      padding:24px 24px 22px;
+      color:#fff;
+      background:
+        radial-gradient(circle at 84% 38%, rgba(255,255,255,.06), transparent 14%),
+        linear-gradient(135deg,#7552ff 0%, #4631d7 100%);
+    }
+    .balance-card::after{
+      content:"";
+      position:absolute;
+      right:10px;
+      top:24px;
+      width:180px;
+      height:180px;
+      border-radius:30px;
+      background:rgba(255,255,255,.05);
+      opacity:.5;
+      transform:rotate(10deg);
+      filter:blur(.2px);
+    }
+
+    .balance-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      position:relative;
+      z-index:1;
+      margin-bottom:18px;
+    }
+    .balance-top .label{
+      color:rgba(255,255,255,.92);
+      font-size:15px;
+      font-weight:600;
+    }
+    .balance-top i{
+      color:rgba(255,255,255,.9);
+      font-size:14px;
+      margin-left:8px;
+    }
+    .balance-amount{
+      position:relative;
+      z-index:1;
+      font-size:43px;
+      line-height:1.05;
+      font-weight:900;
+      letter-spacing:-.05em;
+      margin-bottom:28px;
+    }
+    .balance-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      position:relative;
+      z-index:1;
+    }
+    .mini .label{
+      color:rgba(255,255,255,.88);
+      font-size:14px;
+      margin-bottom:8px;
+      display:block;
+    }
+    .mini .value{
+      font-size:19px;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .actions-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+    }
+    .action-card{
+      min-height:206px;
+      padding:24px 18px 18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      justify-content:space-between;
+    }
+    .action-ico{
+      width:54px;height:54px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:20px;
+      margin-bottom:10px;
+      box-shadow:0 14px 24px rgba(15,23,42,.08);
+    }
+    .action-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .action-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .action-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .action-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .action-title{
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+      margin-top:6px;
+      margin-bottom:4px;
+    }
+    .action-sub{
+      font-size:13px;
+      color:#6d7590;
+      line-height:1.5;
+      margin-bottom:16px;
+    }
+    .action-btn{
+      width:100%;
+      height:36px;
+      border:0;
+      border-radius:10px;
+      font-weight:800;
+      cursor:pointer;
+      color:var(--purple);
+      background:linear-gradient(180deg,#f6f3ff,#efeaff);
+    }
+    .action-btn.blue{color:#2f7cff;background:linear-gradient(180deg,#eef4ff,#e4edff)}
+    .action-btn.green{color:#16a34a;background:linear-gradient(180deg,#effbf4,#e0f6ea)}
+    .action-btn.orange{color:#ea7b00;background:linear-gradient(180deg,#fff7ec,#fff0d9)}
+
+    .content-grid{
+      display:grid;
+      grid-template-columns:1.35fr .75fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .transactions-card{overflow:hidden}
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:18px 18px 14px;
+    }
+    .section-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#11162b;
+    }
+    .view-link{
+      color:#6f49ff;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+      padding:0 0 4px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:940px;
+    }
+    thead th{
+      text-align:left;
+      font-size:13px;
+      font-weight:800;
+      color:#344054;
+      padding:14px 18px;
+      border-top:1px solid #f0f2f8;
+      border-bottom:1px solid #edf0f8;
+      background:linear-gradient(180deg,#fbfbfe 0%, #f4f6fb 100%);
+    }
+    tbody td{
+      padding:14px 18px;
+      border-bottom:1px solid #f0f2f8;
+      vertical-align:middle;
+      font-size:14px;
+    }
+
+    .txn{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .txn-ico{
+      width:34px;height:34px;border-radius:10px;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:15px;
+      flex:0 0 auto;
+      box-shadow:0 10px 18px rgba(15,23,42,.08);
+    }
+    .txn-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .txn-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .txn-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .txn-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .txn-ico.rose{background:linear-gradient(135deg,#ff4e75,#f43f5e)}
+
+    .txn-title{
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.2;
+    }
+    .txn-sub{
+      margin-top:4px;
+      font-size:12px;
+      color:#667085;
+      line-height:1.35;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:24px;
+      padding:0 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .pill.credit{background:rgba(25,195,125,.12);color:#16a34a}
+    .pill.debit{background:rgba(255,78,117,.12);color:#ef4444}
+    .pill.completed{background:rgba(25,195,125,.12);color:#16a34a}
+
+    .amount{
+      font-size:14px;
+      font-weight:900;
+      color:#16a34a;
+      white-space:nowrap;
+    }
+    .amount.neg{color:#ef4444}
+    .date{
+      font-size:13px;
+      font-weight:700;
+      color:#11162b;
+      white-space:nowrap;
+    }
+    .date span{
+      display:block;
+      margin-top:4px;
+      color:#667085;
+      font-weight:600;
+      font-size:12px;
+    }
+
+    .action-ellipsis{
+      width:34px;height:34px;
+      border-radius:10px;
+      border:1px solid #e3e7f0;
+      background:#fff;
+      color:#344054;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+
+    .right-stack{
+      display:grid;
+      gap:14px;
+    }
+    .side-card{
+      padding:18px;
+    }
+    .side-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .side-title{
+      margin:0;
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#11162b;
+    }
+
+    .method-list{display:grid;gap:8px}
+    .method{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0;
+      border-top:1px solid #f0f2f8;
+    }
+    .method:first-child{border-top:0;padding-top:0}
+    .method-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .method-logo{
+      width:36px;height:36px;border-radius:10px;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:14px;
+      flex:0 0 auto;
+      box-shadow:0 10px 18px rgba(15,23,42,.08);
+    }
+    .method-logo.gtb{background:linear-gradient(135deg,#ff7a21,#df4f00)}
+    .method-logo.paypal{background:linear-gradient(135deg,#1b75ff,#0c4aa8)}
+    .method-logo.opay{background:linear-gradient(135deg,#29d3c0,#0bb6a2)}
+    .method-name{
+      font-size:13px;
+      font-weight:800;
+      color:#11162b;
+    }
+    .method-sub{
+      margin-top:4px;
+      font-size:12px;
+      color:#667085;
+      font-weight:600;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:24px;
+      padding:0 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      color:#16a34a;
+      background:rgba(25,195,125,.12);
+      white-space:nowrap;
+    }
+
+    .limits-list{display:grid;gap:8px}
+    .limit{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0;
+      border-top:1px solid #f0f2f8;
+      font-size:13px;
+    }
+    .limit:first-child{border-top:0;padding-top:0}
+    .limit .label{
+      color:#344054;
+      font-weight:600;
+    }
+    .limit .value{
+      color:#11162b;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    .info-box{
+      margin-top:12px;
+      border-radius:14px;
+      background:#edf4ff;
+      border:1px solid #dde9ff;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:14px;
+      color:#344054;
+    }
+    .info-ico{
+      width:28px;height:28px;border-radius:50%;
+      background:#2f7cff;
+      color:#fff;
+      display:grid;place-items:center;
+      font-size:14px;
+      flex:0 0 auto;
+      box-shadow:0 10px 16px rgba(47,124,255,.18);
+    }
+    .info-box p{
+      margin:0;
+      font-size:13px;
+      line-height:1.45;
+      color:#344054;
+    }
+
+    .earnings{
+      grid-column:1 / 2;
+      padding:18px;
+    }
+    .earnings-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .month{
+      height:36px;
+      border:1px solid #dde3ef;
+      background:#fff;
+      border-radius:12px;
+      padding:0 12px;
+      font-size:13px;
+      font-weight:700;
+      color:#344054;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .earn-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-top:10px;
+    }
+    .earn{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      border:1px solid #edf0f8;
+      border-radius:16px;
+      padding:16px;
+      background:#fff;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+    .earn-ico{
+      width:44px;height:44px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:16px;
+      flex:0 0 auto;
+      box-shadow:0 12px 20px rgba(15,23,42,.08);
+    }
+    .earn-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .earn-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .earn-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .earn-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .earn-title{
+      color:#667085;
+      font-size:12px;
+      font-weight:700;
+    }
+    .earn-value{
+      margin-top:4px;
+      font-size:18px;
+      font-weight:900;
+      color:#11162b;
+      white-space:nowrap;
+    }
+
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:40px;border-radius:12px;
+      font-size:18px;
+      cursor:pointer;
+    }
+
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    /* ---- Footer row & pagination styles ---- */
+    .footer-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      padding:12px 18px 18px;
+      border-top:1px solid #edf0f8;
+    }
+    .txn-count{
+      font-size:14px;
+      font-weight:500;
+      color:#667085;
+    }
+    .txn-count strong{
+      font-weight:700;
+      color:#11162b;
+    }
+    .pager{
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    .page-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      border:1px solid #e3e7f0;
+      background:#fff;
+      color:#344054;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .page-btn:hover:not(.active):not(:disabled){
+      background:#f3f4f9;
+      border-color:#cbd0db;
+    }
+    .page-btn.active{
+      background:linear-gradient(135deg,#6f49ff,#8754ff);
+      border-color:transparent;
+      color:#fff;
+      box-shadow:0 8px 18px rgba(107,57,255,.16);
+    }
+    .page-btn:disabled{
+      opacity:.4;
+      pointer-events:none;
+    }
+    .page-btn i{
+      font-size:12px;
+    }
+
+    @media (max-width: 1320px){
+      .top-row{grid-template-columns:1fr}
+      .content-grid{grid-template-columns:1fr}
+      .earnings{grid-column:auto}
+      .right-stack{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width: 1080px){
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .earn-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .top-row{grid-template-columns:1fr}
+      .actions-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .right-stack{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 980px){
+      .app{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .main{padding:16px}
+      .topbar{padding:0 16px}
+      .page-head{flex-direction:column}
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .actions-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .right-stack{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 720px){
+      .topbar-right{gap:12px}
+      .profile .text{display:none}
+      .chev{display:none}
+      .heading h2{font-size:24px}
+      .heading p{font-size:14px}
+      .stats-grid{grid-template-columns:1fr}
+      .stat-card{padding:16px}
+      .stat-body .value{font-size:24px}
+      .page-head{gap:12px}
+      .wallet-id{width:100%;justify-content:center}
+      .actions-grid{grid-template-columns:1fr}
+      .balance-amount{font-size:34px}
+      .balance-grid{grid-template-columns:1fr}
+      .section-head{padding:16px 16px 12px}
+      .side-card,.earnings{padding:14px}
+      .earn-grid{grid-template-columns:1fr}
+      .footer-row{flex-direction:column;align-items:flex-start}
+      .pager{width:100%;justify-content:center}
+      .method, .limit{padding:12px 0}
+    }
+
+    @media (max-width: 520px){
+      .topbar-right{gap:10px}
+      .heading h2{font-size:22px}
+      .main{padding:12px}
+      .section-title{font-size:16px}
+      .balance-amount{font-size:30px}
+      .create-like-btn{height:40px}
+      .wallet-id{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+     <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item active" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+           <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+       <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item active" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+             <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-regular fa-wallet"></i> <span>Wallet</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img id="profileAvatar" src="https://i.pravatar.cc/80?img=5" alt="Profile photo">
+            <div class="text">
+              <div class="name" id="profileNameTop">Adeola M.</div>
+              <div class="role" id="profileRole">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="page-head">
+          <div class="heading">
+            <h2>Wallet Overview</h2>
+            <p>Manage your balance, add funds and withdraw earnings.</p>
+          </div>
+          <div class="wallet-id"><span>Wallet ID: SMB-4587-89</span> <i class="fa-regular fa-calendar-days"></i></div>
+        </div>
+
+        <section class="top-row">
+          <article class="panel balance-card">
+            <div class="balance-top">
+              <div class="label">Total Balance <i class="fa-regular fa-eye"></i></div>
+            </div>
+            <div class="balance-amount">₦45,600.00</div>
+            <div class="balance-grid">
+              <div class="mini">
+                <span class="label">Available Balance</span>
+                <div class="value">₦35,600.00</div>
+              </div>
+              <div class="mini">
+                <span class="label">Pending Balance</span>
+                <div class="value">₦10,000.00</div>
+              </div>
+            </div>
+          </article>
+
+          <div class="actions-grid" id="actionsGrid"></div>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel transactions-card">
+            <div class="section-head">
+              <h3 class="section-title">Recent Transactions</h3>
+              <a href="/transactions/" class="view-link">View All</a>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Transaction</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="txnRows"></tbody>
+              </table>
+            </div>
+
+            <div class="footer-row">
+              <div class="txn-count" id="txnCount">Showing <strong>1</strong> to <strong>5</strong> of <strong>24</strong> transactions</div>
+              <div class="pager">
+                <button class="page-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
+              </div>
+            </div>
+          </article>
+
+          <div class="right-stack">
+            <article class="panel side-card">
+              <div class="side-head">
+                <h3 class="side-title">Payment Methods</h3>
+                <a href="/settings/" class="view-link">Manage</a>
+              </div>
+              <div class="method-list" id="methodList"></div>
+            </article>
+
+            <article class="panel side-card">
+              <div class="side-head">
+                <h3 class="side-title">Withdrawal Limits</h3>
+                <a href="#" class="view-link">View All</a>
+              </div>
+              <div class="limits-list" id="limitList"></div>
+              <div class="info-box">
+                <div class="info-ico"><i class="fa-solid fa-circle-info"></i></div>
+                <p>Withdrawals are processed within 24 hours on business days.</p>
+              </div>
+            </article>
+          </div>
+
+          <article class="panel earnings" style="grid-column:1 / 2;">
+            <div class="earnings-head">
+              <h3 class="section-title">Earnings Summary</h3>
+              <div class="month">This Month <i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="earn-grid" id="earnGrid"></div>
+          </article>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('wallet-data').textContent);
+
+    document.getElementById('profileAvatar').src = data.profile.avatar;
+    document.getElementById('profileNameTop').textContent = data.profile.name;
+    document.getElementById('profileRole').textContent = data.profile.role;
+
+    const actionsGrid = document.getElementById('actionsGrid');
+    actionsGrid.innerHTML = data.stats.map(stat => `
+      <article class="panel action-card">
+        <div>
+          <div class="action-ico ${stat.accent}">
+            <i class="fa-solid ${stat.icon}"></i>
+          </div>
+          <div class="action-title">${stat.label}</div>
+          <div class="action-sub">${stat.sub}</div>
+        </div>
+        <button class="action-btn ${stat.accent === 'blue' ? 'blue' : stat.accent === 'green' ? 'green' : stat.accent === 'orange' ? 'orange' : ''}" type="button">${stat.button}</button>
+      </article>
+    `).join('');
+
+    const txnRows = document.getElementById('txnRows');
+    txnRows.innerHTML = data.transactions.map((t, index) => `
+      <tr>
+        <td>
+          <div class="txn">
+            <div class="txn-ico ${t.accent}">
+              <i class="fa-solid ${t.icon}"></i>
+            </div>
+            <div>
+              <div class="txn-title">${t.title}</div>
+              <div class="txn-sub">${t.sub}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="pill ${t.type.toLowerCase()}">${t.type}</span></td>
+        <td><div class="amount ${t.amount.startsWith('-') ? 'neg' : ''}">${t.amount}</div></td>
+        <td><span class="pill completed">${t.status}</span></td>
+        <td class="date">${t.date}<span>${t.time}</span></td>
+        <td><button class="action-ellipsis" aria-label="More actions"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+      </tr>
+    `).join('');
+    document.getElementById('txnCount').innerHTML = `Showing <strong>1</strong> to <strong>${data.transactions.length}</strong> of <strong>24</strong> transactions`;
+
+    const methodList = document.getElementById('methodList');
+    methodList.innerHTML = data.payments.map((p, idx) => `
+      <div class="method">
+        <div class="method-left">
+          <div class="method-logo ${p.color}">
+            <i class="fa-solid ${p.color === 'paypal' ? 'fa-p' : p.color === 'opay' ? 'fa-circle-dot' : 'fa-building-columns'}"></i>
+          </div>
+          <div>
+            <div class="method-name">${p.name}</div>
+            <div class="method-sub">${p.masked}</div>
+          </div>
+        </div>
+        ${p.tag ? `<span class="tag">${p.tag}</span>` : `<span></span>`}
+      </div>
+    `).join('');
+
+    const limitList = document.getElementById('limitList');
+    limitList.innerHTML = data.limits.map(l => `
+      <div class="limit">
+        <div class="label">${l.label}</div>
+        <div class="value">${l.value}</div>
+      </div>
+    `).join('');
+
+    const earnGrid = document.getElementById('earnGrid');
+    earnGrid.innerHTML = data.earnings.map(e => `
+      <div class="earn">
+        <div class="earn-ico ${e.accent}">
+          <i class="fa-solid ${e.icon}"></i>
+        </div>
+        <div>
+          <div class="earn-title">${e.label}</div>
+          <div class="earn-value">${e.value}</div>
+        </div>
+      </div>
+    `).join('');
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>

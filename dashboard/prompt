@@ -1,0 +1,14 @@
+Strictly adhere to this below and Improve this code by:
+1. As for the nav link buttons for mobile and desktop view add link path to to eg /dashboard/, /campaigns/ etc
+2. For the section "May 12 – June 12, 2025" make it editable and use it to update the data that eill be shown in the UI 
+3. At the front of the balances, add btn to make it visible or invisible 
+4. Redirect withdraw funds to /wallet/
+5. in the "Earnings Overview" stats graphs that shows the days, make it clickable and with options then use it to uodat6tge graph representation 
+6. As for view all campaigns redirect them to /campaigns/
+7. As for the tasks and campaigns hyperlink ket it redirect to /tasks/, /campaigns/
+8. keep the existing features, functions, styling in this code 
+9. As for the notification icon, redirect to notifications page 
+10. as for the search panel redirect to search page 
+11. as for the profile drop-down in the header once clicked slide down a panel to show these texts in this image upload
+
+main code:

@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMBoostly — Transactions</title>
+  <meta name="theme-color" content="#07112b" />
+  <link rel="icon" href="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SMBoostly Transactions",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Transactions dashboard for SMBoostly with overview cards, filters, transaction table, pagination, and responsive mobile cards."
+  }
+  </script>
+
+  <script type="application/json" id="transactions-data">
+  {
+    "profile": {
+      "name": "Adeola M.",
+      "role": "Publisher Plan",
+      "avatar": "https://i.pravatar.cc/80?img=5"
+    },
+    "stats": [
+      {
+        "label": "Total Balance",
+        "value": "₦45,600.00",
+        "sub": "Available to withdraw",
+        "icon": "fa-wallet",
+        "accent": "purple"
+      },
+      {
+        "label": "Total Earnings",
+        "value": "₦125,600.00",
+        "sub": "+23% vs last 30 days",
+        "icon": "fa-circle-arrow-down",
+        "accent": "green"
+      },
+      {
+        "label": "Total Withdrawn",
+        "value": "₦80,000.00",
+        "sub": "All time",
+        "icon": "fa-circle-arrow-up",
+        "accent": "blue"
+      },
+      {
+        "label": "Pending",
+        "value": "₦18,400.00",
+        "sub": "From 24 transactions",
+        "icon": "fa-clock",
+        "accent": "orange"
+      }
+    ],
+    "tabs": [
+      { "key": "all", "label": "All Transactions", "icon": "fa-list" },
+      { "key": "earning", "label": "Earnings", "icon": "fa-circle-arrow-down" },
+      { "key": "withdrawal", "label": "Withdrawals", "icon": "fa-circle-arrow-up" },
+      { "key": "bonus", "label": "Bonuses", "icon": "fa-gift" },
+      { "key": "refund", "label": "Refunds", "icon": "fa-clock-rotate-left" },
+      { "key": "adjustment", "label": "Adjustments", "icon": "fa-sliders" }
+    ],
+    "filters": {
+      "date": "May 1 - May 31, 2025",
+      "status": "All Status",
+      "method": "All Methods"
+    },
+    "transactions": [
+      {
+        "id": "TXN-2025-001234",
+        "title": "Instagram Campaign Earnings",
+        "sub": "Campaign: Summer Sale Boost",
+        "type": "Earning",
+        "typeKey": "earning",
+        "method": "Wallet",
+        "methodColor": "wallet",
+        "date": "May 31, 2025",
+        "time": "10:30 AM",
+        "status": "Completed",
+        "statusKey": "completed",
+        "amount": "+₦2,500.00",
+        "amountKey": "plus",
+        "icon": "fa-arrow-trend-up",
+        "accent": "purple"
+      },
+      {
+        "id": "TXN-2025-001233",
+        "title": "Withdrawal to Bank",
+        "sub": "GTBank •••• 5487",
+        "type": "Withdrawal",
+        "typeKey": "withdrawal",
+        "method": "GTBank",
+        "methodColor": "gtbank",
+        "date": "May 31, 2025",
+        "time": "09:15 AM",
+        "status": "Completed",
+        "statusKey": "completed",
+        "amount": "-₦20,000.00",
+        "amountKey": "minus",
+        "icon": "fa-arrow-down",
+        "accent": "blue"
+      },
+      {
+        "id": "TXN-2025-001232",
+        "title": "TikTok Campaign Earnings",
+        "sub": "Campaign: Brand Awareness",
+        "type": "Earning",
+        "typeKey": "earning",
+        "method": "Wallet",
+        "methodColor": "wallet",
+        "date": "May 30, 2025",
+        "time": "04:45 PM",
+        "status": "Completed",
+        "statusKey": "completed",
+        "amount": "+₦1,800.00",
+        "amountKey": "plus",
+        "icon": "fa-arrow-trend-up",
+        "accent": "purple"
+      },
+      {
+        "id": "TXN-2025-001231",
+        "title": "Referral Bonus",
+        "sub": "Referred: Maria Ude",
+        "type": "Bonus",
+        "typeKey": "bonus",
+        "method": "Wallet",
+        "methodColor": "wallet",
+        "date": "May 30, 2025",
+        "time": "02:20 PM",
+        "status": "Completed",
+        "statusKey": "completed",
+        "amount": "+₦500.00",
+        "amountKey": "plus",
+        "icon": "fa-gift",
+        "accent": "orange"
+      },
+      {
+        "id": "TXN-2025-001230",
+        "title": "Withdrawal to Bank",
+        "sub": "Access Bank •••• 1234",
+        "type": "Withdrawal",
+        "typeKey": "withdrawal",
+        "method": "Access Bank",
+        "methodColor": "access",
+        "date": "May 29, 2025",
+        "time": "11:05 AM",
+        "status": "Pending",
+        "statusKey": "pending",
+        "amount": "-₦15,000.00",
+        "amountKey": "minus",
+        "icon": "fa-arrow-down",
+        "accent": "blue"
+      },
+      {
+        "id": "TXN-2025-001229",
+        "title": "Account Adjustment",
+        "sub": "Campaign correction",
+        "type": "Adjustment",
+        "typeKey": "adjustment",
+        "method": "—",
+        "methodColor": "none",
+        "date": "May 28, 2025",
+        "time": "06:30 PM",
+        "status": "Completed",
+        "statusKey": "completed",
+        "amount": "+₦300.00",
+        "amountKey": "plus",
+        "icon": "fa-sliders",
+        "accent": "green"
+      },
+      {
+        "id": "TXN-2025-001228",
+        "title": "Welcome Bonus",
+        "sub": "Welcome to SMBoostly",
+        "type": "Bonus",
+        "typeKey": "bonus",
+        "method": "Wallet",
+        "methodColor": "wallet",
+        "date": "May 27, 2025",
+        "time": "09:00 AM",
+        "status": "Completed",
+        "statusKey": "completed",
+        "amount": "+₦1,000.00",
+        "amountKey": "plus",
+        "icon": "fa-gift",
+        "accent": "orange"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#07112b;
+      --navy-2:#0a1430;
+      --bg:#f7f8ff;
+      --card:#fff;
+      --line:#edf0f8;
+      --text:#101828;
+      --muted:#667085;
+      --purple:#6f49ff;
+      --purple-2:#5f39f7;
+      --blue:#2f7cff;
+      --green:#1bbf72;
+      --orange:#f59e0b;
+      --shadow:0 18px 42px rgba(18,24,43,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 7% 0%, rgba(107,57,255,.10), transparent 14%),
+        radial-gradient(circle at 92% 2%, rgba(245,158,11,.08), transparent 14%),
+        linear-gradient(180deg,#fafbff 0%, #eef2ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
+    img{max-width:100%;display:block}
+    ::selection{background:rgba(111,73,255,.18)}
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:290px 1fr;
+    }
+
+    .sidebar{
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      color:#fff;
+      padding:22px 18px;
+      position:relative;
+      min-height:100vh;
+      box-shadow:inset -1px 0 0 rgba(255,255,255,.05);
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:6px 8px 18px;
+      margin-bottom:12px;
+    }
+
+    .brand-logo{
+      width:54px;height:54px;border-radius:18px;
+      overflow:hidden;
+      flex:0 0 auto;
+      background:linear-gradient(135deg, rgba(107,57,255,.95), rgba(79,32,216,.95));
+      box-shadow:0 18px 34px rgba(107,57,255,.20);
+    }
+    .brand-logo img{width:100%;height:100%;object-fit:cover}
+
+    .brand h1{
+      margin:0;
+      font-size:30px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+    }
+    .brand h1 span:last-child{
+      background:linear-gradient(90deg,#7a5cff,#ff54b0);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .brand small{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.66);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.22em;
+    }
+
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:14px;
+      color:rgba(255,255,255,.88);
+      font-size:15px;
+      font-weight:500;
+      transition:.2s ease;
+    }
+    .nav-item i{width:22px;text-align:center;font-size:18px}
+    .nav-item:hover{background:rgba(255,255,255,.06)}
+    .nav-item.active{
+      background:linear-gradient(90deg,rgba(107,57,255,.96),rgba(70,58,214,.86));
+      box-shadow:0 16px 28px rgba(107,57,255,.16);
+    }
+
+    .sidebar-card{
+      margin-top:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .sidebar-card .icon-box{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      margin-bottom:12px;
+      color:#f4c150;
+      background:rgba(255,255,255,.06);
+    }
+    .sidebar-card h4,.support h4{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+    .sidebar-card p,.support p{
+      margin:10px 0 16px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.6;
+    }
+    .upgrade-btn{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      cursor:pointer;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(122,92,255,.24);
+    }
+
+    .support{
+      position:absolute;
+      left:18px;right:18px;bottom:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      border-radius:18px;
+      padding:18px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .support p{margin-bottom:0}
+    .support-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .content{min-width:0}
+
+    .topbar{
+      height:68px;
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(231,235,245,.96);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 24px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .topbar-left,.topbar-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .menu-btn{
+      border:0;
+      background:transparent;
+      color:#344054;
+      width:40px;height:40px;border-radius:12px;
+      display:none;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .top-title{
+      font-size:16px;
+      font-weight:800;
+      color:#11162b;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .top-icon{
+      color:#344054;
+      position:relative;
+      font-size:18px;
+    }
+    .top-icon .dot{
+      position:absolute;
+      top:-6px;right:-8px;
+      width:18px;height:18px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#ff4a5d;color:#fff;font-size:11px;font-weight:700;
+      border:2px solid #fff;
+    }
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .profile img{
+      width:44px;height:44px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 20px rgba(15,23,42,.12);
+    }
+    .profile .name{
+      font-size:15px;
+      font-weight:700;
+      color:#11162b;
+      line-height:1.1;
+    }
+    .profile .role{
+      margin-top:4px;
+      font-size:12px;
+      color:#6d7590;
+    }
+    .chev{color:#6d7590;font-size:14px;margin-left:6px}
+
+    .main{
+      padding:22px 24px 28px;
+    }
+
+    .page-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .heading h2{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .heading p{
+      margin:8px 0 0;
+      font-size:15px;
+      color:#6d7590;
+    }
+    .export-btn{
+      height:42px;
+      border:0;
+      border-radius:12px;
+      padding:0 18px;
+      color:#fff;
+      font-weight:800;
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      box-shadow:0 18px 30px rgba(107,57,255,.22);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-bottom:16px;
+    }
+    .stat-card{
+      background:var(--card);
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:18px 18px 16px;
+      min-height:120px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .stat-ico{
+      width:54px;height:54px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:19px;
+      flex:0 0 auto;
+      box-shadow:0 14px 24px rgba(15,23,42,.08);
+    }
+    .stat-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .stat-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .stat-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .stat-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .stat-body .label{font-size:14px;color:#1d2939;font-weight:500;margin-top:2px}
+    .stat-body .value{
+      margin-top:4px;
+      font-size:28px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:#11162b;
+    }
+    .stat-body .sub{
+      margin-top:8px;
+      font-size:13px;
+      color:#6d7590;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid rgba(232,236,246,.98);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .transactions-panel{
+      overflow:hidden;
+    }
+
+    .tabs{
+      padding:16px 18px 0;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      border-bottom:1px solid #edf0f8;
+    }
+    .tab{
+      height:38px;
+      border-radius:12px;
+      border:1px solid #e5e8f3;
+      background:#fff;
+      padding:0 14px;
+      font-weight:700;
+      font-size:13px;
+      color:#344054;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      position:relative;
+    }
+    .tab.active{
+      color:#6f49ff;
+      background:#fff;
+      border-color:transparent;
+      box-shadow:none;
+    }
+    .tab.active::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:-16px;
+      height:3px;
+      border-radius:999px;
+      background:#6f49ff;
+    }
+
+    .filters{
+      padding:14px 18px 18px;
+      display:grid;
+      grid-template-columns: 1.05fr .8fr .8fr 1.05fr;
+      gap:12px;
+      align-items:center;
+      border-bottom:1px solid #edf0f8;
+    }
+    .filter{
+      height:44px;
+      border-radius:12px;
+      border:1px solid #dde3ef;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 14px;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      color:#344054;
+      min-width:0;
+    }
+    .filter input{
+      border:0;
+      outline:0;
+      background:transparent;
+      width:100%;
+      min-width:0;
+      font-size:13px;
+      color:#11162b;
+    }
+    .filter .plain{
+      width:100%;
+      font-size:13px;
+      font-weight:700;
+      color:#344054;
+    }
+    .filter i{color:#6d7590}
+    .filter.search{
+      justify-content:space-between;
+      margin-left:auto;
+      width:100%;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:1180px;
+    }
+    thead th{
+      text-align:left;
+      background:linear-gradient(180deg,#fbfbfe 0%, #f4f6fb 100%);
+      color:#344054;
+      font-size:13px;
+      font-weight:800;
+      padding:16px 14px;
+      border-bottom:1px solid #edf0f8;
+    }
+    tbody td{
+      padding:16px 14px;
+      border-bottom:1px solid #f0f2f8;
+      vertical-align:middle;
+      font-size:14px;
+    }
+
+    .txn{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .txn-ico{
+      width:34px;height:34px;border-radius:50%;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:15px;
+      flex:0 0 auto;
+      box-shadow:0 10px 18px rgba(15,23,42,.08);
+    }
+    .txn-ico.purple{background:linear-gradient(135deg,#6f49ff,#8754ff)}
+    .txn-ico.blue{background:linear-gradient(135deg,#2f7cff,#2768f6)}
+    .txn-ico.green{background:linear-gradient(135deg,#1bbf72,#12a85f)}
+    .txn-ico.orange{background:linear-gradient(135deg,#ffb02e,#f59e0b)}
+    .txn-ico.rose{background:linear-gradient(135deg,#ff4e75,#f43f5e)}
+
+    .txn-title{
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.2;
+    }
+    .txn-sub{
+      margin-top:4px;
+      font-size:12px;
+      color:#667085;
+      line-height:1.35;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:24px;
+      padding:0 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .pill.earning{background:rgba(25,195,125,.12);color:#16a34a}
+    .pill.withdrawal{background:rgba(47,124,255,.12);color:#2f7cff}
+    .pill.bonus{background:rgba(111,73,255,.12);color:#6f49ff}
+    .pill.adjustment{background:rgba(148,163,184,.16);color:#667085}
+
+    .amount{
+      font-size:14px;
+      font-weight:900;
+      color:#16a34a;
+      white-space:nowrap;
+    }
+    .amount.neg{color:#ef4444}
+
+    .date{
+      font-size:13px;
+      font-weight:700;
+      color:#11162b;
+      white-space:nowrap;
+    }
+    .date span{
+      display:block;
+      margin-top:4px;
+      color:#667085;
+      font-weight:600;
+      font-size:12px;
+    }
+
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:24px;
+      padding:0 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .status-pill.completed{background:rgba(25,195,125,.12);color:#16a34a}
+    .status-pill.pending{background:rgba(245,158,11,.14);color:#ea7b00}
+
+    .method{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      color:#344054;
+    }
+    .method .logo{
+      width:18px;height:18px;border-radius:4px;
+      display:grid;place-items:center;
+      color:#fff;
+      font-size:11px;
+      flex:0 0 auto;
+    }
+    .logo.wallet{background:linear-gradient(135deg,#9ca3af,#6b7280)}
+    .logo.gtbank{background:linear-gradient(135deg,#ff7a21,#df4f00)}
+    .logo.access{background:linear-gradient(135deg,#ff8a2a,#df4f00)}
+    .logo.none{background:transparent}
+    .method span:last-child{white-space:nowrap}
+    .action-ellipsis{
+      width:34px;height:34px;
+      border-radius:10px;
+      border:1px solid #e3e7f0;
+      background:#fff;
+      color:#344054;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+    }
+
+    .footer-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      padding:14px 18px 18px;
+      color:#667085;
+      font-size:13px;
+      flex-wrap:wrap;
+    }
+    .pager{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .page-btn{
+      width:36px;height:36px;
+      border-radius:10px;
+      border:1px solid #e2e6f2;
+      background:#fff;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      color:#344054;
+      display:grid;place-items:center;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .page-btn.active{
+      background:linear-gradient(135deg,#7a5cff,#5f39f7);
+      color:#fff;
+      border-color:transparent;
+    }
+
+    .mobile-list{
+      display:none;
+      padding:14px 18px 4px;
+      gap:12px;
+    }
+    .txn-card{
+      border:1px solid #edf0f8;
+      border-radius:16px;
+      background:#fff;
+      box-shadow:0 8px 18px rgba(15,23,42,.03);
+      padding:14px;
+    }
+    .txn-card-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .txn-card-id{
+      font-size:12px;
+      font-weight:800;
+      color:#11162b;
+      letter-spacing:.02em;
+    }
+    .txn-card-main{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .txn-card-main .txn-ico{width:30px;height:30px;font-size:13px;border-radius:10px}
+    .txn-card-title{
+      font-size:14px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.2;
+    }
+    .txn-card-sub{
+      margin-top:4px;
+      font-size:12px;
+      color:#667085;
+    }
+    .txn-card-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    .field{
+      border-top:1px solid #f0f2f8;
+      padding-top:10px;
+    }
+    .field .k{
+      display:block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#8b93a8;
+      font-weight:800;
+      margin-bottom:4px;
+    }
+    .field .v{
+      font-size:13px;
+      font-weight:800;
+      color:#11162b;
+      line-height:1.35;
+    }
+    .field .v small{
+      display:block;
+      font-size:12px;
+      color:#667085;
+      font-weight:600;
+      margin-top:2px;
+    }
+    .txn-card-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px solid #f0f2f8;
+    }
+    .txn-card-amount{
+      font-weight:900;
+      color:#16a34a;
+      font-size:15px;
+    }
+    .txn-card-amount.neg{color:#ef4444}
+
+    .drawer-overlay{
+      position:fixed;inset:0;
+      background:rgba(7,17,43,.45);
+      opacity:0;pointer-events:none;
+      transition:.25s ease;
+      z-index:80;
+    }
+    .drawer-overlay.open{opacity:1;pointer-events:auto}
+
+    .mobile-drawer{
+      position:fixed;
+      top:0;left:0;bottom:0;
+      width:min(300px,86vw);
+      background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+      transform:translateX(-102%);
+      transition:.28s ease;
+      z-index:90;
+      padding:18px;color:#fff;overflow:auto;
+      box-shadow:30px 0 60px rgba(7,17,43,.30);
+    }
+    .mobile-drawer.open{transform:translateX(0)}
+
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .close-btn{
+      border:0;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:40px;border-radius:12px;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .mobile-drawer .nav{margin-top:18px}
+    .mobile-drawer .support{position:static;margin-top:18px}
+    .mobile-drawer .sidebar-card{margin-top:18px}
+
+    @media (max-width: 1320px){
+      .app{grid-template-columns:1fr}
+      .content-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 1080px){
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .filters{grid-template-columns:1fr 1fr}
+      .filters .search{grid-column:1 / -1}
+    }
+
+    @media (max-width: 980px){
+      .sidebar{display:none}
+      .menu-btn{display:inline-grid;place-items:center}
+      .main{padding:16px}
+      .topbar{padding:0 16px}
+      .page-head{flex-direction:column}
+      .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+
+    @media (max-width: 820px){
+      .tabs{
+        overflow-x:auto;
+        scrollbar-width:none;
+        white-space:nowrap;
+        flex-wrap:nowrap;
+      }
+      .tabs::-webkit-scrollbar{display:none}
+      .table-wrap{display:none}
+      .mobile-list{display:grid}
+      .filters{grid-template-columns:1fr}
+      .filter.search{grid-column:auto}
+      .tab.active::after{bottom:0}
+      .footer-row{flex-direction:column;align-items:flex-start}
+      .pager{width:100%;justify-content:center}
+    }
+
+    @media (max-width: 720px){
+      .topbar-right{gap:12px}
+      .profile .text{display:none}
+      .chev{display:none}
+      .heading h2{font-size:24px}
+      .heading p{font-size:14px}
+      .stats-grid{grid-template-columns:1fr}
+      .stat-card{padding:16px}
+      .stat-body .value{font-size:24px}
+      .page-head{gap:12px}
+      .export-btn{width:100%;justify-content:center}
+      .tab{flex:0 0 auto}
+      .wallet-id{width:100%;justify-content:center}
+    }
+
+    @media (max-width: 520px){
+      .topbar-right{gap:10px}
+      .heading h2{font-size:22px}
+      .main{padding:12px}
+      .section-title{font-size:16px}
+      .tabs{padding:14px 14px 0}
+      .filters{padding:12px 14px 14px}
+      .mobile-list{padding:12px 14px 2px}
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-overlay" id="overlay"></div>
+
+  <aside class="mobile-drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="brand" style="padding:0;margin:0;">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+      <button class="close-btn" id="closeDrawer" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item active" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+      <h4>Upgrade to Pro</h4>
+      <p>Unlock more features and earn higher rewards.</p>
+      <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+    </div>
+
+    <div class="support">
+      <div class="support-row">
+        <div>
+          <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://res.cloudinary.com/drgmxrudz/image/upload/v1783289624/blog/SMBoostly_logo_1783289623.png" alt="SMBoostly logo">
+        </div>
+        <div>
+          <h1><span>SM</span><span>Boostly</span></h1>
+          <small>Boost • Engage • Earn</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item" href="#"><i class="fa-regular fa-grid-2"></i><span>Overview</span></a>
+        <a class="nav-item" href="/dashboard/"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="/campaigns/"><i class="fa-solid fa-bullhorn"></i><span>Campaigns</span></a>
+        <a class="nav-item" href="/tasks/"><i class="fas fa-tasks"></i><span>Tasks</span></a>
+        <a class="nav-item" href="/wallet/"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+        <a class="nav-item active" href="/transactions/"><i class="fa-solid fa-right-left"></i><span>Transactions</span></a>
+        <a class="nav-item" href="/referrals/"><i class="fas fa-user-group"></i><span>Referrals</span></a>
+        <a class="nav-item" href="/analytics/"><i class="fa-solid fa-chart-column"></i><span>Analytics</span></a>
+        <a class="nav-item" href="/messages/"><i class="fa-regular fa-comment-dots"></i><span>Messages</span></a>
+        <a class="nav-item" href="/profile/"><i class="fas fa-user"></i><span>Profile</span></a>
+        <a class="nav-item" href="/settings/"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+
+
+      <div class="sidebar-card">
+        <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+        <h4>Upgrade to Pro</h4>
+        <p>Unlock more features and earn higher rewards.</p>
+        <button class="upgrade-btn" onclick="window.location.href='/upgrade/'">Upgrade Now</button>
+      </div>
+
+      <div class="support">
+        <div class="support-row">
+          <div>
+            <h4>Help Center</h4>
+          <p style="margin:6px 0 0;">Get help & support</p>
+        </div>
+        <a href="/help/" target="_self" style="color: #2768f6;"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="openDrawer" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+          <div class="top-title"><i class="fa-solid fa-right-left"></i> <span>Transactions</span></div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="#" class="top-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
+          <a href="#" class="top-icon" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="dot">3</span>
+          </a>
+          <a href="#" class="top-icon" aria-label="Messages"><i class="fa-regular fa-envelope"></i></a>
+
+          <div class="profile">
+            <img id="profileAvatar" src="https://i.pravatar.cc/80?img=5" alt="Profile photo">
+            <div class="text">
+              <div class="name" id="profileNameTop">Adeola M.</div>
+              <div class="role" id="profileRole">Publisher Plan</div>
+            </div>
+            <i class="fa-solid fa-chevron-down chev"></i>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="page-head">
+          <div class="heading">
+            <h2>Transactions</h2>
+            <p>Track all your financial activities and transaction history.</p>
+          </div>
+          <button class="export-btn"><i class="fa-solid fa-download"></i> Export</button>
+        </div>
+
+        <section class="stats-grid" id="statsGrid"></section>
+
+        <section class="panel transactions-panel">
+          <div class="tabs" id="tabs"></div>
+
+          <div class="filters">
+            <div class="filter">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="text" value="May 1 - May 31, 2025" readonly />
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="filter">
+              <div class="plain">All Status</div>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="filter">
+              <div class="plain">All Methods</div>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="filter search">
+              <input id="searchInput" type="text" placeholder="Search transactions..." />
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th>Method</th>
+                  <th>Date &amp; Time</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tableRows"></tbody>
+            </table>
+          </div>
+
+          <div class="mobile-list" id="mobileList"></div>
+
+          <div class="footer-row">
+            <div id="countLabel">Showing 1 to 7 of 24 transactions</div>
+            <div class="pager">
+              <button class="page-btn"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">3</button>
+              <button class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script>
+    const data = JSON.parse(document.getElementById('transactions-data').textContent);
+
+    document.getElementById('profileAvatar').src = data.profile.avatar;
+    document.getElementById('profileNameTop').textContent = data.profile.name;
+    document.getElementById('profileRole').textContent = data.profile.role;
+
+    const statsGrid = document.getElementById('statsGrid');
+    statsGrid.innerHTML = data.stats.map(stat => `
+      <article class="stat-card">
+        <div class="stat-ico ${stat.accent}">
+          <i class="fa-solid ${stat.icon}"></i>
+        </div>
+        <div class="stat-body">
+          <div class="label">${stat.label}</div>
+          <div class="value">${stat.value}</div>
+          <div class="sub">${stat.sub}</div>
+        </div>
+      </article>
+    `).join('');
+
+    const tabsEl = document.getElementById('tabs');
+    const tableRowsEl = document.getElementById('tableRows');
+    const mobileListEl = document.getElementById('mobileList');
+    const searchInput = document.getElementById('searchInput');
+    const countLabel = document.getElementById('countLabel');
+
+    let activeTab = 'all';
+
+    function renderTabs() {
+      tabsEl.innerHTML = data.tabs.map(tab => `
+        <button class="tab ${tab.key === activeTab ? 'active' : ''}" data-tab="${tab.key}">
+          <i class="fa-solid ${tab.icon}"></i>
+          <span>${tab.label}</span>
+        </button>
+      `).join('');
+    }
+
+    function filteredTransactions() {
+      const q = searchInput.value.trim().toLowerCase();
+      return data.transactions.filter(t => {
+        const matchTab = activeTab === 'all' ? true : t.typeKey === activeTab;
+        const hay = `${t.id} ${t.title} ${t.sub} ${t.type} ${t.method} ${t.date} ${t.time} ${t.status} ${t.amount}`.toLowerCase();
+        return matchTab && (!q || hay.includes(q));
+      });
+    }
+
+    function methodIcon(methodColor) {
+      if (methodColor === 'gtbank') return 'fa-building-columns';
+      if (methodColor === 'access') return 'fa-building-columns';
+      if (methodColor === 'wallet') return 'fa-wallet';
+      return 'fa-credit-card';
+    }
+
+    function methodLabel(method, color) {
+      if (color === 'none') return `<span style="color:#94a3b8;">—</span>`;
+      return `<span class="logo ${color}"><i class="fa-solid ${methodIcon(color)}"></i></span><span>${method}</span>`;
+    }
+
+    function platformClass(accent) {
+      return accent === 'blue' ? 'blue' : accent === 'orange' ? 'orange' : accent === 'green' ? 'green' : 'purple';
+    }
+
+    function renderTransactions() {
+      const list = filteredTransactions();
+      tableRowsEl.innerHTML = list.map((t, idx) => `
+        <tr>
+          <td>
+            <div class="txn">
+              <div class="txn-ico ${platformClass(t.accent)}">
+                <i class="fa-solid ${t.icon}"></i>
+              </div>
+              <div>
+                <div class="txn-title">${t.id}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="txn-title">${t.title}</div>
+            <div class="txn-sub">${t.sub}</div>
+          </td>
+          <td><span class="pill ${t.typeKey}">${t.type}</span></td>
+          <td>
+            <div class="method">
+              ${methodLabel(t.method, t.methodColor)}
+            </div>
+          </td>
+          <td class="date">${t.date}<span>${t.time}</span></td>
+          <td><span class="status-pill ${t.statusKey}">${t.status}</span></td>
+          <td><div class="amount ${t.amountKey === 'minus' ? 'neg' : ''}">${t.amount}</div></td>
+          <td><button class="action-ellipsis" aria-label="More actions"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+        </tr>
+      `).join('');
+
+      mobileListEl.innerHTML = list.map((t) => `
+        <article class="txn-card">
+          <div class="txn-card-top">
+            <div class="txn-card-id">${t.id}</div>
+            <button class="action-ellipsis" aria-label="More actions"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+          </div>
+
+          <div class="txn-card-main">
+            <div class="txn-ico ${platformClass(t.accent)}">
+              <i class="fa-solid ${t.icon}"></i>
+            </div>
+            <div>
+              <div class="txn-card-title">${t.title}</div>
+              <div class="txn-card-sub">${t.sub}</div>
+            </div>
+          </div>
+
+          <div class="txn-card-grid">
+            <div class="field">
+              <span class="k">Type</span>
+              <div class="v">${t.type}</div>
+            </div>
+            <div class="field">
+              <span class="k">Method</span>
+              <div class="v">${t.method === '—' ? '—' : t.method}</div>
+            </div>
+            <div class="field">
+              <span class="k">Date</span>
+              <div class="v">${t.date}</div>
+            </div>
+            <div class="field">
+              <span class="k">Status</span>
+              <div class="v">${t.status}</div>
+            </div>
+          </div>
+
+          <div class="txn-card-bottom">
+            <span class="status-pill ${t.statusKey}">${t.status}</span>
+            <div class="txn-card-amount ${t.amountKey === 'minus' ? 'neg' : ''}">${t.amount}</div>
+          </div>
+        </article>
+      `).join('');
+
+      countLabel.textContent = `Showing 1 to ${Math.min(list.length, 7)} of 24 transactions`;
+    }
+
+    tabsEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tab');
+      if (!btn) return;
+      activeTab = btn.dataset.tab;
+      renderTabs();
+      renderTransactions();
+    });
+
+    searchInput.addEventListener('input', renderTransactions);
+
+    renderTabs();
+    renderTransactions();
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openMenu() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    openDrawer.addEventListener('click', openMenu);
+    closeDrawer.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980) closeMenu();
+    });
+  </script>
+</body>
+</html>
